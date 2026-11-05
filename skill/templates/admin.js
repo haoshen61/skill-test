@@ -1,4 +1,5 @@
 const records = document.querySelector("#records");
+const guestContributions = __GUEST_CONTRIBUTIONS_JSON__;
 
 function readList(key) {
   try {
@@ -10,11 +11,12 @@ function readList(key) {
 }
 
 const data = {
-  rsvp: readList("weddingInvitation.rsvp"),
-  music: readList("weddingInvitation.music")
+  rsvp: readList("weddingInvitation.rsvp")
 };
+for (const contribution of guestContributions) data[contribution.id] = readList(contribution.storageKey);
 
-for (const [title, values] of [["出席登记", data.rsvp], ["点歌留言", data.music]]) {
+const sections = [["出席登记", data.rsvp], ...guestContributions.map((contribution) => [contribution.title, data[contribution.id]])];
+for (const [title, values] of sections) {
   const heading = document.createElement("h2");
   heading.textContent = `${title} (${values.length})`;
   const pre = document.createElement("pre");

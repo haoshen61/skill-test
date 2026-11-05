@@ -9,7 +9,7 @@ Turn a wedding invitation request and a directory of user-provided assets into a
 
 ## Start here
 
-Treat the current conversation as the source of facts. Treat the workspace as an asset directory unless the user explicitly identifies an existing application. Scan assets before proposing layout. Ask only for facts that affect the output: names, confirmed date/time/venue, story, copy, asset permissions, interaction needs, and whether production release is authorized.
+Treat the current conversation as the source of facts. Treat the workspace as an asset directory unless the user explicitly identifies an existing application. Scan assets before proposing layout. Ask only for facts that affect the output: names and optional profile cues, confirmed date/time/venue, story, copy, visual theme, personalized guest information, asset permissions, interaction needs, and whether production release is authorized.
 
 Do not invent a name, date, address, license, privacy permission, or deployment target. Mark unknown facts `null` or `pending`. Do not print or copy secrets.
 
@@ -23,11 +23,11 @@ Ask whether the user is making a future invitation, a retrospective/thank-you pa
 
 ### 2. Collect facts
 
-Ask one question at a time, in this order: event date/time/timezone and format; venue short name, room and address; couple names and optional identity cues; relationship copy; visual preferences; interactions; asset permissions; Git/backend/domain and release scope. Echo each answer and mark conflicts instead of guessing.
+Ask one question at a time, in this order: event date/time/timezone and format; venue short name, room and address; couple names and optional identity cues; relationship copy; visual theme and preferences; which guest information or messages would be meaningful beyond RSVP; asset permissions; Git/backend/domain and release scope. Echo each answer and mark conflicts instead of guessing.
 
 ### 3. Draft the brief
 
-Create a draft containing `mode`, `couple`, `event`, `design`, `sections`, `gallery`, `interaction`, `authorization`, and `workflow`. Unknown facts stay `null` or `pending`. Set `workflow.phase` to `brief-draft` and list unresolved questions in the brief or a companion note.
+Create a draft containing `mode`, `couple`, `event`, `design`, `sections`, `gallery`, `interaction`, `authorization`, and `workflow`. Preserve profile cues under `couple.partnerA`/`couple.partnerB` and the named theme under `design.theme`; keep unknown facts `null` or `pending`. Store personalized non-RSVP prompts in `interaction.guestContributions` as an array of `{ id, title, description, submitLabel, storageKey, fields }` objects. Set `workflow.phase` to `brief-draft` and list unresolved questions in the brief or a companion note.
 
 ### 4. Review assets and permissions
 
@@ -39,11 +39,11 @@ Present the complete design brief, selected gallery paths, copy, interaction con
 
 ### 6. Generate the local invitation
 
-Run the portable generator with the confirmed brief. The default output is a future invitation; recap behavior is opt-in through `mode`. Keep the source workspace unchanged. A draft generated before stage 5 is only a preview for inspection and must not be presented as the confirmed delivery.
+Run the portable generator with the confirmed brief. The default output is a future invitation; recap behavior is opt-in through `mode`. The invitation renders the confirmed couple profile, story copy, and named visual theme instead of leaving those facts only in JSON. Rendered guest pages contain invitation content rather than internal delivery caveats; local-storage and production boundaries stay in `release-record.json`, the admin demo, and the evidence. Keep the source workspace unchanged. A draft generated before stage 5 is only a preview for inspection and must not be presented as the confirmed delivery.
 
 ### 7. Run mobile and desktop QA
 
-Serve the generated directory and inspect a narrow phone viewport plus a desktop viewport. Check no overflow/overlap, loading/empty/failed gallery states, selected gallery paths, keyboard/focus behavior, reduced motion, form validation, local RSVP update behavior, and music fallback. Record commands, viewport sizes, and outcomes in the release record or final evidence. **STOP before release** if a check fails.
+Serve the generated directory and inspect a narrow phone viewport plus a desktop viewport. Check no overflow/overlap, the rendered profile and theme, loading/empty/failed gallery states, selected gallery paths, keyboard/focus behavior, reduced motion, form validation, local RSVP update behavior, each configured guest contribution, and music fallback. Record commands, viewport sizes, and outcomes in the release record or final evidence. **STOP before release** if a check fails.
 
 ### 8. Handle release authorization
 
@@ -61,9 +61,9 @@ Use `--brief <file>` only after the user has reviewed or supplied the facts. The
 
 When the asset workspace contains a `manifest.json`, the generator carries its per-file role, privacy, license, usage, and notes into `asset-manifest.json` while keeping media type separate. After manual review, set `gallery.paths` in the confirmed brief to the wedding images that may appear in the runtime gallery. The scanner may copy every supported source item for local review, but only the explicitly selected paths become gallery slides.
 
-When RSVP is enabled, the local demo updates an existing record matching `guestName` and `contactSuffix`; this is a browser-local demonstration of the conversation contract. Production authentication, concurrency safety, and cloud persistence remain pending. The point-song form accepts an optional singer field.
+When RSVP is enabled, the local demo updates an existing record matching `guestName` and `contactSuffix`; this is a browser-local demonstration of the conversation contract. Production authentication, concurrency safety, and cloud persistence remain pending. For other guest information, configure `interaction.guestContributions` with personalized fields such as a blessing, meal preference, transportation need, or photo request. Each configured contribution gets its own local-storage key and form; the generator does not assume that guests should request songs. Use `interaction.backgroundMusic` for background audio. A legacy point-song brief remains supported when it supplies `interaction.musicRequest`, but it is not the default.
 
-The default visual contract is a future invitation: show the invitation title and confirmed event information first, then the couple/story, selected gallery, RSVP/music interactions, and an optional thank-you section. Keep loading, empty, and failed image states separate; a loading state must not flash a fallback portrait. Use a single column at phone widths, keyboard controls, visible focus, and reduced-motion support. Only an explicit `mode: "recap"` or `mode: "retrospective"` switches to a completed-wedding thank-you hero and invitation reveal.
+The default visual contract is a future invitation: show the invitation title and confirmed event information first, then the couple profile/story, named wedding theme, selected gallery, RSVP, configured guest contributions, and an optional thank-you section. Keep loading, empty, and failed image states separate; a loading state must not flash a fallback portrait. Use a single column at phone widths, keyboard controls, visible focus, and reduced-motion support. Only an explicit `mode: "recap"` or `mode: "retrospective"` switches to a completed-wedding thank-you hero and invitation reveal.
 
 ## Review and release
 

@@ -1,0 +1,31 @@
+{
+  "name": "personalized-follow-up",
+  "tests": "npm --prefix skill test: 18/18",
+  "generated": {
+    "mode": "invitation",
+    "publish": false,
+    "profile": ["沐宸", "若汐"],
+    "theme": "城市路径与花瓣",
+    "guestContributions": ["blessing"]
+  },
+  "assertions": {
+    "internalDeliveryNoteAbsent": true,
+    "profileAndThemeRendered": true,
+    "nonSongContributionRendered": true,
+    "songFieldsAbsentWhenUnconfigured": true,
+    "backgroundMusicSeparated": true,
+    "syntaxChecks": true
+  },
+  "localInteractions": {
+    "rsvpFirst": { "guestName": "演示宾客", "contactSuffix": "2468", "adultCount": "2" },
+    "rsvpSecond": { "guestName": "演示宾客", "contactSuffix": "2468", "adultCount": "3" },
+    "rsvpRecordCountAfterUpdate": 1,
+    "blessing": { "name": "演示宾客", "message": "一起慢慢变老" },
+    "status": "已更新本机演示数据。"
+  },
+  "viewports": [
+    { "name": "mobile", "width": 390, "height": 844, "result": "pass" },
+    { "name": "desktop", "width": 1440, "height": 900, "result": "pass" }
+  ],
+  "release": "not authorized; not executed"
+}

@@ -1,13 +1,30 @@
 {
   "version": "0.1",
   "mode": "invitation",
-  "couple": { "partnerA": { "name": null }, "partnerB": { "name": null }, "story": { "relationshipArc": null } },
+  "couple": {
+    "partnerA": { "name": null, "occupation": null, "mbti": null, "identityCue": null },
+    "partnerB": { "name": null, "occupation": null, "mbti": null, "identityCue": null },
+    "story": { "relationshipArc": null, "confirmedCopy": null }
+  },
   "event": { "date": null, "dateConfirmed": false, "format": null, "times": [], "venue": { "shortName": null, "address": null, "mapUrl": null } },
-  "design": { "basePalette": { "name": "soft paper", "colors": ["#f4eee5"] }, "accentPalette": { "colors": ["#6f5547"] }, "texture": "paper", "composition": "mixed", "typography": { "chinese": "system serif", "latin": "system sans" } },
+  "design": {
+    "theme": { "name": null, "description": null, "motifs": [] },
+    "basePalette": { "name": "soft paper", "colors": ["#f4eee5"] },
+    "accentPalette": { "colors": ["#6f5547"] },
+    "texture": "paper",
+    "composition": "mixed",
+    "typography": { "chinese": "system serif", "latin": "system sans" }
+  },
   "gallery": { "paths": null },
   "workflow": { "phase": "brief-confirmed", "briefConfirmed": true, "assetsReviewed": false, "localQa": "pending", "releaseAuthorized": false },
-  "sections": ["cover", "story", "details", "rsvp", "music", "thanks"],
+  "sections": ["cover", "story", "details", "rsvp", "guest-notes", "thanks"],
   "copy": { "invitationTitle": "婚礼邀请函", "invitationIntro": "我们诚挚邀请您见证这一天", "recapTitle": "婚礼已圆满落幕", "thanks": "感谢每一份关注、陪伴与祝福", "continueLabel": "继续查看电子请柬" },
-  "interaction": { "gallery": true, "music": true, "rsvp": false, "reducedMotion": true },
+  "interaction": {
+    "gallery": true,
+    "backgroundMusic": false,
+    "rsvp": false,
+    "guestContributions": [],
+    "reducedMotion": true
+  },
   "authorization": { "assets": "pending", "publish": false }
 }

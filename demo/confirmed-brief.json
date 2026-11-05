@@ -26,6 +26,11 @@
     }
   },
   "design": {
+    "theme": {
+      "name": "城市路径与花瓣",
+      "description": "用城市网格承载相遇路线，用植物弧线表达共同生活的温度。",
+      "motifs": ["城市路径", "植物弧线", "花瓣节点"]
+    },
     "basePalette": { "name": "浅米色纸张", "colors": ["#F4EEE5"] },
     "accentPalette": { "colors": ["#6F5547", "#D9A9A0", "#9FB8CE"], "ratio": "咖色结构为主，粉色与蓝色少量强调" },
     "texture": "纸张颗粒、圆形弥散和柔和渐变",
@@ -62,7 +67,7 @@
     "localQa": "pending",
     "releaseAuthorized": false
   },
-  "sections": ["cover", "story", "details", "rsvp", "music", "thanks"],
+  "sections": ["cover", "story", "details", "rsvp", "guest-notes", "thanks"],
   "copy": {
     "invitationTitle": "婚礼邀请函",
     "invitationIntro": "我们诚挚邀请您见证这一天",
@@ -72,8 +77,21 @@
   },
   "interaction": {
     "gallery": true,
-    "music": true,
+    "backgroundMusic": true,
     "rsvp": true,
+    "guestContributions": [
+      {
+        "id": "blessing",
+        "title": "给新人写一句话",
+        "description": "把想说的话留在婚礼纪念册里。",
+        "submitLabel": "保存祝福",
+        "storageKey": "weddingInvitation.blessing",
+        "fields": [
+          { "name": "name", "label": "署名", "type": "text", "required": true, "maxLength": 80 },
+          { "name": "message", "label": "祝福", "type": "textarea", "required": true, "maxLength": 500 }
+        ]
+      }
+    ],
     "reducedMotion": true,
     "rsvpContract": {
       "fields": ["姓名", "手机号后四位", "出席大人人数"],
@@ -81,7 +99,6 @@
       "localIdentityKey": ["guestName", "contactSuffix"],
       "productionBehavior": "同一身份更新原记录"
     },
-    "musicRequest": { "singerOptional": true, "storage": "localStorage demo" },
     "admin": { "mode": "localStorage read-only demo", "authenticated": false }
   },
   "authorization": {

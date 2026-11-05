@@ -89,3 +89,19 @@ brief.json  asset-manifest.json  release-record.json
 本轮在独立测试工作区完成了 27 步输入与结果记录，并生成演示 PPT。逐步记录见 `FINAL_TEST_RUN_2026-11-06.md`，演示文件见 `demo/ppt-output/invitation-skill-demo.pptx`，本轮 JSON 和测试输出见 `demo/evidence/test-run-2026-11-06/`。
 
 本轮 `npm --prefix skill test`：15/15 通过。生产发布仍保持未授权，`release-record.json` 中的云端 RSVP、分享卡片、通知页、自动播放和生产图片流水线继续列为 pending。
+
+## 2026-11-06 个性化修复复验
+
+针对测试记录暴露的三个问题完成修复：
+
+- 生成的宾客页面不再出现“这是一个可运行的本地入口；RSVP、点歌和生产发布仍需单独确认和配置。”等内部交付提示；能力边界保留在发布记录、管理演示和文档中。
+- brief 中确认的新人职业/MBTI/身份线索、故事句子和 `design.theme` 会渲染到 Profile 与婚礼主题区块，不再只写进 JSON。
+- 新增 `interaction.guestContributions` 通用表单契约；演示使用“给新人写一句话”祝福，点歌仅在 brief 明确配置时出现。RSVP 的本地身份更新保持不变。
+
+验证结果：
+
+- `npm --prefix skill test`：18/18 通过。
+- 生成器输出通过 `node --check`；`publish=false` 保持不变。
+- 使用 Chrome 无界面模式检查 390×844 与 1440×900：新人 Profile、婚礼主题和祝福表单可见，无横向溢出；页面不含上述内部提示、歌曲或歌手字段。
+- 生产发布、云端 RSVP、认证管理后台、CloudBase/Cloudflare 和音乐版权仍未授权、未执行。
+- 背景音乐使用 `interaction.backgroundMusic` 单独控制；点歌只有在 `interaction.musicRequest` 或 `guestContributions` 中明确配置时出现。

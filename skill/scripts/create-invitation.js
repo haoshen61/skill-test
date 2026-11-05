@@ -106,14 +106,25 @@ function defaultBrief() {
   return {
     version: "0.1",
     mode: "invitation",
-    couple: { partnerA: { name: null }, partnerB: { name: null }, story: { relationshipArc: null } },
+    couple: {
+      partnerA: { name: null, occupation: null, mbti: null, identityCue: null },
+      partnerB: { name: null, occupation: null, mbti: null, identityCue: null },
+      story: { relationshipArc: null, confirmedCopy: null }
+    },
     event: { date: null, dateConfirmed: false, format: null, times: [], venue: { shortName: null, address: null, mapUrl: null } },
-    design: { basePalette: { name: "soft paper", colors: ["#f4eee5"] }, accentPalette: { colors: ["#6f5547"] }, texture: "paper", composition: "mixed", typography: { chinese: "system serif", latin: "system sans" } },
+    design: {
+      theme: { name: null, description: null, motifs: [] },
+      basePalette: { name: "soft paper", colors: ["#f4eee5"] },
+      accentPalette: { colors: ["#6f5547"] },
+      texture: "paper",
+      composition: "mixed",
+      typography: { chinese: "system serif", latin: "system sans" }
+    },
     gallery: { paths: null },
     workflow: { phase: "intake", briefConfirmed: false, assetsReviewed: false, localQa: "pending", releaseAuthorized: false },
-    sections: ["cover", "story", "details", "rsvp", "music", "thanks"],
+    sections: ["cover", "story", "details", "rsvp", "guest-notes", "thanks"],
     copy: { invitationTitle: "婚礼邀请函", invitationIntro: "我们诚挚邀请您见证这一天", recapTitle: "婚礼已圆满落幕", thanks: "感谢每一份关注、陪伴与祝福", continueLabel: "继续查看电子请柬" },
-    interaction: { gallery: true, music: true, rsvp: false, reducedMotion: true },
+    interaction: { gallery: true, backgroundMusic: false, music: false, rsvp: false, guestContributions: [], reducedMotion: true },
     authorization: { assets: "pending", publish: false }
   };
 }
@@ -152,6 +163,110 @@ function escapeHtml(value) {
 
 function assetUrl(relative) {
   return `assets/${relative.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
+}
+
+function safeIdentifier(value, fallback) {
+  const normalized = String(value || "").trim().replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase();
+  return normalized || fallback;
+}
+
+function normalizeField(field, index) {
+  if (!isPlainObject(field)) return null;
+  const name = safeIdentifier(field.name, `field-${index + 1}`);
+  const type = ["text", "textarea", "email", "number", "date"].includes(field.type) ? field.type : "text";
+  const maxLength = Number.isInteger(field.maxLength) ? Math.max(1, Math.min(field.maxLength, 2000)) : null;
+  return {
+    name,
+    label: String(field.label || field.name || `信息 ${index + 1}`),
+    type,
+    required: field.required === true,
+    maxLength,
+    placeholder: field.placeholder ? String(field.placeholder) : null
+  };
+}
+
+function legacyMusicContribution(interaction) {
+  const singerOptional = interaction?.musicRequest?.singerOptional !== false;
+  return {
+    id: "music",
+    title: "点歌与祝福",
+    description: "把想听的歌和想说的话留给新人。",
+    submitLabel: "保存本地点歌",
+    storageKey: "weddingInvitation.music",
+    fields: [
+      { name: "name", label: "留言人", type: "text", required: true, maxLength: 80 },
+      { name: "song", label: "歌曲", type: "text", required: true, maxLength: 120 },
+      { name: "singer", label: "歌手（可选）", type: "text", required: !singerOptional, maxLength: 120 },
+      { name: "message", label: "祝福", type: "textarea", required: false, maxLength: 500 }
+    ]
+  };
+}
+
+function normalizeGuestContributions(interaction) {
+  const configured = Array.isArray(interaction?.guestContributions) ? interaction.guestContributions : [];
+  const source = configured.length ? configured : (interaction?.musicRequest ? [legacyMusicContribution(interaction)] : []);
+  const ids = new Set();
+  return source.map((item, index) => {
+    if (!isPlainObject(item)) return null;
+    let id = safeIdentifier(item.id, `guest-${index + 1}`);
+    while (ids.has(id) || id === "rsvp") id = `${id}-entry`;
+    ids.add(id);
+    const fields = Array.isArray(item.fields) ? item.fields.map(normalizeField).filter(Boolean) : [];
+    if (!fields.length) return null;
+    return {
+      id,
+      title: String(item.title || "宾客留言"),
+      description: item.description ? String(item.description) : null,
+      submitLabel: String(item.submitLabel || "保存留言"),
+      storageKey: String(item.storageKey || `weddingInvitation.${id}`),
+      fields
+    };
+  }).filter(Boolean);
+}
+
+function renderProfileCard(partner, fallbackLabel) {
+  const profile = partner || {};
+  const name = escapeHtml(profile.name === null || profile.name === undefined || profile.name === "" ? fallbackLabel : profile.name);
+  const cues = [];
+  if (profile.occupation) cues.push(`职业：${escapeHtml(profile.occupation)}`);
+  if (profile.mbti) cues.push(`MBTI：${escapeHtml(profile.mbti)}`);
+  if (profile.identityCue) {
+    const identity = Array.isArray(profile.identityCue) ? profile.identityCue.join("、") : profile.identityCue;
+    cues.push(escapeHtml(identity));
+  }
+  return `<article class="profile-card"><h3>${name}</h3><p>${cues.length ? cues.join(" · ") : "身份线索待确认"}</p></article>`;
+}
+
+function renderGuestContributions(contributions) {
+  return contributions.map((contribution) => {
+    const fields = contribution.fields.map((field) => {
+      const attributes = [
+        `name="${escapeHtml(field.name)}"`,
+        field.required ? "required" : "",
+        field.maxLength ? `maxlength="${field.maxLength}"` : "",
+        field.placeholder ? `placeholder="${escapeHtml(field.placeholder)}"` : ""
+      ].filter(Boolean).join(" ");
+      const control = field.type === "textarea"
+        ? `<textarea ${attributes}></textarea>`
+        : `<input type="${escapeHtml(field.type)}" ${attributes}>`;
+      return `<label>${escapeHtml(field.label)}${control}</label>`;
+    }).join("\n");
+    return `<form class="guest-form" data-contribution-id="${escapeHtml(contribution.id)}"><h3>${escapeHtml(contribution.title)}</h3>${contribution.description ? `<p class="guest-form-description">${escapeHtml(contribution.description)}</p>` : ""}${fields}<button type="submit">${escapeHtml(contribution.submitLabel)}</button><p data-status role="status"></p></form>`;
+  }).join("\n");
+}
+
+function renderThemeTokens(design) {
+  const theme = design?.theme || {};
+  const motifs = Array.isArray(theme.motifs) ? theme.motifs : [];
+  const values = [
+    design?.basePalette?.name,
+    design?.texture,
+    design?.composition,
+    design?.typography?.chinese,
+    design?.typography?.latin,
+    ...motifs
+  ].filter(Boolean).map((value) => `<li>${escapeHtml(value)}</li>`);
+  return values.join("\n");
 }
 
 function render(templatePath, replacements) {
@@ -206,10 +321,17 @@ function createProject({ assetRoot, outputRoot, brief }) {
   const gallery = galleryItems.map((item) => ({ ...item, url: assetUrl(item.path) }));
   const audio = items.find((item) => item.role === "audio");
   const retrospective = brief.mode === "recap" || brief.mode === "retrospective";
+  const guestContributions = normalizeGuestContributions(brief.interaction);
+  const backgroundMusicEnabled = brief.interaction?.backgroundMusic === true
+    || (brief.interaction?.backgroundMusic === undefined && brief.interaction?.music === true);
   const display = (value, fallback) => escapeHtml(value === null || value === undefined || value === "" ? fallback : value);
   const enabledFlag = (value) => value === true;
   const partnerNames = [brief.couple?.partnerA?.name, brief.couple?.partnerB?.name].filter(Boolean);
   const venue = brief.event?.venue || {};
+  const design = brief.design || {};
+  const theme = design.theme || {};
+  const storyArc = brief.couple?.story?.relationshipArc;
+  const confirmedStory = brief.couple?.story?.confirmedCopy;
   const replacements = {
     HERO_EYEBROW: retrospective ? "Wedding memories" : "Wedding invitation",
     TITLE: escapeHtml(retrospective ? (brief.copy?.recapTitle || "婚礼已圆满落幕") : (brief.copy?.invitationTitle || "婚礼邀请函")),
@@ -219,7 +341,12 @@ function createProject({ assetRoot, outputRoot, brief }) {
     INVITATION_HIDDEN: retrospective ? "hidden" : "",
     RECAP_MODE: JSON.stringify(retrospective),
     COUPLE_NAMES: partnerNames.length ? partnerNames.map(escapeHtml).join(" 与 ") : "新人信息待确认",
-    STORY: display(brief.couple?.story?.relationshipArc, "故事待确认"),
+    STORY: display(storyArc, "故事待确认"),
+    STORY_COPY: confirmedStory ? `<p class="story-copy">${escapeHtml(confirmedStory)}</p>` : "",
+    PROFILE_HTML: `${renderProfileCard(brief.couple?.partnerA, "新人 A 待确认")}\n${renderProfileCard(brief.couple?.partnerB, "新人 B 待确认")}`,
+    THEME_NAME: display(theme.name, "婚礼主题待确认"),
+    THEME_DESCRIPTION: display(theme.description, display(design.texture, "主题描述待确认")),
+    THEME_TOKENS_HTML: renderThemeTokens(design),
     EVENT_DATE: display(brief.event?.date, "日期待确认"),
     EVENT_FORMAT: display(brief.event?.format, "婚礼形式待确认"),
     VENUE: display(venue.shortName, "场地待确认"),
@@ -227,7 +354,9 @@ function createProject({ assetRoot, outputRoot, brief }) {
     GALLERY_JSON: jsonForScript(gallery),
     AUDIO_URL: jsonForScript(audio ? assetUrl(audio.path) : ""),
     RSVP_ENABLED: JSON.stringify(enabledFlag(brief.interaction?.rsvp)),
-    MUSIC_ENABLED: JSON.stringify(enabledFlag(brief.interaction?.music))
+    MUSIC_ENABLED: JSON.stringify(backgroundMusicEnabled),
+    GUEST_CONTRIBUTIONS_HTML: renderGuestContributions(guestContributions),
+    GUEST_CONTRIBUTIONS_JSON: jsonForScript(guestContributions)
   };
   for (const file of ["index.html", "styles.css", "app.js", "admin.html", "admin.js"]) {
     fs.copyFileSync(path.join(templateRoot, file), path.join(outputRoot, file));

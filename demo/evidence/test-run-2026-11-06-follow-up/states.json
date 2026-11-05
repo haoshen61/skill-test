@@ -1,0 +1,12 @@
+{
+  "gallery": {
+    "loading": "照片加载中…",
+    "empty": "暂无已确认照片",
+    "failed": "这张照片暂时无法加载"
+  },
+  "personalizedContent": {
+    "profile": "新人 Profile",
+    "theme": "城市路径与花瓣",
+    "guestContribution": "给新人写一句话"
+  }
+}

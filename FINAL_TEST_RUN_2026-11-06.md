@@ -44,3 +44,13 @@ Skill 来源：`skill/SKILL.md`（GitHub 仓库 `haoshen61/skill-test`，本地�
 - 手机 QA：390×844 单列布局、按钮焦点、相册 loading/ready/empty/failed 状态、reduced-motion 规则均有实现记录。
 - 桌面 QA：桌面布局和文字溢出规则已检查；未发现生成器测试中的布局错误。
 - 发布边界：`publish=false`；云端 RSVP、认证后台、分享卡片、通知页、自动播放策略和生产 EXIF/压缩流水线列为 pending。
+
+## 2026-11-06 个性化修复复验
+
+测试记录中的三个缺陷已复现并修复：
+
+1. 删除宾客页面中的本地入口/生产配置内部提示，交付边界转移到 `release-record.json`、管理演示和文档。
+2. 生成器新增新人 Profile 和婚礼主题区块，渲染职业、MBTI、故事句子、主题描述和视觉 tokens。
+3. `interaction.guestContributions` 支持按 brief 生成个性化宾客表单；本轮使用祝福留言，未配置点歌，因此页面不出现歌曲或歌手字段。背景音乐使用 `backgroundMusic`，旧版点歌仅在显式提供 `musicRequest` 时兼容。
+
+验证：`npm --prefix skill test` 18/18 通过；生成输出的 `app.js`、`admin.js` 通过 Node 语法检查；Chrome 无界面模式在 390×844 和 1440×900 检查通过，`publish=false` 保持不变。背景音乐开关与宾客点歌字段已分离。

@@ -32,19 +32,31 @@
       <p class="eyebrow">Invitation</p>
       <h2 id="invitation-title" tabindex="-1">__COUPLE_NAMES__</h2>
       <p class="story">__STORY__</p>
+      __STORY_COPY__
       <ul class="event-facts">
         <li>日期：__EVENT_DATE__</li>
         <li>形式：__EVENT_FORMAT__</li>
         <li>场地：__VENUE__</li>
         <li>地址：__ADDRESS__</li>
       </ul>
-      <div class="pending-note" role="status">这是一个可运行的本地入口；RSVP、点歌和生产发布仍需单独确认和配置。</div>
+      <div class="personalization-grid">
+        <section class="profile-panel" aria-labelledby="profile-title">
+          <p class="eyebrow">About the couple</p>
+          <h2 id="profile-title">新人 Profile</h2>
+          <div class="profile-grid">__PROFILE_HTML__</div>
+        </section>
+        <section class="theme-panel" aria-labelledby="theme-title">
+          <p class="eyebrow">Wedding theme</p>
+          <h2 id="theme-title">__THEME_NAME__</h2>
+          <p>__THEME_DESCRIPTION__</p>
+          <ul class="theme-tokens">__THEME_TOKENS_HTML__</ul>
+        </section>
+      </div>
     </section>
 
     <section id="interactions" class="invitation" aria-labelledby="interactions-title">
       <p class="eyebrow">Guest notes</p>
       <h2 id="interactions-title">宾客留言</h2>
-      <p class="pending-note">本地演示数据只保存在当前浏览器。需要多人访问或新人后台时，请先配置并验证后端适配器。</p>
       <form id="rsvp-form" class="guest-form" hidden>
         <h3>出席登记</h3>
         <label>姓名<input name="guestName" required maxlength="80"></label>
@@ -53,15 +65,7 @@
         <button type="submit">保存本地登记</button>
         <p id="rsvp-status" role="status"></p>
       </form>
-      <form id="music-form" class="guest-form" hidden>
-        <h3>点歌与祝福</h3>
-        <label>留言人<input name="name" required maxlength="80"></label>
-        <label>歌曲<input name="song" required maxlength="120"></label>
-        <label>歌手（可选）<input name="singer" maxlength="120"></label>
-        <label>祝福<textarea name="message" maxlength="500"></textarea></label>
-        <button type="submit">保存本地点歌</button>
-        <p id="music-status" role="status"></p>
-      </form>
+      <div id="guest-contributions">__GUEST_CONTRIBUTIONS_HTML__</div>
     </section>
   </main>
   <script src="app.js"></script>

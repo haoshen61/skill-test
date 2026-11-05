@@ -48,7 +48,7 @@ node skill/scripts/create-invitation.js \
   --out /tmp/wedding-invitation-builder-preview
 ```
 
-生成目录包含 `brief.json`、`asset-manifest.json`、`release-record.json`、静态页面和本地演示管理页。素材源目录不会被修改。将生成目录通过任意静态 HTTP 服务器打开，在 390×844 和桌面视口检查布局、相册加载/空/失败状态、键盘焦点、音乐按钮和本地 RSVP 更新。
+生成目录包含 `brief.json`、`asset-manifest.json`、`release-record.json`、静态页面和本地演示管理页。素材源目录不会被修改。页面会把 brief 中确认的新人 Profile、婚礼主题和 `interaction.guestContributions` 渲染出来。将生成目录通过任意静态 HTTP 服务器打开，在 390×844 和桌面视口检查布局、相册加载/空/失败状态、键盘焦点、音乐按钮、RSVP 更新和每个个性化宾客表单。
 
 ## 新对话演示
 
@@ -60,7 +60,7 @@ node skill/scripts/create-invitation.js \
 
 ## 部署边界
 
-本仓库只做本地生成和本地数据演示。RSVP/点歌使用浏览器 `localStorage`，管理页没有生产认证；自动播放、分享卡片、通知页、CloudBase/Cloudflare、生产图片处理和真实多用户幂等都必须在实际项目中重新确认并适配。Git 推送不等于生产发布，Skill 不会从素材或登录状态推断部署授权。
+本仓库只做本地生成和本地数据演示。RSVP 使用浏览器 `localStorage` 更新本机身份记录，其他宾客信息按 `interaction.guestContributions` 各自保存；点歌只是可选的旧版 shorthand。管理页没有生产认证；自动播放、分享卡片、通知页、CloudBase/Cloudflare、生产图片处理和真实多用户幂等都必须在实际项目中重新确认并适配。Git 推送不等于生产发布，Skill 不会从素材或登录状态推断部署授权。
 
 ## 维护约定
 

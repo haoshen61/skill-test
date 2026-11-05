@@ -56,7 +56,7 @@
 | 6 | 资产扫描与授权 | 解释色卡/参考图/抽象相册图/音乐的分类；相册图用于轮播，参考图不进入轮播；所有项先保持 pending，公开授权未被推断。 | `assets/manifest.json`、`assets/README.md`、`assets/contact-sheet.jpg` |
 | 7 | 生成结果：未来邀请函首屏 | 展示“婚礼邀请函”、已确认婚礼信息和相册；说明普通邀请函不默认进入回顾页，加载状态不会闪现默认头像。显式 recap 模式另有单独测试。 | 生成目录 `index.html`；`assets/cover/invitation-cover.jpg` |
 | 8 | 生成结果：手机与桌面布局 | 并列展示窄屏单列和桌面基本可用性；检查文字不溢出、图片按原比例、键盘焦点和 reduced-motion。 | 生成目录 `styles.css`、本地 QA 记录 |
-| 9 | 本地交互：RSVP、点歌和音乐 | 使用合成姓名/后四位演示 mock RSVP，再更新出席人数；展示合成点歌留言和手动音乐按钮。明确数据只写浏览器 `localStorage`。 | `app.js`、`admin.js`、`demo/evidence/results.json`；`assets/music/0902.mp3` |
+| 9 | 本地交互：RSVP、个性化留言和音乐 | 使用合成姓名/后四位演示 mock RSVP，再更新出席人数；展示 brief 配置的祝福留言和手动背景音乐按钮。明确数据只写浏览器 `localStorage`，点歌只有显式配置时出现。 | `app.js`、`admin.js`、`demo/evidence/test-run-2026-11-06-follow-up/results.json`；`assets/music/0902.mp3` |
 | 10 | 管理页与异常状态 | 展示只读本地管理页、空相册、图片失败、自动播放被浏览器阻止等状态；说明生产管理员认证、云端幂等和自动播放策略尚未实现。 | `admin.html`、`admin.js`、`demo/evidence/states.json` |
 | 11 | 测试结果与阶段成果 | 给出 `npm --prefix skill test` 的 15 项通过结果；列出生成命令、输出文件和手机/桌面检查结果。用一张表对应 A–F 阶段与证据路径。 | 终端输出、`brief.json`、`asset-manifest.json`、`release-record.json` |
 | 12 | 交付清单与下一步 | 明确当前交付是本地预览和记录；生产前需重新确认域名、后端、迁移、隐私/版权和发布授权。列出 pending/skipped 项，不把未实现能力写成已完成。 | `release-record.json`、最终测试记录；浅米色收尾页 |

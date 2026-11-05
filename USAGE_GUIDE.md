@@ -26,7 +26,7 @@ node skill/scripts/create-invitation.js --assets assets --out /tmp/wedding-invit
 3. 新人姓名、职业、MBTI 或其他希望展示的身份线索。
 4. 相遇时间、关系转折、故事弧线和想保留的句子。
 5. 主色、重点色比例、质感、构图、字体和动效目标。
-6. 相册、音乐、RSVP、点歌留言和管理页需求。
+6. 相册、背景音乐、RSVP、以及希望宾客留下的个性化信息（祝福、忌口、交通或可选点歌）和管理页需求。
 7. 素材是否允许本地演示、压缩、去除 EXIF、第三方或 AI 处理。
 8. Git、后端、域名和本次是否授权生产发布。
 
@@ -59,16 +59,16 @@ Skill 会扫描支持的图片和音频，并跳过隐藏文件、`.env*`、`.gi
 - `brief.json`：确认事实、设计目标、交互合同和授权状态。
 - `asset-manifest.json`：素材分类、字节数、隐私、许可证、用途和警告。
 - `release-record.json`：本地生成证据、发布状态、pending 和 rollback 字段。
-- `index.html`、`styles.css`、`app.js`：未来邀请函首屏、相册、婚礼信息、音乐按钮和本地表单；显式 `mode: "recap"` 时才启用回顾入口。
+- `index.html`、`styles.css`、`app.js`：未来邀请函首屏、新人 Profile、婚礼主题、相册、婚礼信息、音乐按钮和 brief 配置的本地表单；显式 `mode: "recap"` 时才启用回顾入口。
 - `admin.html`、`admin.js`：当前浏览器 localStorage 的只读查看与导出。
 
-默认视觉合同是“婚礼邀请函”首屏、已确认婚礼信息、分页相册、RSVP 和点歌。加载、空列表和图片失败状态分开处理；手机端使用单列布局，按钮有可见焦点并支持 reduced-motion。只有 brief 明确设置 `mode: "recap"` 或 `mode: "retrospective"` 时，才展示“婚礼已圆满落幕”和“继续查看电子请柬”。
+默认视觉合同是“婚礼邀请函”首屏、已确认婚礼信息、新人 Profile、婚礼主题、分页相册、RSVP 和 brief 配置的宾客互动。背景音乐由 `interaction.backgroundMusic` 单独控制；点歌只有在 `interaction.musicRequest` 或 `guestContributions` 中明确配置时才出现。加载、空列表和图片失败状态分开处理；手机端使用单列布局，按钮有可见焦点并支持 reduced-motion。只有 brief 明确设置 `mode: "recap"` 或 `mode: "retrospective"` 时，才展示“婚礼已圆满落幕”和“继续查看电子请柬”。
 
-## 5 本地 RSVP 与点歌
+## 5 本地 RSVP 与宾客互动
 
 把 RSVP 的身份键定义为姓名和手机号后四位。首次提交会保存一条记录；相同身份再次提交会更新原记录。这个行为只在浏览器 localStorage 内成立，不能代替生产数据库的认证、并发控制和幂等接口。
 
-点歌留言字段为留言人、歌曲、可选歌手和祝福。歌手留空时记录空字符串，不应静默丢弃字段。
+除 RSVP 外，表单字段由 `interaction.guestContributions` 决定。可以配置署名/祝福、忌口、交通需求、合影意愿或点歌；没有配置点歌时，页面不得自行出现歌曲字段。点歌 shorthand 的歌手留空时记录空字符串，不应静默丢弃字段。
 
 管理页没有登录和认证，只能演示当前浏览器的数据。不要把它描述成生产后台，也不要把 localStorage 记录上传到云端。
 
@@ -87,7 +87,7 @@ npm test
 - 默认邀请函首屏显示标题和婚礼信息；回顾模式下检查“继续查看电子请柬”后的邀请函显示和标题焦点。
 - 手动音乐按钮和浏览器阻止播放提示。
 - RSVP 2 位成人后改为 3 位，记录数量仍为 1。
-- 点歌留言空歌手、管理页和 localStorage 数据。
+- 每个 `guestContributions` 表单的必填校验、localStorage 记录和管理页展示；点歌只在明确配置时验收。
 
 最终验收摘要见 `FINAL_TEST_RECORD.md`；演示证据以 JSON 状态记录和生成目录为主，`demo/evidence/` 中不再保存旧婚礼截图。
 

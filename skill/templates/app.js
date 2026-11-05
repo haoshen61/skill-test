@@ -2,6 +2,7 @@ const galleryAssets = __GALLERY_JSON__;
 const audioUrl = __AUDIO_URL__;
 const rsvpEnabled = __RSVP_ENABLED__;
 const musicEnabled = __MUSIC_ENABLED__;
+const guestContributions = __GUEST_CONTRIBUTIONS_JSON__;
 const recapMode = __RECAP_MODE__;
 const gallery = document.querySelector("#gallery");
 const previous = document.querySelector("#previous");
@@ -10,7 +11,6 @@ const counter = document.querySelector("#counter");
 const continueButton = document.querySelector("#continue");
 const invitation = document.querySelector("#invitation");
 const rsvpForm = document.querySelector("#rsvp-form");
-const musicForm = document.querySelector("#music-form");
 const reduceMotion = Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)").matches);
 let current = 0;
 
@@ -87,7 +87,6 @@ if (audioUrl && musicEnabled) {
 }
 
 if (rsvpEnabled) rsvpForm.hidden = false;
-if (musicEnabled) musicForm.hidden = false;
 
 function saveLocal(key, form, status, matchFields = []) {
   form.addEventListener("submit", (event) => {
@@ -107,4 +106,7 @@ function saveLocal(key, form, status, matchFields = []) {
 }
 
 if (rsvpEnabled) saveLocal("weddingInvitation.rsvp", rsvpForm, document.querySelector("#rsvp-status"), ["guestName", "contactSuffix"]);
-if (musicEnabled) saveLocal("weddingInvitation.music", musicForm, document.querySelector("#music-status"));
+for (const contribution of guestContributions) {
+  const form = document.querySelector(`[data-contribution-id="${contribution.id}"]`);
+  if (form) saveLocal(contribution.storageKey, form, form.querySelector("[data-status]"));
+}

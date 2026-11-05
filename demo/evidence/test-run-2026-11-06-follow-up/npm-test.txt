@@ -1,0 +1,30 @@
+
+> test
+> node --test tests/*.test.js
+
+✔ runs when the workspace contains only user materials (121.798895ms)
+✔ refuses a destructive output path without deleting source materials (94.484528ms)
+✔ generates an asset manifest and future-first static project (124.508691ms)
+✔ defaults to a future invitation and keeps retrospective mode opt-in (121.111902ms)
+✔ retrospective mode is explicit and does not become the default (123.965168ms)
+✔ empty asset directories generate pending records instead of inventing facts (105.24951ms)
+✔ rejects malformed briefs without modifying source materials (93.812348ms)
+✔ renders confirmed couple and event facts into the invitation (115.8706ms)
+✔ renders personalized couple profiles and wedding theme without internal delivery notes (118.056931ms)
+✔ renders configured guest contribution forms without assuming a song request (126.949047ms)
+✔ deep-merges partial briefs while retaining pending defaults (118.018359ms)
+✔ honors disabled music and RSVP interaction flags (127.39593ms)
+✔ keeps background music separate from guest point-song contributions (121.662477ms)
+✔ encodes asset URL segments for browser-safe gallery paths (120.542523ms)
+✔ uses confirmed gallery paths and preserves source manifest labels (124.790651ms)
+✔ keeps local RSVP identity updates and optional singer input explicit (124.067678ms)
+✔ records portable generator limitations in the release record (125.312587ms)
+✔ documents an ordered workflow with confirmation and release gates (2.065421ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1937.650025

@@ -104,7 +104,7 @@ const presentation = Presentation.create({ slideSize: { width: 1280, height: 720
   addText(slide, "本次只读取仓库中的三类内容", { left: 80, top: 220, width: 500, height: 44 }, { fontSize: 24, bold: true });
   addText(slide, "skill/  ·  可安装 Skill 与便携生成器\nassets/  ·  需求追问、视觉 brief、本地预览素材\nEXPECTED_CONVERSATION_FLOW.md  ·  27 步验收台词", { left: 82, top: 292, width: 510, height: 150 }, { fontSize: 20, color: colors.muted });
   addText(slide, "生产状态", { left: 720, top: 220, width: 300, height: 38 }, { fontSize: 24, bold: true, color: colors.rose });
-  addText(slide, "publish = false\nCloudBase / Cloudflare 未执行\n本地 RSVP、点歌和管理页只使用浏览器 localStorage", { left: 722, top: 292, width: 430, height: 140 }, { fontSize: 22, color: colors.ink });
+  addText(slide, "publish = false\nCloudBase / Cloudflare 未执行\n本地 RSVP、个性化留言和管理页只使用浏览器 localStorage", { left: 722, top: 292, width: 430, height: 140 }, { fontSize: 22, color: colors.ink });
 }
 
 {
@@ -165,7 +165,7 @@ const presentation = Presentation.create({ slideSize: { width: 1280, height: 720
 
 {
   const slide = presentation.slides.add();
-  setupSlide(slide, "本地交互：RSVP、点歌和音乐", "steps 21–23");
+  setupSlide(slide, "本地交互：RSVP、个性化留言和音乐", "steps 21–23");
   await addImage(slide, "assets/contact-sheet.jpg", { left: 80, top: 205, width: 350, height: 470 }, "通用素材与本地交互演示", "contain");
   addText(slide, "林一 · 2468 · 2 位成人", { left: 540, top: 225, width: 500, height: 44 }, { fontSize: 25, bold: true });
   addText(slide, "再次输入同一身份并改为 3 位后，localStorage 仍只有一条记录。\n状态：已更新本机演示数据。", { left: 540, top: 300, width: 560, height: 100 }, { fontSize: 22, color: colors.muted });
@@ -193,7 +193,7 @@ const presentation = Presentation.create({ slideSize: { width: 1280, height: 720
   const slide = presentation.slides.add();
   setupSlide(slide, "交付清单与下一步", "steps 26–27");
   addText(slide, "当前交付", { left: 90, top: 220, width: 250, height: 38 }, { fontSize: 25, color: colors.rose, bold: true });
-  addText(slide, "本地邀请函\nconfirmed brief\n带隐私/许可证标签的素材清单\n本地 RSVP、点歌和只读管理页\n最终测试记录与使用说明", { left: 90, top: 285, width: 420, height: 230 }, { fontSize: 22, color: colors.ink });
+  addText(slide, "本地邀请函\nconfirmed brief\n带隐私/许可证标签的素材清单\n本地 RSVP、个性化留言和只读管理页\n最终测试记录与使用说明", { left: 90, top: 285, width: 420, height: 230 }, { fontSize: 22, color: colors.ink });
   addText(slide, "生产前重新确认", { left: 700, top: 220, width: 300, height: 38 }, { fontSize: 25, color: colors.blue, bold: true });
   addText(slide, "环境、迁移、密钥、域名\n隐私与版权\n云端 RSVP 和认证\n分享卡片、通知页、静态发布\n明确的生产授权", { left: 700, top: 285, width: 430, height: 230 }, { fontSize: 22, color: colors.ink });
   addText(slide, "本次状态：未授权、未部署", { left: 700, top: 590, width: 430, height: 36 }, { fontSize: 22, color: colors.rose, bold: true });

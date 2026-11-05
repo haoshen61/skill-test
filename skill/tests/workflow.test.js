@@ -28,4 +28,7 @@ test("documents an ordered workflow with confirmation and release gates", () => 
   assert.match(skill, /STOP|停下|暂停/);
   assert.match(skill, /briefConfirmed/);
   assert.match(skill, /releaseAuthorized|publishAuthorized/);
+  assert.match(skill, /guestContributions/);
+  assert.match(skill, /Profile|profile|新人资料/i);
+  assert.match(skill, /theme|主题/i);
 });

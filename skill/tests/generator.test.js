@@ -62,7 +62,7 @@ test("defaults to a future invitation and keeps retrospective mode opt-in", () =
   const brief = JSON.parse(fs.readFileSync(path.join(out, "brief.json"), "utf8"));
   const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
   assert.equal(brief.mode, "invitation");
-  assert.deepEqual(brief.sections, ["cover", "story", "details", "rsvp", "music", "thanks"]);
+  assert.deepEqual(brief.sections, ["cover", "story", "details", "rsvp", "guest-notes", "thanks"]);
   assert.match(html, /婚礼邀请函/);
   assert.doesNotMatch(html, /婚礼已圆满落幕/);
   assert.doesNotMatch(html, /Wedding memories/);
@@ -124,6 +124,62 @@ test("renders confirmed couple and event facts into the invitation", () => {
   assert.doesNotMatch(html, /brief\.json 中标记为 null/);
 });
 
+test("renders personalized couple profiles and wedding theme without internal delivery notes", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "personalized.json");
+  fs.writeFileSync(brief, JSON.stringify({
+    couple: {
+      partnerA: { name: "Alice", occupation: "建筑师", mbti: "INTJ" },
+      partnerB: { name: "Bob", occupation: "陶艺师", mbti: "ENFP" },
+      story: { relationshipArc: "从一场雨后的散步开始", confirmedCopy: "一个画城市，一个捏泥土。" }
+    },
+    design: {
+      theme: { name: "雨后陶土", description: "把城市线条和手作温度放进同一张邀请函。" },
+      texture: "湿润纸张",
+      composition: "细线地图与陶土色块"
+    }
+  }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  for (const fact of ["建筑师", "INTJ", "陶艺师", "ENFP", "一个画城市，一个捏泥土。", "雨后陶土", "湿润纸张", "细线地图与陶土色块"]) {
+    assert.match(html, new RegExp(fact));
+  }
+  assert.doesNotMatch(html, /这是一个可运行的本地入口；RSVP、点歌和生产发布仍需单独确认和配置。/);
+});
+
+test("renders configured guest contribution forms without assuming a song request", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "guest-contribution.json");
+  fs.writeFileSync(brief, JSON.stringify({
+    interaction: {
+      rsvp: true,
+      music: false,
+      guestContributions: [{
+        id: "blessing",
+        title: "给新人写一句话",
+        description: "把想说的话留在婚礼纪念册里。",
+        submitLabel: "保存祝福",
+        storageKey: "weddingInvitation.blessing",
+        fields: [
+          { name: "name", label: "署名", type: "text", required: true, maxLength: 80 },
+          { name: "message", label: "祝福", type: "textarea", required: true, maxLength: 500 }
+        ]
+      }]
+    }
+  }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
+  const adminScript = fs.readFileSync(path.join(out, "admin.js"), "utf8");
+  assert.match(html, /给新人写一句话/);
+  assert.match(html, /保存祝福/);
+  assert.match(script, /weddingInvitation\.blessing/);
+  assert.doesNotMatch(html, /歌曲|歌手|点歌/);
+  assert.match(adminScript, /给新人写一句话/);
+});
+
 test("deep-merges partial briefs while retaining pending defaults", () => {
   const { assets, out } = fixture();
   const brief = path.join(path.dirname(out), "partial.json");
@@ -143,13 +199,30 @@ test("deep-merges partial briefs while retaining pending defaults", () => {
 test("honors disabled music and RSVP interaction flags", () => {
   const { assets, out } = fixture();
   const brief = path.join(path.dirname(out), "disabled-interactions.json");
-  fs.writeFileSync(brief, JSON.stringify({ interaction: { music: "false", rsvp: "false" } }));
+  fs.writeFileSync(brief, JSON.stringify({ interaction: { backgroundMusic: false, rsvp: false } }));
   const result = run(["--assets", assets, "--out", out, "--brief", brief]);
   assert.equal(result.status, 0, result.stderr);
   const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
   assert.match(script, /if \(audioUrl && musicEnabled\)/);
-  assert.match(script, /if \(musicEnabled\) saveLocal/);
   assert.match(script, /if \(rsvpEnabled\) saveLocal/);
+  assert.match(script, /const guestContributions = \[\]/);
+  assert.doesNotMatch(html, /点歌/);
+});
+
+test("keeps background music separate from guest point-song contributions", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "background-music.json");
+  fs.writeFileSync(brief, JSON.stringify({
+    interaction: { backgroundMusic: true, guestContributions: [] }
+  }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
+  assert.match(script, /const musicEnabled = true/);
+  assert.match(script, /if \(audioUrl && musicEnabled\)/);
+  assert.doesNotMatch(html, /歌曲|歌手|点歌/);
 });
 
 test("encodes asset URL segments for browser-safe gallery paths", () => {
@@ -186,7 +259,7 @@ test("uses confirmed gallery paths and preserves source manifest labels", () => 
 test("keeps local RSVP identity updates and optional singer input explicit", () => {
   const { assets, out } = fixture();
   const brief = path.join(path.dirname(out), "interactions.json");
-  fs.writeFileSync(brief, JSON.stringify({ interaction: { rsvp: true, music: true } }));
+  fs.writeFileSync(brief, JSON.stringify({ interaction: { rsvp: true, music: true, musicRequest: { singerOptional: true } } }));
   const result = run(["--assets", assets, "--out", out, "--brief", brief]);
   assert.equal(result.status, 0, result.stderr);
   const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
