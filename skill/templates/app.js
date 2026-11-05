@@ -33,7 +33,7 @@ function renderGallery(state) {
   gallery.innerHTML = "";
   const image = document.createElement("img");
   image.src = item.url;
-  image.alt = item.title || `婚礼照片 ${current + 1}`;
+  image.alt = item.title || `相册图片 ${current + 1}`;
   image.loading = current === 0 ? "eager" : "lazy";
   image.addEventListener("error", () => {
     gallery.innerHTML = '<p class="gallery-empty">这张照片暂时无法加载</p>';

@@ -165,7 +165,7 @@ test("uses confirmed gallery paths and preserves source manifest labels", () => 
   const { assets, out } = fixture();
   fs.writeFileSync(path.join(assets, "reference.png"), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
   fs.writeFileSync(path.join(assets, "manifest.json"), JSON.stringify({ items: [
-    { path: "photos/first.jpg", role: "wedding-photo", privacy: "private-wedding-material", license: "demo-only", notes: "keep private" },
+    { path: "photos/first.jpg", role: "gallery-image", privacy: "private-demo-material", license: "demo-only", notes: "keep private" },
     { path: "reference.png", role: "visual-reference", privacy: "design-reference", license: "reference only" }
   ] }));
   const brief = path.join(path.dirname(out), "gallery.json");
@@ -175,8 +175,8 @@ test("uses confirmed gallery paths and preserves source manifest labels", () => 
   assert.equal(result.status, 0, result.stderr);
   const manifest = JSON.parse(fs.readFileSync(path.join(out, "asset-manifest.json"), "utf8"));
   const selected = manifest.items.find((item) => item.path === "photos/first.jpg");
-  assert.equal(selected.assetRole, "wedding-photo");
-  assert.equal(selected.privacy, "private-wedding-material");
+  assert.equal(selected.assetRole, "gallery-image");
+  assert.equal(selected.privacy, "private-demo-material");
   assert.equal(selected.license, "demo-only");
   const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
   assert.match(script, /photos\/first\.jpg/);

@@ -33,27 +33,34 @@
     "typography": { "chinese": "细宋体", "latin": "Avenir", "decorative": "少量手写体" },
     "dynamics": ["城市路径逐步绘制", "路径节点附近花瓣展开"],
     "galleryPaths": [
-      "wedding/illustration-0.jpg",
-      "wedding/photo-1.jpg",
-      "wedding/photo-2.jpg",
-      "wedding/photo-3.jpg",
-      "wedding/photo-4.jpg",
-      "wedding/photo-5.jpg",
-      "wedding/photo-6.jpg"
+      "gallery/scene-0.jpg",
+      "gallery/scene-1.jpg",
+      "gallery/scene-2.jpg",
+      "gallery/scene-3.jpg",
+      "gallery/scene-4.jpg",
+      "gallery/scene-5.jpg",
+      "gallery/scene-6.jpg"
     ]
   },
   "gallery": {
     "paths": [
-      "wedding/illustration-0.jpg",
-      "wedding/photo-1.jpg",
-      "wedding/photo-2.jpg",
-      "wedding/photo-3.jpg",
-      "wedding/photo-4.jpg",
-      "wedding/photo-5.jpg",
-      "wedding/photo-6.jpg"
+      "gallery/scene-0.jpg",
+      "gallery/scene-1.jpg",
+      "gallery/scene-2.jpg",
+      "gallery/scene-3.jpg",
+      "gallery/scene-4.jpg",
+      "gallery/scene-5.jpg",
+      "gallery/scene-6.jpg"
     ],
     "manualSelectionConfirmed": true,
     "excludedRoles": ["color-palette", "visual-reference", "typography-reference", "share-card", "contact-sheet"]
+  },
+  "workflow": {
+    "phase": "brief-confirmed",
+    "briefConfirmed": true,
+    "assetsReviewed": true,
+    "localQa": "pending",
+    "releaseAuthorized": false
   },
   "sections": ["cover", "story", "details", "rsvp", "music", "thanks"],
   "copy": {

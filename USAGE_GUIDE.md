@@ -40,13 +40,13 @@ Skill 会扫描支持的图片和音频，并跳过隐藏文件、`.env*`、`.gi
 
 ```json
 [
-  "wedding/illustration-0.jpg",
-  "wedding/photo-1.jpg",
-  "wedding/photo-2.jpg",
-  "wedding/photo-3.jpg",
-  "wedding/photo-4.jpg",
-  "wedding/photo-5.jpg",
-  "wedding/photo-6.jpg"
+  "gallery/scene-0.jpg",
+  "gallery/scene-1.jpg",
+  "gallery/scene-2.jpg",
+  "gallery/scene-3.jpg",
+  "gallery/scene-4.jpg",
+  "gallery/scene-5.jpg",
+  "gallery/scene-6.jpg"
 ]
 ```
 
@@ -89,7 +89,7 @@ npm test
 - RSVP 2 位成人后改为 3 位，记录数量仍为 1。
 - 点歌留言空歌手、管理页和 localStorage 数据。
 
-最终验收摘要见 `FINAL_TEST_RECORD.md`；演示截图放在 `demo/evidence/`。
+最终验收摘要见 `FINAL_TEST_RECORD.md`；演示证据以 JSON 状态记录和生成目录为主，`demo/evidence/` 中不再保存旧婚礼截图。
 
 ## 7 发布边界
 

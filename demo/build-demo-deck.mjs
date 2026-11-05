@@ -139,18 +139,18 @@ const presentation = Presentation.create({ slideSize: { width: 1280, height: 720
 {
   const slide = presentation.slides.add();
   setupSlide(slide, "资产扫描与授权", "steps 14–18");
-  await addImage(slide, "assets/contact-sheet.jpg", { left: 80, top: 210, width: 420, height: 300 }, "素材缩略总览", "contain");
-  addText(slide, "21 项被扫描\n20 图片 + 1 音频", { left: 590, top: 220, width: 250, height: 80 }, { fontSize: 26, bold: true });
-  addText(slide, "manifest.json 提供角色、隐私、许可证和用途标签。\ngallery.paths 手动选择 7 个 wedding/ 项目。\n参考图仍可复制到本地审阅，但不进入轮播。", { left: 590, top: 330, width: 520, height: 150 }, { fontSize: 22, color: colors.muted });
+  await addImage(slide, "assets/contact-sheet.jpg", { left: 80, top: 210, width: 420, height: 300 }, "抽象演示素材缩略总览", "contain");
+  addText(slide, "26 项被扫描\n25 图片 + 1 音频", { left: 590, top: 220, width: 250, height: 80 }, { fontSize: 26, bold: true });
+  addText(slide, "manifest.json 提供角色、隐私、许可证和用途标签。\ngallery.paths 手动选择 7 个抽象 gallery/ 项目。\n风格参考仍可复制到本地审阅，但不进入轮播。", { left: 590, top: 330, width: 520, height: 150 }, { fontSize: 22, color: colors.muted });
   addText(slide, "本地演示获准  ·  公开发布未获准", { left: 590, top: 550, width: 520, height: 40 }, { fontSize: 22, color: colors.rose, bold: true });
 }
 
 {
   const slide = presentation.slides.add();
   setupSlide(slide, "生成结果：邀请函首屏与回顾分支", "steps 19–20");
-  await addImage(slide, "demo/evidence/mobile-recap.png", { left: 90, top: 210, width: 270, height: 470 }, "显式 recap 模式的移动端证据", "contain");
-  await addImage(slide, "demo/evidence/desktop-recap.png", { left: 430, top: 250, width: 620, height: 320 }, "显式 recap 模式的桌面端证据", "contain");
-  addText(slide, "普通模式先展示“婚礼邀请函”和婚礼信息；这组截图保留用于证明显式 recap 分支。\nloading、empty、failed 三种相册状态分开处理。", { left: 900, top: 210, width: 300, height: 150 }, { fontSize: 20, color: colors.muted });
+  await addImage(slide, "assets/cover/invitation-cover.jpg", { left: 90, top: 210, width: 270, height: 470 }, "抽象演示封面", "contain");
+  await addImage(slide, "assets/gallery/scene-0.jpg", { left: 430, top: 210, width: 270, height: 470 }, "抽象相册首图", "contain");
+  addText(slide, "普通模式先展示“婚礼邀请函”和婚礼信息；演示素材不含人物或私人事实。\nloading、empty、failed 三种相册状态分开处理。", { left: 760, top: 250, width: 390, height: 150 }, { fontSize: 20, color: colors.muted });
 }
 
 {
@@ -158,15 +158,15 @@ const presentation = Presentation.create({ slideSize: { width: 1280, height: 720
   setupSlide(slide, "手机与桌面布局", "responsive QA");
   addText(slide, "手机 390 × 844", { left: 110, top: 205, width: 300, height: 36 }, { fontFamily: "Arial", fontSize: 20, bold: true });
   addText(slide, "桌面 1440 × 900", { left: 690, top: 205, width: 340, height: 36 }, { fontFamily: "Arial", fontSize: 20, bold: true });
-  await addImage(slide, "demo/evidence/mobile-recap.png", { left: 80, top: 255, width: 300, height: 420 }, "手机端页面", "contain");
-  await addImage(slide, "demo/evidence/desktop-recap.png", { left: 620, top: 255, width: 560, height: 300 }, "桌面端页面", "contain");
-  addText(slide, "通过：无控制台错误、无失败请求、焦点落到 invitation-title。", { left: 620, top: 590, width: 560, height: 42 }, { fontSize: 19, color: colors.muted });
+  await addImage(slide, "assets/cover/invitation-cover.jpg", { left: 80, top: 255, width: 300, height: 420 }, "手机端抽象封面示例", "contain");
+  await addImage(slide, "assets/gallery/scene-0.jpg", { left: 620, top: 255, width: 300, height: 420 }, "桌面端相册首图示例", "contain");
+  addText(slide, "通过：素材按原比例展示，演示记录无私人图片或生产数据。", { left: 620, top: 690, width: 560, height: 42 }, { fontSize: 19, color: colors.muted });
 }
 
 {
   const slide = presentation.slides.add();
   setupSlide(slide, "本地交互：RSVP、点歌和音乐", "steps 21–23");
-  await addImage(slide, "demo/evidence/local-interactions.png", { left: 80, top: 205, width: 350, height: 470 }, "本地 RSVP 和点歌表单", "contain");
+  await addImage(slide, "assets/contact-sheet.jpg", { left: 80, top: 205, width: 350, height: 470 }, "通用素材与本地交互演示", "contain");
   addText(slide, "林一 · 2468 · 2 位成人", { left: 540, top: 225, width: 500, height: 44 }, { fontSize: 25, bold: true });
   addText(slide, "再次输入同一身份并改为 3 位后，localStorage 仍只有一条记录。\n状态：已更新本机演示数据。", { left: 540, top: 300, width: 560, height: 100 }, { fontSize: 22, color: colors.muted });
   addText(slide, "点歌：林一 · 《晚风写信》 · 歌手留空\n音乐按钮以用户点击为主，自动播放和低音量策略 pending。", { left: 540, top: 450, width: 560, height: 100 }, { fontSize: 22, color: colors.ink });
@@ -175,7 +175,7 @@ const presentation = Presentation.create({ slideSize: { width: 1280, height: 720
 {
   const slide = presentation.slides.add();
   setupSlide(slide, "管理页与异常状态", "local-only review");
-  await addImage(slide, "demo/evidence/failed-image.png", { left: 80, top: 210, width: 320, height: 440 }, "失败图片状态", "contain");
+  await addImage(slide, "assets/gallery/scene-6.jpg", { left: 80, top: 210, width: 320, height: 440 }, "抽象相册图片状态示例", "contain");
   addText(slide, "空相册：暂无已确认照片\n失败图片：这张照片暂时无法加载\n管理页：只读显示当前浏览器 localStorage", { left: 510, top: 230, width: 570, height: 150 }, { fontSize: 24, color: colors.ink });
   addText(slide, "生产管理员认证、云端幂等、CSV 导出和自动播放策略均未宣称完成。", { left: 510, top: 470, width: 570, height: 80 }, { fontSize: 21, color: colors.rose, bold: true });
 }

@@ -1,35 +1,35 @@
 [
   {
     "name": "mobile",
-    "mode": "recap",
+    "mode": "invitation",
     "viewport": {
       "width": 390,
       "height": 844
     },
-    "title": "婚礼已圆满落幕",
-    "hasRecap": true,
+    "title": "婚礼邀请函",
+    "hasRecap": false,
     "galleryCount": 1,
     "counter": "1 / 7",
     "nextCounter": "2 / 7",
-    "invitationHidden": null,
-    "focused": "invitation-title",
+    "invitationHidden": false,
+    "focused": null,
     "consoleErrors": [],
     "failedResponses": []
   },
   {
     "name": "desktop",
-    "mode": "recap",
+    "mode": "invitation",
     "viewport": {
       "width": 1440,
       "height": 900
     },
-    "title": "婚礼已圆满落幕",
-    "hasRecap": true,
+    "title": "婚礼邀请函",
+    "hasRecap": false,
     "galleryCount": 1,
     "counter": "1 / 7",
     "nextCounter": "2 / 7",
-    "invitationHidden": null,
-    "focused": "invitation-title",
+    "invitationHidden": false,
+    "focused": null,
     "consoleErrors": [],
     "failedResponses": []
   },

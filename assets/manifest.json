@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "packId": "wedding-invitation-demo-20261105",
-  "purpose": "比赛演示与可复用 skill 的输入样例，不是生产运行时资源",
+  "purpose": "比赛演示与可复用 skill 的通用输入样例，不是生产运行时资源",
   "generatedAt": "2026-11-05",
   "sourceRepository": "standalone demo asset pack",
   "productionBundle": false,
-  "privacyNotice": "婚礼照片、封面和音乐按私人资料处理；公开发布前必须重新确认人物隐私、版权和再分发授权。",
+  "privacyNotice": "运行素材不含新人姓名、日期、地址、可识别人像或宾客资料；风格参考和音乐仍需在公开发布前单独核实版权与再分发授权。",
   "items": [
     {
       "id": "palette-color-theme",
@@ -15,19 +15,19 @@
       "description": "主色与局部重点色的色卡，包含浅米、咖色、粉色、蓝色和少量绿色；可见参考色包括 #8C6A56、#C4A381、#6D8EAD。",
       "usedBy": ["design-brief", "theme-tokens"],
       "privacy": "design-reference",
-      "license": "user-provided; private repository demo",
-      "notes": "缩放到 1800px 宽，PNG 重新编码，未进入 Cloudflare runtimeFiles。"
+      "license": "user-provided reference; redistribution rights not verified",
+      "notes": "仅作色彩参考，不进入相册或生产运行时；图片中的第三方署名按参考资料处理。"
     },
     {
       "id": "palette-cover",
       "role": "color-palette-cover",
       "path": "palette/palette-cover.jpg",
-      "source": "color palette/cover.jpg",
-      "description": "横向色板/质感参考封面。",
+      "source": "generated abstract geometric palette study",
+      "description": "无文字的横向色板与弧线质感图，使用浅米、咖色、粉色、蓝色和少量绿色。",
       "usedBy": ["design-brief", "contact-sheet"],
-      "privacy": "design-reference",
-      "license": "user-provided; private repository demo",
-      "notes": "缩放到 1600px 宽并移除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "不含人物、姓名、日期、地址或二维码；已重新编码并清除源元数据。"
     },
     {
       "id": "style-peace",
@@ -38,7 +38,7 @@
       "usedBy": ["preference-intake", "design-brief"],
       "privacy": "third-party-style-reference",
       "license": "reference only; redistribution rights not verified",
-      "notes": "仅用于内部比赛演示，公开发布前需确认来源许可。"
+      "notes": "仅用于内部风格讨论，不作为运行时素材。"
     },
     {
       "id": "style-editorial-01",
@@ -49,7 +49,7 @@
       "usedBy": ["preference-intake", "design-brief"],
       "privacy": "third-party-style-reference",
       "license": "reference only; redistribution rights not verified",
-      "notes": "仅用于内部比赛演示。"
+      "notes": "仅用于内部比赛演示；图片中的地址、账号或二维码不应被当作项目事实。"
     },
     {
       "id": "style-editorial-02",
@@ -60,18 +60,18 @@
       "usedBy": ["preference-intake", "design-brief"],
       "privacy": "third-party-style-reference",
       "license": "reference only; redistribution rights not verified",
-      "notes": "仅用于内部比赛演示。"
+      "notes": "仅用于内部比赛演示，不作为运行时相册。"
     },
     {
       "id": "style-portfolio",
       "role": "visual-reference",
       "path": "references/reference-portfolio.jpg",
-      "source": "visual references/сайт портфолио 2025 _ designer portfolio _ website design _ inspo.jpeg",
+      "source": "visual references/portfolio reference.jpeg",
       "description": "作品集式信息层级、窄栏和图片/文字关系参考。",
       "usedBy": ["preference-intake", "design-brief"],
       "privacy": "third-party-style-reference",
       "license": "reference only; redistribution rights not verified",
-      "notes": "仅用于内部比赛演示。"
+      "notes": "仅用于内部比赛演示，不作为运行时相册。"
     },
     {
       "id": "type-reference-02",
@@ -82,7 +82,7 @@
       "usedBy": ["type-scale", "design-brief"],
       "privacy": "typography-reference",
       "license": "user-provided reference; redistribution rights not verified",
-      "notes": "缩放到 1000px 宽并移除元数据。"
+      "notes": "仅用于排版讨论；不把图中账号、二维码或机构信息写入 brief。"
     },
     {
       "id": "type-reference-03",
@@ -93,7 +93,7 @@
       "usedBy": ["type-scale", "design-brief"],
       "privacy": "typography-reference",
       "license": "user-provided reference; redistribution rights not verified",
-      "notes": "缩放到 1000px 宽并移除元数据。"
+      "notes": "仅用于排版讨论，不作为运行时图片。"
     },
     {
       "id": "type-reference-04",
@@ -104,139 +104,194 @@
       "usedBy": ["type-scale", "design-brief"],
       "privacy": "typography-reference",
       "license": "user-provided reference; redistribution rights not verified",
-      "notes": "缩放到 1000px 宽并移除元数据。"
+      "notes": "仅用于排版讨论，不作为运行时图片。"
     },
     {
       "id": "invitation-cover",
       "role": "invitation-cover",
       "path": "cover/invitation-cover.jpg",
-      "source": "output/media/invitation-cover-20260901-2216.jpg",
-      "description": "当前网页使用的纵向邀请函封面。",
+      "source": "generated abstract geometric invitation cover",
+      "description": "无文字、无人物的纵向米色弥散封面示例。",
       "usedBy": ["cover", "mobile-preview"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "缩放到 1200px 宽并移除元数据；不等同于微信分享卡片。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "可在本地演示中裁切或调色；不含任何真实婚礼事实。"
     },
     {
       "id": "share-preview-card",
       "role": "share-card",
       "path": "cover/share-preview-card.jpg",
-      "source": "output/media/share-preview-card-cover-20260902.jpg",
-      "description": "当前 Open Graph、Twitter 和 image_src 使用的 800×800 预览图。",
+      "source": "generated abstract square share-card study",
+      "description": "无文字的方形分享卡片示例，用于说明分享图与封面图是不同资源。",
       "usedBy": ["wechat-share-card", "og-metadata", "contact-sheet"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "版本化卡片副本；替换时同步元数据、allowlist 和测试。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "仅作本地演示，实际微信卡片仍需在目标项目中配置和验证。"
     },
     {
       "id": "share-card-source",
       "role": "share-card-source",
       "path": "cover/card-cover-source.jpg",
-      "source": "output/card cover.jpg",
-      "description": "分享卡片的源图副本，用于解释源图与 800×800 网页衍生图的区别。",
+      "source": "generated abstract horizontal card source study",
+      "description": "无文字的横向卡片源图示例，用于解释源图与分享衍生图的区别。",
       "usedBy": ["wechat-share-card", "asset-pipeline"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "缩放到 1000×1000 并移除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "不含真实人物或事件信息。"
     },
     {
-      "id": "illustration-0",
-      "role": "illustration",
-      "path": "wedding/illustration-0.jpg",
-      "source": "output/album/0-20260902-1128.jpg",
-      "description": "婚礼信息/插画页的首图，默认相册封面。",
+      "id": "gallery-scene-0",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-0.jpg",
+      "source": "generated abstract geometric gallery study 0",
+      "description": "纵向抽象相册图 0，作为默认首图示例。",
       "usedBy": ["story-page", "mobile-gallery", "fallback-image"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；不裁切。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物、文字、日期、地址或二维码；保持原比例展示。"
     },
     {
-      "id": "wedding-photo-1",
-      "role": "wedding-photo",
-      "path": "wedding/photo-1.jpg",
-      "source": "output/album/1-warm-20260902.jpg",
-      "description": "婚礼相册照片 1，暖色优化版。",
+      "id": "gallery-scene-1",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-1.jpg",
+      "source": "generated abstract geometric gallery study 1",
+      "description": "纵向抽象相册图 1。",
       "usedBy": ["gallery-slide"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物或个人信息。"
     },
     {
-      "id": "wedding-photo-2",
-      "role": "wedding-photo",
-      "path": "wedding/photo-2.jpg",
-      "source": "output/album/2-warm-20260902.jpg",
-      "description": "婚礼相册照片 2，暖色优化版。",
+      "id": "gallery-scene-2",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-2.jpg",
+      "source": "generated abstract geometric gallery study 2",
+      "description": "纵向抽象相册图 2。",
       "usedBy": ["gallery-slide"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物或个人信息。"
     },
     {
-      "id": "wedding-photo-3",
-      "role": "wedding-photo",
-      "path": "wedding/photo-3.jpg",
-      "source": "output/album/3-warm-20260902.jpg",
-      "description": "婚礼相册照片 3，暖色优化版。",
+      "id": "gallery-scene-3",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-3.jpg",
+      "source": "generated abstract geometric gallery study 3",
+      "description": "纵向抽象相册图 3。",
       "usedBy": ["gallery-slide"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物或个人信息。"
     },
     {
-      "id": "wedding-photo-4",
-      "role": "wedding-photo",
-      "path": "wedding/photo-4.jpg",
-      "source": "output/album/4-warm-20260902.jpg",
-      "description": "婚礼相册照片 4，暖色优化版。",
+      "id": "gallery-scene-4",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-4.jpg",
+      "source": "generated abstract geometric gallery study 4",
+      "description": "纵向抽象相册图 4。",
       "usedBy": ["gallery-slide"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物或个人信息。"
     },
     {
-      "id": "wedding-photo-5",
-      "role": "wedding-photo",
-      "path": "wedding/photo-5.jpg",
-      "source": "output/album/5-warm-20260902.jpg",
-      "description": "婚礼相册照片 5，暖色优化版。",
+      "id": "gallery-scene-5",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-5.jpg",
+      "source": "generated abstract geometric gallery study 5",
+      "description": "纵向抽象相册图 5。",
       "usedBy": ["gallery-slide"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物或个人信息。"
     },
     {
-      "id": "wedding-photo-6",
-      "role": "wedding-photo",
-      "path": "wedding/photo-6.jpg",
-      "source": "output/album/6-warm-20260902.jpg",
-      "description": "婚礼相册照片 6，暖色优化版。",
+      "id": "gallery-scene-6",
+      "role": "abstract-gallery-image",
+      "path": "gallery/scene-6.jpg",
+      "source": "generated abstract geometric gallery study 6",
+      "description": "纵向抽象相册图 6。",
       "usedBy": ["gallery-slide"],
-      "privacy": "private-wedding-material",
-      "license": "user-provided; demo-only; public redistribution not granted",
-      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "open-mistletoe-cover",
+      "role": "optional-visual-reference",
+      "path": "open-candidates/cover-mistletoe.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Spiritofthewoods_mistletoe_s6.jpg",
+      "description": "可选的槲寄生植物学插图封面候选。",
+      "usedBy": ["optional-cover-review"],
+      "privacy": "public-domain-reference",
+      "license": "Public domain (PD-old-70 / CC-PD-Mark; verify before publication)",
+      "notes": "不含人物、姓名、日期或地址；默认 brief 不选用，不进入生产 runtimeFiles。"
+    },
+    {
+      "id": "open-floral-share-card",
+      "role": "optional-visual-reference",
+      "path": "open-candidates/share-card-floral.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:White_floral_bouquet_in_sunlight_(Unsplash).jpg",
+      "description": "可选的花束分享卡片候选。",
+      "usedBy": ["optional-share-card-review"],
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "notes": "不含人物或个人资料；默认 brief 不选用。"
+    },
+    {
+      "id": "open-vase-gallery",
+      "role": "optional-visual-reference",
+      "path": "open-candidates/gallery-01-vase.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Diverse_flower_vase_(Unsplash).jpg",
+      "description": "可选的花瓶相册候选。",
+      "usedBy": ["optional-gallery-review"],
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "notes": "不含人物或可读个人信息；默认 brief 不选用。"
+    },
+    {
+      "id": "open-bouquet-gallery",
+      "role": "optional-visual-reference",
+      "path": "open-candidates/gallery-02-white-bouquet.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:White_floral_bouquet_in_sunlight_(Unsplash).jpg",
+      "description": "可选的白色花束相册候选。",
+      "usedBy": ["optional-gallery-review"],
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "notes": "不含人物或可读个人信息；默认 brief 不选用。"
+    },
+    {
+      "id": "open-prism-gallery",
+      "role": "optional-visual-reference",
+      "path": "open-candidates/gallery-03-prisms.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:Flower_bouquet_and_prisms_(Unsplash).jpg",
+      "description": "可选的花束与几何棱镜相册候选。",
+      "usedBy": ["optional-gallery-review"],
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "notes": "不含人物或可读个人信息；默认 brief 不选用。"
     },
     {
       "id": "background-music-0902",
       "role": "background-music",
       "path": "music/0902.mp3",
       "source": "music/0902.mp3",
-      "description": "婚礼邀请函背景音乐演示文件。",
+      "description": "背景音乐交互演示文件。",
       "usedBy": ["music-toggle", "autoplay-fallback"],
       "privacy": "audio-demo",
       "license": "user-provided; public performance and redistribution rights not verified",
-      "notes": "约 138 秒、128 kbps；原样复制以便演示，不代表生产发布授权。"
+      "notes": "仅用于本地演示；公开上线前必须替换为已获授权的音频或取得明确许可。"
     },
     {
       "id": "contact-sheet",
       "role": "contact-sheet",
       "path": "contact-sheet.jpg",
-      "source": "derived from this manifest",
-      "description": "素材缩略总览，便于现场讲解；不是页面运行时资源。",
+      "source": "derived from generated demo assets",
+      "description": "抽象演示素材缩略总览，便于现场讲解；不是页面运行时资源。",
       "usedBy": ["competition-demo"],
-      "privacy": "mixed-demo-material",
-      "license": "inherits source restrictions",
-      "notes": "不应单独发布或加入 Cloudflare runtimeFiles。"
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "notes": "不含人物、姓名、日期、地址或二维码；不加入生产 runtimeFiles。"
     }
   ]
 }

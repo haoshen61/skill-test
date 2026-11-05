@@ -11,7 +11,7 @@
    node skill/scripts/create-invitation.js --assets assets --brief demo/confirmed-brief.json --out /tmp/wedding-invitation-builder-preview
    ```
 
-3. 检查 `asset-manifest.json`、`brief.json` 和 `release-record.json`，确认 `publish=false`，相册只包含 `wedding/` 下 7 个手动选择的项目。
+3. 检查 `asset-manifest.json`、`brief.json` 和 `release-record.json`，确认 `publish=false`，相册只包含 `gallery/scene-0..6.jpg` 这 7 个手动选择的通用抽象素材。
 
 ## 本地交互台词
 

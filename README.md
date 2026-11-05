@@ -6,8 +6,8 @@
 
 ```text
 skill/                         可安装 Skill、便携生成器、模板和测试
-assets/                        脱敏/缩小后的色卡、参考图、照片和音乐
-demo/                          已确认 brief、本地演示脚本和 QA 截图
+assets/                        通用抽象色卡、参考图、相册图和音乐
+demo/                          已确认 brief、本地演示脚本和 JSON QA 证据
 docs/                          Skill 设计、演示 runbook 和用户流程
 EXPECTED_CONVERSATION_FLOW.md 新对话逐句输入与预期结果
 USAGE_GUIDE.md                 安装、生成和本地验收说明
@@ -16,6 +16,8 @@ FINAL_TEST_AND_DEMO_PPT_OUTLINE.md 比赛汇报提纲
 ```
 
 素材是比赛演示样例，不代表人物隐私、字体、第三方参考图或音乐获得公开再分发授权。生产项目的照片、密钥、CloudBase 登录缓存、`.env`、高分辨率原稿和云函数不在本仓库。
+
+本次清理已从当前版本移除原婚礼封面、相册、拼贴图和旧 QA 截图，并改用通用抽象素材；为遵守不强制推送的仓库规则，未重写已有 Git 历史，旧提交中的二进制仍可能可见。如需从 Git 历史彻底撤回旧素材，应另行评估并明确授权历史迁移。
 
 ## 默认行为
 

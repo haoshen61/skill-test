@@ -43,7 +43,7 @@
 ### 资产与相册
 
 - `assets/manifest.json` 的角色、隐私、许可证、用途和备注被保留到输出 `asset-manifest.json`。
-- `demo/confirmed-brief.json` 手动选择 7 个 `wedding/` 项目作为相册。
+- `demo/confirmed-brief.json` 手动选择 7 个 `gallery/scene-0..6.jpg` 通用抽象素材作为相册。
 - 色卡、视觉参考、字体参考、封面和分享卡片仍会列入素材清单供审阅，但不会因为是图片就自动进入轮播。
 - `.env*`、`.git`、`.cloudbase`、`.tcb`、隐藏文件和不支持格式不会被复制。
 
@@ -67,7 +67,7 @@ brief.json  asset-manifest.json  release-record.json
 验收重点：
 
 - 390×844 手机视口和一个桌面视口没有横向溢出或文字重叠。
-- 相册的 loading、ready、empty、failed 状态分开处理；loading 阶段不闪现婚纱照。
+- 相册的 loading、ready、empty、failed 状态分开处理；loading 阶段不闪现任何真实人物或私人照片。
 - 键盘左右方向键、可见焦点和 `prefers-reduced-motion` 可用。
 - 音乐以点击按钮为可靠入口；自动播放和低音量跨浏览器行为仍列为 pending。
 - 生成器不修改 `assets/` 源目录。

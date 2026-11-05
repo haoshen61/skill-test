@@ -1,0 +1,38 @@
+{
+  "retrievedAt": "2026-11-05",
+  "provider": "Wikimedia Commons API and upload.wikimedia.org",
+  "sources": [
+    {
+      "title": "The Spirit of the Woods: mistletoe plate",
+      "page": "https://commons.wikimedia.org/wiki/File:Spiritofthewoods_mistletoe_s6.jpg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Spiritofthewoods_mistletoe_s6.jpg",
+      "license": "Public domain (PD-old-70 / CC-PD-Mark)",
+      "usedAs": ["open-candidates/cover-mistletoe.jpg"],
+      "privacyReview": "botanical plate; no identifiable people"
+    },
+    {
+      "title": "White floral bouquet in sunlight (Unsplash)",
+      "page": "https://commons.wikimedia.org/wiki/File:White_floral_bouquet_in_sunlight_(Unsplash).jpg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/2/2a/White_floral_bouquet_in_sunlight_%28Unsplash%29.jpg",
+      "license": "CC0",
+      "usedAs": ["open-candidates/share-card-floral.jpg", "open-candidates/gallery-02-white-bouquet.jpg"],
+      "privacyReview": "flowers only in selected derivatives"
+    },
+    {
+      "title": "Diverse flower vase (Unsplash)",
+      "page": "https://commons.wikimedia.org/wiki/File:Diverse_flower_vase_(Unsplash).jpg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/9/92/Diverse_flower_vase_%28Unsplash%29.jpg",
+      "license": "CC0",
+      "usedAs": ["open-candidates/gallery-01-vase.jpg"],
+      "privacyReview": "flower vase only; no people in selected derivative"
+    },
+    {
+      "title": "Flower bouquet and prisms (Unsplash)",
+      "page": "https://commons.wikimedia.org/wiki/File:Flower_bouquet_and_prisms_(Unsplash).jpg",
+      "download": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Flower_bouquet_and_prisms_%28Unsplash%29.jpg",
+      "license": "CC0",
+      "usedAs": ["open-candidates/gallery-03-prisms.jpg"],
+      "privacyReview": "flowers and geometric objects; no people or readable text in selected derivative"
+    }
+  ]
+}
