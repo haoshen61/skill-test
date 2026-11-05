@@ -7,7 +7,11 @@
     "story": { "relationshipArc": null, "confirmedCopy": null }
   },
   "event": { "date": null, "dateConfirmed": false, "venue": { "shortName": null, "address": null } },
-  "design": { "theme": { "name": null, "description": null, "motifs": [] } },
+  "design": {
+    "theme": { "name": null, "description": null, "motifs": [] },
+    "visualLanguage": { "partnerA": null, "partnerB": null, "shared": [] },
+    "visualPreference": { "id": null, "label": null, "colors": [], "selectionMode": "visual", "confirmed": false }
+  },
   "copy": { "invitationTitle": "婚礼邀请函", "invitationIntro": "我们诚挚邀请您见证这一天", "recapTitle": "婚礼已圆满落幕", "thanks": "感谢每一份关注、陪伴与祝福", "continueLabel": "继续查看电子请柬" },
   "interaction": {
     "rsvp": false,

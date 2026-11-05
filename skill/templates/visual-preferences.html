@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>选择视觉方向</title>
+  <style>
+    :root { color-scheme: light; font-family: Georgia, "Songti SC", serif; color: #4f3b32; background: #f4eee5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 12% 8%, #fffaf2, transparent 42%), #f4eee5; }
+    main { width: min(980px, 100%); margin: 0 auto; padding: clamp(24px, 7vw, 72px); }
+    .eyebrow { margin: 0; font: 12px/1.4 Arial, sans-serif; letter-spacing: .16em; text-transform: uppercase; opacity: .62; }
+    h1 { margin: 12px 0 14px; font-size: clamp(38px, 7vw, 72px); font-weight: 400; line-height: 1.08; }
+    .intro { max-width: 42rem; margin: 0; line-height: 1.7; color: #765848; }
+    .visual-preference-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin: 36px 0 22px; }
+    .visual-preference-card { position: relative; display: grid; grid-template-columns: minmax(140px, .9fr) minmax(0, 1fr); gap: 16px; padding: 14px; border: 1px solid #d9c8ba; border-radius: 20px; background: rgba(255, 250, 242, .64); cursor: pointer; transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease; }
+    .visual-preference-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(79, 59, 50, .09); }
+    .visual-preference-card:has(input:checked) { border-color: var(--option-ink); box-shadow: 0 0 0 3px color-mix(in srgb, var(--option-accent-a) 34%, transparent); }
+    .visual-preference-card input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+    .visual-preference-card input:focus-visible + .visual-preference-art { outline: 3px solid #b56b6c; outline-offset: 3px; }
+    .visual-preference-art { position: relative; display: block; min-height: 136px; overflow: hidden; border-radius: 14px; background: var(--option-base); }
+    .visual-preference-grid { position: absolute; inset: 0; opacity: .36; background-image: linear-gradient(90deg, color-mix(in srgb, var(--option-ink) 20%, transparent) 1px, transparent 1px), linear-gradient(color-mix(in srgb, var(--option-ink) 20%, transparent) 1px, transparent 1px); background-size: 26px 26px; }
+    .visual-preference-route { position: absolute; left: 5%; right: 10%; top: 42%; height: 3px; border-radius: 999px; background: var(--option-ink); transform: rotate(-13deg); box-shadow: 54px 16px 0 -1px var(--option-accent-b); }
+    .visual-preference-route::after { content: ""; position: absolute; right: 6%; top: -4px; width: 11px; height: 11px; border-radius: 50%; background: var(--option-accent-a); }
+    .visual-preference-bloom { position: absolute; right: 22%; bottom: 18%; width: 44px; height: 44px; border-radius: 50%; background: var(--option-accent-a); opacity: .7; box-shadow: -20px 14px 0 -5px var(--option-accent-b), 18px 16px 0 -7px var(--option-accent-b), 3px -19px 0 -7px var(--option-accent-b); }
+    .visual-preference-swatches { position: absolute; left: 12px; bottom: 12px; display: flex; gap: 4px; }
+    .visual-preference-swatches i { width: 14px; height: 14px; border: 1px solid rgba(79, 59, 50, .18); border-radius: 50%; background: var(--option-ink); }
+    .visual-preference-swatches i:nth-child(2) { background: var(--option-accent-a); }
+    .visual-preference-swatches i:nth-child(3) { background: var(--option-accent-b); }
+    .visual-preference-swatches i:nth-child(4) { background: var(--option-base); }
+    .visual-preference-copy { display: grid; align-content: center; gap: 7px; }
+    .visual-preference-copy strong { font-size: 20px; font-weight: 400; }
+    .visual-preference-copy small { line-height: 1.55; color: #765848; }
+    .visual-preference-copy em { font: 11px/1.3 Arial, sans-serif; letter-spacing: .08em; color: var(--option-ink); font-style: normal; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+    button { border: 1px solid #765848; border-radius: 999px; padding: 11px 17px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #b56b6c; outline-offset: 3px; }
+    [role="status"] { min-height: 1.5em; color: #765848; }
+    #selection-json { width: 100%; min-height: 88px; margin-top: 16px; padding: 10px; border: 1px solid #d9c8ba; border-radius: 12px; background: rgba(255, 255, 255, .5); color: inherit; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+    @media (max-width: 680px) { main { padding: 28px 16px 48px; } .visual-preference-list { grid-template-columns: 1fr; gap: 14px; } .visual-preference-card { grid-template-columns: 132px minmax(0, 1fr); } .visual-preference-art { min-height: 128px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; scroll-behavior: auto !important; transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Visual direction</p>
+    <h1>选择视觉方向</h1>
+    <p class="intro">如果素材没有明确的颜色或质感偏好，先看色块、路线、花瓣和留白的实际组合，再选择最接近的一组。选择结果只保存在当前浏览器，确认 brief 时再写回设计字段。</p>
+    <form id="visual-preference-form">
+      <div class="visual-preference-list">__VISUAL_PREFERENCE_OPTIONS_HTML__</div>
+      <div class="actions"><button id="copy-selection" type="button">复制选择</button><p id="visual-preference-status" role="status" aria-live="polite">请选择一组视觉方向</p></div>
+      <textarea id="selection-json" aria-label="视觉选择 JSON" readonly hidden></textarea>
+    </form>
+  </main>
+  <script>
+    const options = __VISUAL_PREFERENCE_JSON__;
+    const form = document.querySelector("#visual-preference-form");
+    const status = document.querySelector("#visual-preference-status");
+    const output = document.querySelector("#selection-json");
+    const copyButton = document.querySelector("#copy-selection");
+    const storageKey = __VISUAL_PREFERENCE_STORAGE_KEY__;
+    const briefSelectionId = __VISUAL_PREFERENCE_BRIEF_ID__;
+    const briefSelectionConfirmed = __VISUAL_PREFERENCE_BRIEF_CONFIRMED__;
+
+    function selectedOption() {
+      const id = form.querySelector("input:checked")?.value || null;
+      return options.find((option) => option.id === id) || null;
+    }
+
+    function readSavedPreference() {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        return parsed && typeof parsed === "object" && typeof parsed.id === "string" ? parsed : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function selectOption(id) {
+      if (!id) return;
+      const input = Array.from(form.querySelectorAll('input[name="visualPreference"]')).find((candidate) => candidate.value === id);
+      if (input) input.checked = true;
+    }
+
+    function savePreference(payload) {
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(payload));
+        return true;
+      } catch {
+        status.textContent = "浏览器未允许保存本地选择；仍可复制 JSON。";
+        return false;
+      }
+    }
+
+    function syncSelection(message = true) {
+      const selected = selectedOption();
+      const payload = selected ? { id: selected.id, label: selected.label, colors: selected.colors, motif: selected.motif, selectionMode: "visual", confirmed: true } : null;
+      output.value = JSON.stringify(payload, null, 2);
+      if (selected) {
+        const saved = savePreference(payload);
+        if (message && saved) status.textContent = `已选择：${selected.label}。确认 brief 时使用这组颜色和构图。`;
+      }
+      return payload;
+    }
+
+    const saved = readSavedPreference();
+    selectOption(briefSelectionConfirmed ? briefSelectionId : saved?.id);
+    form.addEventListener("change", () => syncSelection());
+    copyButton.addEventListener("click", async () => {
+      const payload = syncSelection(false);
+      if (!payload) { status.textContent = "请先选择一组视觉方向。"; return; }
+      output.hidden = false;
+      output.select();
+      try { await navigator.clipboard.writeText(output.value); status.textContent = "已复制选择，可粘贴回 brief。"; }
+      catch { status.textContent = "已展开选择 JSON，请手动复制回 brief。"; }
+    });
+    if (form.querySelector("input:checked")) syncSelection(false);
+    if (form.querySelector("input:checked")) status.textContent = `当前选择：${selectedOption().label}。如需更换，可直接点击另一张卡片。`;
+  </script>
+</body>
+</html>

@@ -45,6 +45,16 @@ Skill 来源：`skill/SKILL.md`（GitHub 仓库 `haoshen61/skill-test`，本地�
 - 桌面 QA：桌面布局和文字溢出规则已检查；未发现生成器测试中的布局错误。
 - 发布边界：`publish=false`；云端 RSVP、认证后台、分享卡片、通知页、自动播放策略和生产 EXIF/压缩流水线列为 pending。
 
+## 职业隐喻与视觉选择复验
+
+本轮将主题视觉从关键词列表扩展为 Profile/主题共同驱动的路线、节点和花瓣视觉，并新增 `visual-preferences.html` 作为无明确颜色时的外观选择入口。
+
+- 页面可见“城市规划师 × 花艺师”、城市网格、路径、植物弧线和花瓣节点；未使用与职业无关的代码窗口。
+- 视觉偏好板提供“纸张路径、苔痕花期、墨色兰影、暮色花园”四张带色块和微型构图的卡片。选中“苔痕花期”后，状态显示已选择，`localStorage` 保存 `id`、颜色和 motif，可复制 JSON 回填 brief。
+- 390×844 邀请函、390×844 视觉偏好板、1440×900 邀请函的 `scrollWidth` 分别为 390、390、1440；无横向溢出。曾发现并修复手机网格项的最小内容宽度问题。
+- `prefers-reduced-motion` 下路径与花瓣动画均为 `none`；页面控制台无错误/警告。
+- `npm --prefix skill test`：25/25 通过；生成器与生成脚本语法检查通过；已确认的 visualPreference 色值会驱动主题视觉；生产发布仍未授权。
+
 ## 2026-11-06 个性化修复复验
 
 测试记录中的三个缺陷已复现并修复：
@@ -54,3 +64,10 @@ Skill 来源：`skill/SKILL.md`（GitHub 仓库 `haoshen61/skill-test`，本地�
 3. `interaction.guestContributions` 支持按 brief 生成个性化宾客表单；本轮使用祝福留言，未配置点歌，因此页面不出现歌曲或歌手字段。背景音乐使用 `backgroundMusic`，旧版点歌仅在显式提供 `musicRequest` 时兼容。
 
 验证：`npm --prefix skill test` 18/18 通过；生成输出的 `app.js`、`admin.js` 通过 Node 语法检查；Chrome 无界面模式在 390×844 和 1440×900 检查通过，`publish=false` 保持不变。背景音乐开关与宾客点歌字段已分离。
+
+## 2026-11-06 审查加固复验
+
+- 视觉偏好板的 `localStorage` 键按生成目录隔离；损坏的 JSON、读取/写入异常不会让选择或复制流程崩溃，已确认 brief 选择优先于旧状态，未确认候选保持未选。
+- 宾客贡献 ID 与存储键已做唯一性和命名空间校验，避开 RSVP、视觉偏好和对象原型键；管理演示使用 null-prototype map。
+- 缺少 Profile 与主题事实时只显示待确认的抽象预览；有职业线索时由职业模式驱动不同 SVG 路径几何。
+- 当前完整测试：`npm --prefix skill test` 25/25 通过；未执行生产发布。

@@ -148,6 +148,114 @@ test("renders personalized couple profiles and wedding theme without internal de
   assert.doesNotMatch(html, /这是一个可运行的本地入口；RSVP、点歌和生产发布仍需单独确认和配置。/);
 });
 
+test("renders a profession-led theme visual that connects profiles to motifs", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "profession-visual.json");
+  fs.writeFileSync(brief, JSON.stringify({
+    couple: {
+      partnerA: { name: "沐宸", occupation: "城市规划师" },
+      partnerB: { name: "若汐", occupation: "花艺师" }
+    },
+    design: {
+      theme: { name: "城市路径与花瓣", description: "把规划的秩序和花艺的生长放在同一条路上。", motifs: ["城市路径", "植物弧线", "花瓣节点"] },
+      visualLanguage: { partnerA: "route", partnerB: "bloom" },
+      basePalette: { name: "浅米色纸张", colors: ["#F4EEE5"] },
+      accentPalette: { colors: ["#6F5547", "#D9A9A0", "#9FB8CE"] }
+    }
+  }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  const styles = fs.readFileSync(path.join(out, "styles.css"), "utf8");
+  assert.match(html, /class="theme-visual"/);
+  assert.match(html, /data-profile-a="城市规划师"/);
+  assert.match(html, /data-profile-b="花艺师"/);
+  assert.match(html, /data-mode-a="route"/);
+  assert.match(html, /data-mode-b="bloom"/);
+  assert.match(html, /城市路径/);
+  assert.match(html, /植物弧线/);
+  assert.match(html, /class="theme-route"/);
+  assert.match(html, /class="theme-bloom"/);
+  assert.match(html, /--theme-base-color:\s*#f4eee5/i);
+  assert.match(styles, /@keyframes theme-route-draw/);
+  assert.match(styles, /@keyframes theme-bloom-open/);
+  assert.match(styles, /\.profile-panel, \.theme-panel\s*\{[^}]*min-width:\s*0/);
+  assert.doesNotMatch(html, /code-window|typewriter/i);
+});
+
+test("generates a visual preference board when color direction is unresolved", () => {
+  const { assets, out } = fixture();
+  const result = run(["--assets", assets, "--out", out]);
+  assert.equal(result.status, 0, result.stderr);
+  const preferences = fs.readFileSync(path.join(out, "visual-preferences.html"), "utf8");
+  assert.match(preferences, /选择视觉方向/);
+  assert.match(preferences, /class="visual-preference-card"/);
+  assert.match(preferences, /data-palette-id="paper-route"/);
+  assert.match(preferences, /data-palette-id="moss-bloom"/);
+  assert.match(preferences, /type="radio"/);
+  assert.match(preferences, /localStorage/);
+  assert.match(preferences, /复制选择/);
+  assert.match(preferences, /confirmed:\s*true|confirmed\\":true/);
+  assert.match(preferences, /prefers-reduced-motion/);
+  assert.match(preferences, /try\s*\{[\s\S]*localStorage\.setItem/);
+  assert.match(preferences, /catch\s*\{[\s\S]*浏览器未允许保存本地选择/);
+});
+
+test("marks the theme visual as pending until profile or theme facts exist", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "profile-without-visual-cue.json");
+  fs.writeFileSync(brief, JSON.stringify({ couple: { partnerA: { name: "Alice", mbti: "INTJ" }, partnerB: { name: "Bob", mbti: "ENFP" } } }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  assert.match(html, /data-pending="true"/);
+  assert.match(html, /待补充新人 Profile 与婚礼主题/);
+  assert.doesNotMatch(html, /新人 A与新人 B的职业隐喻/);
+});
+
+test("scopes visual preference storage and tolerates malformed saved JSON", () => {
+  const { assets, out } = fixture();
+  const result = run(["--assets", assets, "--out", out]);
+  assert.equal(result.status, 0, result.stderr);
+  const preferences = fs.readFileSync(path.join(out, "visual-preferences.html"), "utf8");
+  assert.match(preferences, /weddingInvitation\.visualPreference\.[0-9a-f]+/i);
+  assert.match(preferences, /function readSavedPreference\(\)/);
+  assert.match(preferences, /try\s*\{[\s\S]*JSON\.parse/);
+  assert.match(preferences, /catch\s*\{[\s\S]*return null/);
+});
+
+test("applies a confirmed visual preference palette to the theme visual", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "selected-visual-preference.json");
+  fs.writeFileSync(brief, JSON.stringify({
+    couple: { partnerA: { occupation: "建筑师" }, partnerB: { occupation: "花艺师" } },
+    design: {
+      theme: { name: "苔痕花期", motifs: ["枝叶", "路径"] },
+      visualPreference: { id: "moss-bloom", label: "苔痕花期", colors: ["#E8E5D9", "#425246", "#C98F82", "#D8C08A"], selectionMode: "visual", confirmed: true }
+    }
+  }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  const release = JSON.parse(fs.readFileSync(path.join(out, "release-record.json"), "utf8"));
+  assert.match(html, /--theme-base-color:#e8e5d9/);
+  assert.match(html, /--theme-ink-color:#425246/);
+  assert.doesNotMatch(release.pending.join("\n"), /visual preference selection/i);
+});
+
+test("does not treat an unconfirmed visual preference as selected", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "pending-visual-preference.json");
+  fs.writeFileSync(brief, JSON.stringify({ design: { visualPreference: { id: "moss-bloom", colors: ["#000000"], confirmed: false } } }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const preferences = fs.readFileSync(path.join(out, "visual-preferences.html"), "utf8");
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  assert.doesNotMatch(preferences, /value="moss-bloom" checked/);
+  assert.match(preferences, /const briefSelectionConfirmed = false/);
+  assert.doesNotMatch(html, /--theme-base-color:#000000/);
+});
+
 test("renders configured guest contribution forms without assuming a song request", () => {
   const { assets, out } = fixture();
   const brief = path.join(path.dirname(out), "guest-contribution.json");
@@ -178,6 +286,34 @@ test("renders configured guest contribution forms without assuming a song reques
   assert.match(script, /weddingInvitation\.blessing/);
   assert.doesNotMatch(html, /歌曲|歌手|点歌/);
   assert.match(adminScript, /给新人写一句话/);
+});
+
+test("isolates guest contribution storage and protects reserved record keys", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "unsafe-contributions.json");
+  fs.writeFileSync(brief, JSON.stringify({
+    interaction: {
+      rsvp: true,
+      guestContributions: [
+        { id: "__proto__", storageKey: "weddingInvitationX.bad", fields: [{ name: "message", label: "留言" }] },
+        { id: "blessing", storageKey: "weddingInvitation.rsvp", fields: [{ name: "message", label: "祝福" }] }
+      ]
+    }
+  }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
+  const serialized = script.match(/const guestContributions = (\[[\s\S]*?\]);\nconst recapMode/);
+  assert.ok(serialized, "generated app should include guest contribution configuration");
+  const contributions = JSON.parse(serialized[1]);
+  assert.equal(contributions.length, 2);
+  assert.equal(new Set(contributions.map((item) => item.id)).size, contributions.length);
+  assert.equal(new Set(contributions.map((item) => item.storageKey)).size, contributions.length);
+  assert.ok(contributions.every((item) => item.storageKey.startsWith("weddingInvitation.")));
+  assert.ok(contributions.every((item) => item.storageKey !== "weddingInvitation.rsvp"));
+  assert.ok(contributions.every((item) => !["__proto__", "constructor", "prototype"].includes(item.id)));
+  const adminScript = fs.readFileSync(path.join(out, "admin.js"), "utf8");
+  assert.match(adminScript, /Object\.create\(null\)/);
 });
 
 test("deep-merges partial briefs while retaining pending defaults", () => {

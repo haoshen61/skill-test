@@ -6,6 +6,45 @@ const path = require("node:path");
 const IMAGE_EXTENSIONS = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"]);
 const AUDIO_EXTENSIONS = new Set([".mp3", ".m4a", ".ogg", ".wav", ".aac"]);
 const SECRET_SEGMENTS = new Set([".cloudbase", ".tcb", ".git"]);
+const RESERVED_RECORD_IDS = new Set([
+  "__proto__", "prototype", "constructor", "toString", "valueOf", "hasOwnProperty",
+  "isPrototypeOf", "propertyIsEnumerable", "toLocaleString", "__defineGetter__",
+  "__defineSetter__", "__lookupGetter__", "__lookupSetter__"
+]);
+const RSVP_STORAGE_KEY = "weddingInvitation.rsvp";
+const STORAGE_KEY_PREFIX = "weddingInvitation.";
+const STORAGE_KEY_PATTERN = /^weddingInvitation\.[a-z0-9_-]+$/i;
+const VISUAL_PREFERENCE_STORAGE_PREFIX = `${STORAGE_KEY_PREFIX}visualPreference.`;
+const VISUAL_PALETTE_OPTIONS = [
+  {
+    id: "paper-route",
+    label: "纸张路径",
+    description: "浅米纸张、咖色路线与柔和粉蓝节点",
+    colors: ["#F4EEE5", "#6F5547", "#D9A9A0", "#9FB8CE"],
+    motif: "路径与花瓣"
+  },
+  {
+    id: "moss-bloom",
+    label: "苔痕花期",
+    description: "灰绿底色、植物弧线与温暖花瓣",
+    colors: ["#E8E5D9", "#425246", "#C98F82", "#D8C08A"],
+    motif: "枝叶与生长"
+  },
+  {
+    id: "ink-orchid",
+    label: "墨色兰影",
+    description: "雾白留白、墨色结构与低饱和紫调",
+    colors: ["#F2F0EC", "#34313A", "#9B879B", "#C9B8A5"],
+    motif: "弧线与留白"
+  },
+  {
+    id: "sunset-garden",
+    label: "暮色花园",
+    description: "暖沙背景、夕照橙与深莓色节点",
+    colors: ["#F3E4D2", "#6B4037", "#D48762", "#B7A2B8"],
+    motif: "光线与花束"
+  }
+];
 
 function usage() {
   return "Usage: node scripts/create-invitation.js --assets <directory> --out <directory> [--brief <json-file>]";
@@ -114,6 +153,8 @@ function defaultBrief() {
     event: { date: null, dateConfirmed: false, format: null, times: [], venue: { shortName: null, address: null, mapUrl: null } },
     design: {
       theme: { name: null, description: null, motifs: [] },
+      visualLanguage: { partnerA: null, partnerB: null, shared: [] },
+      visualPreference: { id: null, label: null, colors: [], selectionMode: "visual", confirmed: false },
       basePalette: { name: "soft paper", colors: ["#f4eee5"] },
       accentPalette: { colors: ["#6f5547"] },
       texture: "paper",
@@ -157,6 +198,15 @@ function jsonForScript(value) {
   return JSON.stringify(value).replace(/</g, "\\u003c");
 }
 
+function hashString(value) {
+  let hash = 2166136261;
+  for (const character of String(value)) {
+    hash ^= character.codePointAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return (hash >>> 0).toString(16);
+}
+
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character]));
 }
@@ -167,7 +217,7 @@ function assetUrl(relative) {
 
 function safeIdentifier(value, fallback) {
   const normalized = String(value || "").trim().replace(/[^a-z0-9_-]+/gi, "-").replace(/^-+|-+$/g, "").toLowerCase();
-  return normalized || fallback;
+  return normalized && !RESERVED_RECORD_IDS.has(normalized) ? normalized : fallback;
 }
 
 function normalizeField(field, index) {
@@ -206,19 +256,27 @@ function normalizeGuestContributions(interaction) {
   const configured = Array.isArray(interaction?.guestContributions) ? interaction.guestContributions : [];
   const source = configured.length ? configured : (interaction?.musicRequest ? [legacyMusicContribution(interaction)] : []);
   const ids = new Set();
+  const storageKeys = new Set();
   return source.map((item, index) => {
     if (!isPlainObject(item)) return null;
     let id = safeIdentifier(item.id, `guest-${index + 1}`);
-    while (ids.has(id) || id === "rsvp") id = `${id}-entry`;
+    while (ids.has(id) || id === "rsvp" || RESERVED_RECORD_IDS.has(id)) id = `${id}-entry`;
     ids.add(id);
     const fields = Array.isArray(item.fields) ? item.fields.map(normalizeField).filter(Boolean) : [];
     if (!fields.length) return null;
+    const defaultStorageKey = `${STORAGE_KEY_PREFIX}${id}`;
+    let storageKey = typeof item.storageKey === "string" ? item.storageKey.trim() : "";
+    if (!STORAGE_KEY_PATTERN.test(storageKey) || storageKey === RSVP_STORAGE_KEY || storageKey.startsWith(VISUAL_PREFERENCE_STORAGE_PREFIX)) storageKey = defaultStorageKey;
+    const storageKeyBase = storageKey;
+    let suffix = 2;
+    while (storageKeys.has(storageKey) || storageKey === RSVP_STORAGE_KEY) storageKey = `${storageKeyBase}-${suffix++}`;
+    storageKeys.add(storageKey);
     return {
       id,
       title: String(item.title || "宾客留言"),
       description: item.description ? String(item.description) : null,
       submitLabel: String(item.submitLabel || "保存留言"),
-      storageKey: String(item.storageKey || `weddingInvitation.${id}`),
+      storageKey,
       fields
     };
   }).filter(Boolean);
@@ -267,6 +325,116 @@ function renderThemeTokens(design) {
     ...motifs
   ].filter(Boolean).map((value) => `<li>${escapeHtml(value)}</li>`);
   return values.join("\n");
+}
+
+function safeColor(value, fallback) {
+  const match = String(value || "").trim().match(/^#[0-9a-f]{6}$/i);
+  return match ? match[0].toLowerCase() : fallback;
+}
+
+function visualPalette(design) {
+  const baseOption = VISUAL_PALETTE_OPTIONS[0];
+  const preferenceColors = design?.visualPreference?.confirmed === true && Array.isArray(design.visualPreference.colors)
+    ? design.visualPreference.colors
+    : [];
+  const baseColors = Array.isArray(design?.basePalette?.colors) ? design.basePalette.colors : [];
+  const accentColors = Array.isArray(design?.accentPalette?.colors) ? design.accentPalette.colors : [];
+  const fallback = baseOption.colors;
+  return [
+    safeColor(preferenceColors[0], safeColor(baseColors[0], fallback[0])),
+    safeColor(preferenceColors[1], safeColor(accentColors[0], fallback[1])),
+    safeColor(preferenceColors[2], safeColor(accentColors[1], fallback[2])),
+    safeColor(preferenceColors[3], safeColor(accentColors[2], fallback[3]))
+  ];
+}
+
+function profileVisualCue(profile, fallback) {
+  const identity = Array.isArray(profile?.identityCue) ? profile.identityCue.join("、") : profile?.identityCue;
+  return String(profile?.occupation || identity || fallback || "").trim() || fallback;
+}
+
+function visualMode(profile, configured, index) {
+  const candidate = typeof configured === "string" ? configured : configured?.motif || configured?.shape || configured?.mode;
+  if (["route", "bloom", "orbit", "wave"].includes(candidate)) return candidate;
+  const cue = `${profile?.occupation || ""} ${Array.isArray(profile?.identityCue) ? profile.identityCue.join(" ") : profile?.identityCue || ""}`;
+  if (/花|植物|园艺|自然|陶艺|手作|烘焙|料理/.test(cue)) return "bloom";
+  if (/规划|建筑|工程|数据|研究|程序|设计|地图|城市/.test(cue)) return "route";
+  return index === 0 ? "route" : "bloom";
+}
+
+function visualModeLabel(mode) {
+  return { route: "路线隐喻", bloom: "生长隐喻", orbit: "轨迹隐喻", wave: "流动隐喻" }[mode] || "个人线索";
+}
+
+function renderThemeVisual(design, couple) {
+  const theme = design?.theme || {};
+  const palette = visualPalette(design);
+  const partnerA = couple?.partnerA || {};
+  const partnerB = couple?.partnerB || {};
+  const cueA = profileVisualCue(partnerA, "新人 A");
+  const cueB = profileVisualCue(partnerB, "新人 B");
+  const modeA = visualMode(partnerA, design?.visualLanguage?.partnerA, 0);
+  const modeB = visualMode(partnerB, design?.visualLanguage?.partnerB, 1);
+  const themeName = theme.name || "共同主题";
+  const motifs = (Array.isArray(theme.motifs) ? theme.motifs : []).filter(Boolean).slice(0, 4);
+  const motifText = motifs.length ? motifs.join(" · ") : "共同主题节点";
+  const hasProfileFacts = [partnerA.occupation, partnerA.identityCue, partnerB.occupation, partnerB.identityCue].some((value) => Array.isArray(value) ? value.length > 0 : Boolean(value));
+  const hasThemeFacts = Boolean(theme.name || theme.description || motifs.length);
+  const isPending = !hasProfileFacts && !hasThemeFacts;
+  const ariaLabel = isPending
+    ? "视觉方向预览：待补充新人 Profile 与婚礼主题"
+    : hasProfileFacts
+      ? `${themeName}：${cueA}与${cueB}的职业隐喻，${motifText}`
+      : `${themeName}：由主题线索组成的路线与花瓣视觉，${motifText}`;
+  const captionTitle = isPending ? "视觉方向待确认" : themeName;
+  const captionText = isPending ? "待补充新人 Profile 与婚礼主题" : motifText;
+  const routePath = {
+    route: "M28 150 C118 150 132 54 232 72 S332 188 432 116 S484 88 512 46",
+    wave: "M28 142 C112 48 190 198 282 100 S430 52 512 118",
+    orbit: "M28 146 C82 68 180 34 260 98 C334 162 414 164 512 64",
+    bloom: "M28 170 C92 154 118 106 170 118 C222 132 266 100 310 72"
+  }[modeA] || "M28 150 C118 150 132 54 232 72 S332 188 432 116 S484 88 512 46";
+  const bloomPath = {
+    bloom: "M304 178 C336 130 356 112 382 94 C414 72 452 74 482 46",
+    orbit: "M286 176 C318 72 428 44 482 110 C520 156 446 198 374 162",
+    wave: "M296 170 C344 110 354 168 402 106 S452 58 488 82",
+    route: "M292 172 L344 126 L386 132 L428 76 L482 46"
+  }[modeB] || "M304 178 C336 130 356 112 382 94 C414 72 452 74 482 46";
+  const petals = [
+    [402, 74, -26], [425, 62, 18], [447, 78, 54], [421, 88, 92], [398, 94, 144]
+  ].map(([cx, cy, rotation]) => `<ellipse cx="${cx}" cy="${cy}" rx="13" ry="27" transform="rotate(${rotation} ${cx} ${cy})"></ellipse>`).join("");
+  const grid = Array.from({ length: 7 }, (_, index) => `<line x1="${56 + index * 68}" y1="22" x2="${56 + index * 68}" y2="190"></line>`).join("");
+  const horizontalGrid = Array.from({ length: 4 }, (_, index) => `<line x1="24" y1="${50 + index * 44}" x2="520" y2="${50 + index * 44}"></line>`).join("");
+  return `<section class="theme-visual" data-profile-a="${escapeHtml(cueA)}" data-profile-b="${escapeHtml(cueB)}" data-mode-a="${escapeHtml(modeA)}" data-mode-b="${escapeHtml(modeB)}" data-pending="${isPending}" data-theme="${escapeHtml(themeName)}" style="--theme-base-color:${palette[0]};--theme-ink-color:${palette[1]};--theme-accent-a:${palette[2]};--theme-accent-b:${palette[3]}">
+  <div class="theme-visual-header"><span class="theme-visual-person theme-visual-person-a"><strong>${escapeHtml(cueA)}</strong><small>${escapeHtml(isPending ? "待确认" : hasProfileFacts ? visualModeLabel(modeA) : "主题线索")}</small></span><span class="theme-visual-join" aria-hidden="true">×</span><span class="theme-visual-person theme-visual-person-b"><strong>${escapeHtml(cueB)}</strong><small>${escapeHtml(isPending ? "待确认" : hasProfileFacts ? visualModeLabel(modeB) : "主题线索")}</small></span></div>
+  <div class="theme-visual-stage"><svg viewBox="0 0 540 210" role="img" aria-label="${escapeHtml(ariaLabel)}">
+    <g class="theme-grid" aria-hidden="true">${grid}${horizontalGrid}</g>
+    <path class="theme-route" d="${routePath}"></path>
+    <path class="theme-route theme-route-secondary" d="${bloomPath}"></path>
+    <g class="theme-bloom" aria-hidden="true">${petals}<circle cx="422" cy="78" r="9"></circle></g>
+    <circle class="theme-node theme-node-a" cx="232" cy="72" r="8"></circle>
+    <circle class="theme-node theme-node-b" cx="422" cy="78" r="8"></circle>
+    <circle class="theme-node theme-node-shared" cx="374" cy="162" r="6"></circle>
+  </svg><span class="theme-visual-label theme-visual-label-a">${escapeHtml(cueA)}</span><span class="theme-visual-label theme-visual-label-b">${escapeHtml(cueB)}</span></div>
+  <p class="theme-visual-caption"><strong>${escapeHtml(captionTitle)}</strong><span>${escapeHtml(captionText)}</span></p>
+</section>`;
+}
+
+function renderVisualPreferenceOptions(design) {
+  const selectedId = design?.visualPreference?.confirmed === true ? design.visualPreference.id : "";
+  return VISUAL_PALETTE_OPTIONS.map((option) => {
+    const [base, ink, accentA, accentB] = option.colors;
+    const checked = selectedId === option.id ? " checked" : "";
+    return `<label class="visual-preference-card" data-palette-id="${option.id}" style="--option-base:${base};--option-ink:${ink};--option-accent-a:${accentA};--option-accent-b:${accentB}"><input type="radio" name="visualPreference" value="${option.id}"${checked}><span class="visual-preference-art" aria-hidden="true"><span class="visual-preference-grid"></span><span class="visual-preference-route"></span><span class="visual-preference-bloom"></span><span class="visual-preference-swatches"><i></i><i></i><i></i><i></i></span></span><span class="visual-preference-copy"><strong>${escapeHtml(option.label)}</strong><small>${escapeHtml(option.description)}</small><em>${escapeHtml(option.motif)}</em></span></label>`;
+  }).join("\n");
+}
+
+function visualPreferenceJson(design) {
+  const selectedId = design?.visualPreference?.confirmed === true ? design.visualPreference.id : null;
+  return VISUAL_PALETTE_OPTIONS.map((option) => ({
+    ...option,
+    selected: option.id === selectedId
+  }));
 }
 
 function render(templatePath, replacements) {
@@ -330,6 +498,7 @@ function createProject({ assetRoot, outputRoot, brief }) {
   const venue = brief.event?.venue || {};
   const design = brief.design || {};
   const theme = design.theme || {};
+  const visualPreferenceStorageKey = `${STORAGE_KEY_PREFIX}visualPreference.${hashString(path.resolve(outputRoot))}`;
   const storyArc = brief.couple?.story?.relationshipArc;
   const confirmedStory = brief.couple?.story?.confirmedCopy;
   const replacements = {
@@ -347,6 +516,12 @@ function createProject({ assetRoot, outputRoot, brief }) {
     THEME_NAME: display(theme.name, "婚礼主题待确认"),
     THEME_DESCRIPTION: display(theme.description, display(design.texture, "主题描述待确认")),
     THEME_TOKENS_HTML: renderThemeTokens(design),
+    THEME_VISUAL_HTML: renderThemeVisual(design, brief.couple),
+    VISUAL_PREFERENCE_OPTIONS_HTML: renderVisualPreferenceOptions(design),
+    VISUAL_PREFERENCE_JSON: jsonForScript(visualPreferenceJson(design)),
+    VISUAL_PREFERENCE_STORAGE_KEY: jsonForScript(visualPreferenceStorageKey),
+    VISUAL_PREFERENCE_BRIEF_ID: jsonForScript(design.visualPreference?.id || null),
+    VISUAL_PREFERENCE_BRIEF_CONFIRMED: JSON.stringify(design.visualPreference?.confirmed === true),
     EVENT_DATE: display(brief.event?.date, "日期待确认"),
     EVENT_FORMAT: display(brief.event?.format, "婚礼形式待确认"),
     VENUE: display(venue.shortName, "场地待确认"),
@@ -358,7 +533,7 @@ function createProject({ assetRoot, outputRoot, brief }) {
     GUEST_CONTRIBUTIONS_HTML: renderGuestContributions(guestContributions),
     GUEST_CONTRIBUTIONS_JSON: jsonForScript(guestContributions)
   };
-  for (const file of ["index.html", "styles.css", "app.js", "admin.html", "admin.js"]) {
+  for (const file of ["index.html", "styles.css", "app.js", "admin.html", "admin.js", "visual-preferences.html"]) {
     fs.copyFileSync(path.join(templateRoot, file), path.join(outputRoot, file));
     const rendered = render(path.join(templateRoot, file), replacements);
     fs.writeFileSync(path.join(outputRoot, file), rendered, "utf8");
@@ -374,6 +549,7 @@ function createProject({ assetRoot, outputRoot, brief }) {
     "share cards, /notice/ page, and cloud backend",
     "EXIF cleanup, compression, and image size limits"
   ];
+  if (!brief.design?.visualPreference?.id || brief.design.visualPreference.confirmed !== true) pending.push("visual preference selection from the visual board");
   if (brief.workflow?.briefConfirmed !== true) pending.unshift("brief confirmation");
   if (Array.isArray(brief.pending)) pending.push(...brief.pending.map(String));
   fs.writeFileSync(path.join(outputRoot, "release-record.json"), JSON.stringify({
@@ -386,7 +562,7 @@ function createProject({ assetRoot, outputRoot, brief }) {
     checks: [{ scenario: "local static generation", result: "generated", evidence: "Run the bundled tests and serve this directory with a static HTTP server." }],
     pending: [...new Set(pending)]
   }, null, 2) + "\n");
-  return { files: ["index.html", "styles.css", "app.js", "admin.html", "admin.js", "asset-manifest.json", "brief.json", "release-record.json"], warnings };
+  return { files: ["index.html", "styles.css", "app.js", "admin.html", "admin.js", "visual-preferences.html", "asset-manifest.json", "brief.json", "release-record.json"], warnings };
 }
 
 function main(argv = process.argv.slice(2)) {

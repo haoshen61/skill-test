@@ -1,0 +1,464 @@
+{
+  "version": "0.1",
+  "items": [
+    {
+      "id": "contact-sheet-jpg",
+      "path": "contact-sheet.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "contact-sheet",
+      "source": "derived from generated demo assets",
+      "bytes": 63167,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "抽象演示素材缩略总览，便于现场讲解；不是页面运行时资源。",
+      "usedBy": [
+        "competition-demo"
+      ],
+      "notes": "不含人物、姓名、日期、地址或二维码；不加入生产 runtimeFiles。"
+    },
+    {
+      "id": "cover-card-cover-source-jpg",
+      "path": "cover/card-cover-source.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "share-card-source",
+      "source": "generated abstract horizontal card source study",
+      "bytes": 46550,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字的横向卡片源图示例，用于解释源图与分享衍生图的区别。",
+      "usedBy": [
+        "wechat-share-card",
+        "asset-pipeline"
+      ],
+      "notes": "不含真实人物或事件信息。"
+    },
+    {
+      "id": "cover-invitation-cover-jpg",
+      "path": "cover/invitation-cover.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "invitation-cover",
+      "source": "generated abstract geometric invitation cover",
+      "bytes": 39191,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字、无人物的纵向米色弥散封面示例。",
+      "usedBy": [
+        "cover",
+        "mobile-preview"
+      ],
+      "notes": "可在本地演示中裁切或调色；不含任何真实婚礼事实。"
+    },
+    {
+      "id": "cover-share-preview-card-jpg",
+      "path": "cover/share-preview-card.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "share-card",
+      "source": "generated abstract square share-card study",
+      "bytes": 36448,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字的方形分享卡片示例，用于说明分享图与封面图是不同资源。",
+      "usedBy": [
+        "wechat-share-card",
+        "og-metadata",
+        "contact-sheet"
+      ],
+      "notes": "仅作本地演示，实际微信卡片仍需在目标项目中配置和验证。"
+    },
+    {
+      "id": "gallery-scene-0-jpg",
+      "path": "gallery/scene-0.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 0",
+      "bytes": 29281,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 0，作为默认首图示例。",
+      "usedBy": [
+        "story-page",
+        "mobile-gallery",
+        "fallback-image"
+      ],
+      "notes": "无人物、文字、日期、地址或二维码；保持原比例展示。"
+    },
+    {
+      "id": "gallery-scene-1-jpg",
+      "path": "gallery/scene-1.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 1",
+      "bytes": 29791,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 1。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-2-jpg",
+      "path": "gallery/scene-2.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 2",
+      "bytes": 29427,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 2。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-3-jpg",
+      "path": "gallery/scene-3.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 3",
+      "bytes": 27274,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 3。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-4-jpg",
+      "path": "gallery/scene-4.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 4",
+      "bytes": 30877,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 4。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-5-jpg",
+      "path": "gallery/scene-5.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 5",
+      "bytes": 29011,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 5。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-6-jpg",
+      "path": "gallery/scene-6.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 6",
+      "bytes": 27848,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 6。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "music-0902-mp3",
+      "path": "music/0902.mp3",
+      "role": "audio",
+      "mediaType": "audio",
+      "assetRole": "background-music",
+      "source": "music/0902.mp3",
+      "bytes": 2206456,
+      "privacy": "audio-demo",
+      "license": "user-provided; public performance and redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "背景音乐交互演示文件。",
+      "usedBy": [
+        "music-toggle",
+        "autoplay-fallback"
+      ],
+      "notes": "仅用于本地演示；公开上线前必须替换为已获授权的音频或取得明确许可。"
+    },
+    {
+      "id": "open-candidates-cover-mistletoe-jpg",
+      "path": "open-candidates/cover-mistletoe.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "optional-visual-reference",
+      "source": "https://commons.wikimedia.org/wiki/File:Spiritofthewoods_mistletoe_s6.jpg",
+      "bytes": 125327,
+      "privacy": "public-domain-reference",
+      "license": "Public domain (PD-old-70 / CC-PD-Mark; verify before publication)",
+      "allowedTransformations": [],
+      "description": "可选的槲寄生植物学插图封面候选。",
+      "usedBy": [
+        "optional-cover-review"
+      ],
+      "notes": "不含人物、姓名、日期或地址；默认 brief 不选用，不进入生产 runtimeFiles。"
+    },
+    {
+      "id": "open-candidates-gallery-01-vase-jpg",
+      "path": "open-candidates/gallery-01-vase.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "optional-visual-reference",
+      "source": "https://commons.wikimedia.org/wiki/File:Diverse_flower_vase_(Unsplash).jpg",
+      "bytes": 113858,
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "allowedTransformations": [],
+      "description": "可选的花瓶相册候选。",
+      "usedBy": [
+        "optional-gallery-review"
+      ],
+      "notes": "不含人物或可读个人信息；默认 brief 不选用。"
+    },
+    {
+      "id": "open-candidates-gallery-02-white-bouquet-jpg",
+      "path": "open-candidates/gallery-02-white-bouquet.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "optional-visual-reference",
+      "source": "https://commons.wikimedia.org/wiki/File:White_floral_bouquet_in_sunlight_(Unsplash).jpg",
+      "bytes": 102239,
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "allowedTransformations": [],
+      "description": "可选的白色花束相册候选。",
+      "usedBy": [
+        "optional-gallery-review"
+      ],
+      "notes": "不含人物或可读个人信息；默认 brief 不选用。"
+    },
+    {
+      "id": "open-candidates-gallery-03-prisms-jpg",
+      "path": "open-candidates/gallery-03-prisms.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "optional-visual-reference",
+      "source": "https://commons.wikimedia.org/wiki/File:Flower_bouquet_and_prisms_(Unsplash).jpg",
+      "bytes": 78887,
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "allowedTransformations": [],
+      "description": "可选的花束与几何棱镜相册候选。",
+      "usedBy": [
+        "optional-gallery-review"
+      ],
+      "notes": "不含人物或可读个人信息；默认 brief 不选用。"
+    },
+    {
+      "id": "open-candidates-share-card-floral-jpg",
+      "path": "open-candidates/share-card-floral.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "optional-visual-reference",
+      "source": "https://commons.wikimedia.org/wiki/File:White_floral_bouquet_in_sunlight_(Unsplash).jpg",
+      "bytes": 183419,
+      "privacy": "open-license-reference",
+      "license": "CC0 (verify source page before publication)",
+      "allowedTransformations": [],
+      "description": "可选的花束分享卡片候选。",
+      "usedBy": [
+        "optional-share-card-review"
+      ],
+      "notes": "不含人物或个人资料；默认 brief 不选用。"
+    },
+    {
+      "id": "palette-color-theme-png",
+      "path": "palette/color-theme.png",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "color-palette",
+      "source": "color palette/color theme.png",
+      "bytes": 1070230,
+      "privacy": "design-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "主色与局部重点色的色卡，包含浅米、咖色、粉色、蓝色和少量绿色；可见参考色包括 #8C6A56、#C4A381、#6D8EAD。",
+      "usedBy": [
+        "design-brief",
+        "theme-tokens"
+      ],
+      "notes": "仅作色彩参考，不进入相册或生产运行时；图片中的第三方署名按参考资料处理。"
+    },
+    {
+      "id": "palette-palette-cover-jpg",
+      "path": "palette/palette-cover.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "color-palette-cover",
+      "source": "generated abstract geometric palette study",
+      "bytes": 37336,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字的横向色板与弧线质感图，使用浅米、咖色、粉色、蓝色和少量绿色。",
+      "usedBy": [
+        "design-brief",
+        "contact-sheet"
+      ],
+      "notes": "不含人物、姓名、日期、地址或二维码；已重新编码并清除源元数据。"
+    },
+    {
+      "id": "references-reference-editorial-01-jpg",
+      "path": "references/reference-editorial-01.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "visual-reference",
+      "source": "visual references/_ (1).jpeg",
+      "bytes": 110910,
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "编辑感、纵向排版和几何留白参考。",
+      "usedBy": [
+        "preference-intake",
+        "design-brief"
+      ],
+      "notes": "仅用于内部比赛演示；图片中的地址、账号或二维码不应被当作项目事实。"
+    },
+    {
+      "id": "references-reference-editorial-02-jpg",
+      "path": "references/reference-editorial-02.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "visual-reference",
+      "source": "visual references/_ (2).jpeg",
+      "bytes": 70150,
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "柔和色块、纸张质感和局部高对比参考。",
+      "usedBy": [
+        "preference-intake",
+        "design-brief"
+      ],
+      "notes": "仅用于内部比赛演示，不作为运行时相册。"
+    },
+    {
+      "id": "references-reference-peace-jpg",
+      "path": "references/reference-peace.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "visual-reference",
+      "source": "visual references/Peace in the stillness.jpeg",
+      "bytes": 106880,
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "安静、留白、柔和弥散的构图参考。",
+      "usedBy": [
+        "preference-intake",
+        "design-brief"
+      ],
+      "notes": "仅用于内部风格讨论，不作为运行时素材。"
+    },
+    {
+      "id": "references-reference-portfolio-jpg",
+      "path": "references/reference-portfolio.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "visual-reference",
+      "source": "visual references/portfolio reference.jpeg",
+      "bytes": 168939,
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "作品集式信息层级、窄栏和图片/文字关系参考。",
+      "usedBy": [
+        "preference-intake",
+        "design-brief"
+      ],
+      "notes": "仅用于内部比赛演示，不作为运行时相册。"
+    },
+    {
+      "id": "typography-type-reference-02-jpg",
+      "path": "typography/type-reference-02.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "typography-reference",
+      "source": "font/Font style reference2.JPG",
+      "bytes": 111265,
+      "privacy": "typography-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "细衬线与宽松留白的排版参考。",
+      "usedBy": [
+        "type-scale",
+        "design-brief"
+      ],
+      "notes": "仅用于排版讨论；不把图中账号、二维码或机构信息写入 brief。"
+    },
+    {
+      "id": "typography-type-reference-03-jpg",
+      "path": "typography/type-reference-03.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "typography-reference",
+      "source": "font/Font style reference3.JPG",
+      "bytes": 92340,
+      "privacy": "typography-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "中文细字重、纵向节奏和装饰性英文参考。",
+      "usedBy": [
+        "type-scale",
+        "design-brief"
+      ],
+      "notes": "仅用于排版讨论，不作为运行时图片。"
+    },
+    {
+      "id": "typography-type-reference-04-jpg",
+      "path": "typography/type-reference-04.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "typography-reference",
+      "source": "font/Font style reference4.jpeg",
+      "bytes": 62544,
+      "privacy": "typography-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "allowedTransformations": [],
+      "description": "轻盈英文与中文信息并置参考。",
+      "usedBy": [
+        "type-scale",
+        "design-brief"
+      ],
+      "notes": "仅用于排版讨论，不作为运行时图片。"
+    }
+  ],
+  "warnings": []
+}

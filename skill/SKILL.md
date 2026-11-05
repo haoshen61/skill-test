@@ -9,7 +9,7 @@ Turn a wedding invitation request and a directory of user-provided assets into a
 
 ## Start here
 
-Treat the current conversation as the source of facts. Treat the workspace as an asset directory unless the user explicitly identifies an existing application. Scan assets before proposing layout. Ask only for facts that affect the output: names and optional profile cues, confirmed date/time/venue, story, copy, visual theme, personalized guest information, asset permissions, interaction needs, and whether production release is authorized.
+Treat the current conversation as the source of facts. Treat the workspace as an asset directory unless the user explicitly identifies an existing application. Scan assets before proposing layout. Ask only for facts that affect the output: names and optional profile cues, confirmed date/time/venue, story, copy, visual theme, personalized guest information, asset permissions, interaction needs, and whether production release is authorized. When the user has no clear color or texture preference, show a small visual preference board with swatches and miniature compositions; ask them to choose by appearance before naming a palette in the brief.
 
 Do not invent a name, date, address, license, privacy permission, or deployment target. Mark unknown facts `null` or `pending`. Do not print or copy secrets.
 
@@ -23,11 +23,11 @@ Ask whether the user is making a future invitation, a retrospective/thank-you pa
 
 ### 2. Collect facts
 
-Ask one question at a time, in this order: event date/time/timezone and format; venue short name, room and address; couple names and optional identity cues; relationship copy; visual theme and preferences; which guest information or messages would be meaningful beyond RSVP; asset permissions; Git/backend/domain and release scope. Echo each answer and mark conflicts instead of guessing.
+Ask one question at a time, in this order: event date/time/timezone and format; venue short name, room and address; couple names and optional identity cues; relationship copy; visual theme and preferences (use the visual board when the user cannot name colors); which guest information or messages would be meaningful beyond RSVP; asset permissions; Git/backend/domain and release scope. Echo each answer and mark conflicts instead of guessing.
 
 ### 3. Draft the brief
 
-Create a draft containing `mode`, `couple`, `event`, `design`, `sections`, `gallery`, `interaction`, `authorization`, and `workflow`. Preserve profile cues under `couple.partnerA`/`couple.partnerB` and the named theme under `design.theme`; keep unknown facts `null` or `pending`. Store personalized non-RSVP prompts in `interaction.guestContributions` as an array of `{ id, title, description, submitLabel, storageKey, fields }` objects. Set `workflow.phase` to `brief-draft` and list unresolved questions in the brief or a companion note.
+Create a draft containing `mode`, `couple`, `event`, `design`, `sections`, `gallery`, `interaction`, `authorization`, and `workflow`. Preserve profile cues under `couple.partnerA`/`couple.partnerB` and the named theme under `design.theme`; keep unknown facts `null` or `pending`. Record an appearance-based palette choice as `design.visualPreference` (`id`, `label`, `colors`, `selectionMode: "visual"`, `confirmed`) and the profession/theme relationship as `design.visualLanguage` (`partnerA`, `partnerB`, `shared`). Do not infer a favorite color from a filename or reference image without showing the user the visual option. Store personalized non-RSVP prompts in `interaction.guestContributions` as an array of `{ id, title, description, submitLabel, storageKey, fields }` objects. Set `workflow.phase` to `brief-draft` and list unresolved questions in the brief or a companion note.
 
 ### 4. Review assets and permissions
 
@@ -35,11 +35,11 @@ Scan and show the source manifest before using images or audio. Confirm which fi
 
 ### 5. Confirm the brief
 
-Present the complete design brief, selected gallery paths, copy, interaction contract, and pending items. **STOP and wait for an explicit confirmation** such as “确认/按这个生成”. Only then set `workflow.briefConfirmed: true` and `workflow.phase: "brief-confirmed"`. If the user changes a fact, return to stages 2–5 and do not generate the previous brief.
+Present the complete design brief, the selected visual preference card and its swatches, selected gallery paths, copy, interaction contract, and pending items. **STOP and wait for an explicit confirmation** such as “确认/按这个生成”. Only then set `workflow.briefConfirmed: true` and `workflow.phase: "brief-confirmed"`. If the user changes a fact, return to stages 2–5 and do not generate the previous brief.
 
 ### 6. Generate the local invitation
 
-Run the portable generator with the confirmed brief. The default output is a future invitation; recap behavior is opt-in through `mode`. The invitation renders the confirmed couple profile, story copy, and named visual theme instead of leaving those facts only in JSON. Rendered guest pages contain invitation content rather than internal delivery caveats; local-storage and production boundaries stay in `release-record.json`, the admin demo, and the evidence. Keep the source workspace unchanged. A draft generated before stage 5 is only a preview for inspection and must not be presented as the confirmed delivery.
+Run the portable generator with the confirmed brief. The default output is a future invitation; recap behavior is opt-in through `mode`. The invitation renders the confirmed couple profile, story copy, and named visual theme instead of leaving those facts only in JSON. Its theme panel uses the profile cues and theme motifs to draw a profession-aware route/bloom visual with a static first frame and reduced-motion fallback; do not substitute an unrelated code-window or generic illustration when the profile calls for another metaphor. Rendered guest pages contain invitation content rather than internal delivery caveats; local-storage and production boundaries stay in `release-record.json`, the admin demo, and the evidence. Keep the source workspace unchanged. A draft generated before stage 5 is only a preview for inspection and must not be presented as the confirmed delivery.
 
 ### 7. Run mobile and desktop QA
 
@@ -57,13 +57,17 @@ Read [references/portable-runtime.md](references/portable-runtime.md), then run 
 node <skill-directory>/scripts/create-invitation.js --assets <workspace> --out <workspace>/.wedding-invitation
 ```
 
-Use `--brief <file>` only after the user has reviewed or supplied the facts. The generator ignores hidden files, credentials, unsupported files, and source directories it cannot classify. It writes `asset-manifest.json`, `brief.json`, `release-record.json`, `index.html`, `styles.css`, `app.js`, and classified copies under `assets/` for local review. It never edits the source asset directory, and it does not treat those copies as publicly approved.
+Use `--brief <file>` only after the user has reviewed or supplied the facts. The generator ignores hidden files, credentials, unsupported files, and source directories it cannot classify. It writes `asset-manifest.json`, `brief.json`, `release-record.json`, `index.html`, `styles.css`, `app.js`, `visual-preferences.html`, and classified copies under `assets/` for local review. It never edits the source asset directory, and it does not treat those copies as publicly approved.
 
 When the asset workspace contains a `manifest.json`, the generator carries its per-file role, privacy, license, usage, and notes into `asset-manifest.json` while keeping media type separate. After manual review, set `gallery.paths` in the confirmed brief to the wedding images that may appear in the runtime gallery. The scanner may copy every supported source item for local review, but only the explicitly selected paths become gallery slides.
 
 When RSVP is enabled, the local demo updates an existing record matching `guestName` and `contactSuffix`; this is a browser-local demonstration of the conversation contract. Production authentication, concurrency safety, and cloud persistence remain pending. For other guest information, configure `interaction.guestContributions` with personalized fields such as a blessing, meal preference, transportation need, or photo request. Each configured contribution gets its own local-storage key and form; the generator does not assume that guests should request songs. Use `interaction.backgroundMusic` for background audio. A legacy point-song brief remains supported when it supplies `interaction.musicRequest`, but it is not the default.
 
-The default visual contract is a future invitation: show the invitation title and confirmed event information first, then the couple profile/story, named wedding theme, selected gallery, RSVP, configured guest contributions, and an optional thank-you section. Keep loading, empty, and failed image states separate; a loading state must not flash a fallback portrait. Use a single column at phone widths, keyboard controls, visible focus, and reduced-motion support. Only an explicit `mode: "recap"` or `mode: "retrospective"` switches to a completed-wedding thank-you hero and invitation reveal.
+Contribution IDs must be unique safe identifiers, and their storage keys must stay in the `weddingInvitation.` namespace without reusing `weddingInvitation.rsvp` or the visual-preference key space. The local admin demo stores records in a null-prototype map so a guest-provided ID cannot mutate the object prototype.
+
+When visual preference is unresolved, open the generated `visual-preferences.html` before confirming the brief. It presents four appearance-first cards with color swatches and a miniature route/bloom composition, stores the selected card under a generated-output-scoped browser `localStorage` key, and exposes a copyable JSON payload for `design.visualPreference`. Malformed or unavailable local storage must leave the board and copy action usable; a confirmed brief selection takes priority over stale local state. A visual selection is a preference signal, not publication permission; keep `authorization.publish` false until separately authorized.
+
+The default visual contract is a future invitation: show the invitation title and confirmed event information first, then the couple profile/story, named wedding theme with its profile-driven visual, selected gallery, RSVP, configured guest contributions, and an optional thank-you section. Keep loading, empty, and failed image states separate; a loading state must not flash a fallback portrait. Use a single column at phone widths, keyboard controls, visible focus, and reduced-motion support. Only an explicit `mode: "recap"` or `mode: "retrospective"` switches to a completed-wedding thank-you hero and invitation reveal.
 
 ## Review and release
 

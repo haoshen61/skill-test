@@ -44,6 +44,8 @@ EventDetails
 
 DesignBrief
   theme: { name?, description?, motifs[] }
+  visualLanguage: { partnerA?, partnerB?, shared[] }
+  visualPreference: { id?, label?, colors[], selectionMode: visual, confirmed: boolean }
   basePalette: { name, colors[] }
   accentPalette: { colors[], maxShare? }
   texture: paper | grain | diffusion | none
@@ -57,7 +59,7 @@ GuestContribution
   title: guest-facing heading
   description?: short explanation
   submitLabel?: button text
-  storageKey: browser-local demo key
+  storageKey: unique `weddingInvitation.` browser-local demo key; reserve RSVP and visual-preference keys
   fields: [{ name, label, type, required?, maxLength?, placeholder? }]
 
 AssetCatalog
@@ -90,11 +92,12 @@ ReleaseRecord
 ### 生成结果
 
 1. 设计 brief 与待确认项清单。
-2. 邀请函前端：封面、新人 Profile/故事、婚礼主题、婚礼详情、RSVP、按 brief 配置的宾客留言、感谢页等模块。
-3. 本地运行入口与手机验收记录。
-4. RSVP 管理页面、导出文件和数据模型说明。
-5. 分享卡片检查结果（Open Graph、Twitter、Schema、正文首图、绝对 HTTPS URL、构建白名单）。
-6. 可选的部署计划和部署记录；没有明确授权时只生成构建目录，不上传生产。
+2. 邀请函前端：封面、新人 Profile/故事、由职业隐喻和主题 motifs 生成的婚礼主题视觉、婚礼详情、RSVP、按 brief 配置的宾客留言、感谢页等模块。
+3. 未明确颜色时的视觉偏好板：四张带色块和微型构图的卡片，可将选择结果回填 `design.visualPreference`。
+4. 本地运行入口与手机验收记录。
+5. RSVP 管理页面、导出文件和数据模型说明。
+6. 分享卡片检查结果（Open Graph、Twitter、Schema、正文首图、绝对 HTTPS URL、构建白名单）。
+7. 可选的部署计划和部署记录；没有明确授权时只生成构建目录，不上传生产。
 
 ## 4. 对话式采集流程
 
@@ -103,7 +106,7 @@ ReleaseRecord
 1. **事件骨架**：日期、时区、婚礼形式、签到/仪式时间、场地短名。
 2. **新人身份**：姓名、希望显示的职业/兴趣、是否需要 MBTI 或其他标签。
 3. **关系叙事**：相遇时间、关系弧线、希望保留的一句话；不要求用户提供隐私细节。
-4. **视觉方向**：主色、重点色占比、质感、构图、动效、字体和参考图。
+4. **视觉方向**：主色、重点色占比、质感、构图、动效、字体和参考图；如果无法用文字说明，先展示视觉偏好板让用户按色块与构图选择。
 5. **互动需求**：只登记出席还是还要收集祝福、忌口、交通、合影等个性化信息；是否点歌、是否需要照片墙和后台。
 6. **资产授权**：哪些图片/音乐可进入仓库，是否允许裁切、调色、压缩或第三方/AI 处理。
 7. **运行条件**：是否有 Git 远程仓库、CloudBase/其他后端、域名，以及是否已经授权生产发布。
@@ -117,7 +120,7 @@ ReleaseRecord
 
 ### 本项目作为演示样例（不是默认配置）
 
-历史项目曾提供过两种职业语言、浅米色主色、咖色结构色、少量粉蓝重点色、细宋体与 Avenir、代码与插画并置、手机优先等设计线索；通用 Skill 不写入真实姓名、MBTI、职业、日期或场地，演示时仍应逐项追问并标记待确认。生成页面必须把用户确认的 Profile 和主题内容落地到可见区块，而不是只写进 brief。
+历史项目曾提供过两种职业语言、浅米色主色、咖色结构色、少量粉蓝重点色、细宋体与 Avenir、手机优先等设计线索；通用 Skill 不写入真实姓名、MBTI、职业、日期或场地，演示时仍应逐项追问并标记待确认。生成页面必须把用户确认的 Profile 和主题内容落地到可见区块，而不是只写进 brief。表达方式要随当前职业调整，不默认套用代码窗口或泛化人物插画。
 
 ## 5. 视觉与内容适配器
 
@@ -125,11 +128,11 @@ ReleaseRecord
 
 - **色彩**：米色作为大面积底色；咖色承担正文、边框和主要结构；粉色/蓝色只用于按钮、时间、标签或局部图形。通过透明度、纸张颗粒和圆弧/弥散层制造层次，避免斜切色块造成割裂。
 - **字体**：中文优先细宋体/STSong，英文使用 Avenir；SnellRoundhand 仅作少量装饰性短语或署名。字体加载失败时必须有系统回退。
-- **叙事**：程序员部分可用逐字出现的代码表现秩序与时间；插画师部分用图像、留白和颜色表达感受。职业是叙事语言，不是未经确认的职业事实。
+- **职业隐喻**：从 `couple.partnerA`/`partnerB` 的职业或身份线索和 `design.theme.motifs` 共同提炼 `design.visualLanguage`。例如城市规划师可用网格、路线和节点，花艺师可用枝叶、弧线和花瓣；职业不适合这些形状时先询问或改用中性几何。职业只是用户确认的叙事线索，不是未经确认的性格定论。
 - **结构**：封面 → 新人 Profile/故事 → 婚礼主题 → 婚礼信息与地图 → RSVP → 个性化宾客留言 → 感谢/回顾；如果启用婚礼回顾入口，首屏可以先展示回顾/照片墙，再由按钮进入封面。桌面可双栏，手机必须单栏且不横向溢出。
 - **回顾入口**：感谢所有关注、陪伴和送上祝福的朋友；不把感谢限定为到场宾客。先显示感谢文字和翻页照片，用户点击后才展开原请柬并移动焦点。手机按文字、足宽相册、继续按钮排列，不能仅缩小桌面双栏。
 - **相册状态**：区分请求中、有图片、空列表、失败。请求中显示中性加载占位并禁用翻页，不能先渲染私人图片再替换；只在确认空列表或失败后使用约定回退，首张已批准图片优先加载。
-- **动效**：打字机、弥散渐变、滑动相册都要有静态首屏和 `prefers-reduced-motion` 降级。
+- **动效**：路线绘制、花瓣展开、弥散渐变和滑动相册都要有静态首屏和 `prefers-reduced-motion` 降级。没有明确颜色时先提供视觉卡片，让用户依据色块、留白和构图选择，再把 `design.visualPreference` 写入 brief。
 
 ### 资产处理边界
 
@@ -147,12 +150,12 @@ ReleaseRecord
 - RSVP 字段：姓名、手机号后四位（或用户批准的身份键）、出席大人人数；默认不出现“无法参加”选项。
 - 相同身份再次提交时执行幂等更新，不新增重复行。
 - 默认不保存完整手机号、不保存原始 IP；管理接口需要会话认证、限流和审计日志。
-- `guestContributions` 字段由 brief 配置，例如署名/祝福、忌口、交通需求或合影意愿；点歌可以作为一个显式配置的贡献项，不能作为所有邀请函的默认假设。
+- `guestContributions` 字段由 brief 配置，例如署名/祝福、忌口、交通需求或合影意愿；点歌可以作为一个显式配置的贡献项，不能作为所有邀请函的默认假设。每个贡献项使用唯一的 `weddingInvitation.` 本地键，不能复用 RSVP 或视觉偏好键空间。
 - 管理页：总人数、按状态/姓名筛选、查看每个配置的宾客贡献、编辑、导出 CSV；真实生产后台的审核和权限按 provider 适配，测试记录按当前部署策略标记取消或清理，不把不存在的硬删除能力写成默认合同。
 
 ### 可替换边界
 
-页面只依赖 `RsvpStore`、`GuestContributionStore` 和 `DeploymentAdapter` 接口。演示默认使用浏览器 `localStorage`，生产可替换为 CloudBase 云函数 + PostgreSQL，或经审查的其他后端；不要让页面直接连接数据库。
+页面只依赖 `RsvpStore`、`GuestContributionStore` 和 `DeploymentAdapter` 接口。演示默认使用浏览器 `localStorage`；视觉偏好板按生成目录隔离存储并对损坏/不可写状态降级，生产可替换为 CloudBase 云函数 + PostgreSQL，或经审查的其他后端；不要让页面直接连接数据库。
 
 ### 动态照片合同
 

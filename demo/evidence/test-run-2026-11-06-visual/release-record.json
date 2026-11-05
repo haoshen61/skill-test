@@ -1,0 +1,56 @@
+{
+  "version": "0.1",
+  "source": {
+    "commit": null,
+    "remoteCommit": null,
+    "verifiedAt": null
+  },
+  "authorization": {
+    "assets": "local-demo-approved",
+    "publish": false,
+    "publicRedistribution": false,
+    "transformations": [
+      "local demo compression/EXIF removal already present in supplied assets"
+    ]
+  },
+  "backend": {
+    "provider": null,
+    "migrations": [],
+    "functionRevision": null,
+    "checks": []
+  },
+  "frontend": {
+    "provider": null,
+    "deploymentId": null,
+    "url": null,
+    "rollbackVersion": null
+  },
+  "workflow": {
+    "mode": "invitation",
+    "phase": "brief-confirmed",
+    "briefConfirmed": true,
+    "releaseAuthorized": false
+  },
+  "checks": [
+    {
+      "scenario": "local static generation",
+      "result": "generated",
+      "evidence": "Run the bundled tests and serve this directory with a static HTTP server."
+    }
+  ],
+  "pending": [
+    "approved assets",
+    "confirmed event facts",
+    "production target",
+    "production RSVP idempotency and authenticated storage",
+    "music auto-play and low-volume cross-browser strategy",
+    "share cards, /notice/ page, and cloud backend",
+    "EXIF cleanup, compression, and image size limits",
+    "如果换用未提供职业线索的 Profile，需要重新确认职业隐喻",
+    "times、mapUrl、MBTI 和职业字段目前只记录在 brief",
+    "生产级 RSVP 认证、幂等、CSV 导出和云端数据库",
+    "音乐自动播放与低音量跨浏览器策略",
+    "分享卡片、/notice/ 页面和 CloudBase/Cloudflare 发布",
+    "EXIF 清理、压缩和尺寸限制的生产流水线"
+  ]
+}

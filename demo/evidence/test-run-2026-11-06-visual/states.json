@@ -1,0 +1,28 @@
+{
+  "visual": {
+    "theme": "城市路径与花瓣",
+    "profileA": "城市规划师",
+    "profileB": "花艺师",
+    "modes": ["route", "bloom"],
+    "pendingWithoutFacts": true,
+    "motifs": [
+      "城市路径",
+      "植物弧线",
+      "花瓣节点"
+    ]
+  },
+  "preference": {
+    "cards": [
+      "paper-route",
+      "moss-bloom",
+      "ink-orchid",
+      "sunset-garden"
+    ],
+    "selected": "moss-bloom"
+  },
+  "responsive": {
+    "mobile": "390×844 no overflow",
+    "desktop": "1440×900 no overflow",
+    "reducedMotion": "route/bloom animations disabled"
+  }
+}

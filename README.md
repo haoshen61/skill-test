@@ -48,7 +48,7 @@ node skill/scripts/create-invitation.js \
   --out /tmp/wedding-invitation-builder-preview
 ```
 
-生成目录包含 `brief.json`、`asset-manifest.json`、`release-record.json`、静态页面和本地演示管理页。素材源目录不会被修改。页面会把 brief 中确认的新人 Profile、婚礼主题和 `interaction.guestContributions` 渲染出来。将生成目录通过任意静态 HTTP 服务器打开，在 390×844 和桌面视口检查布局、相册加载/空/失败状态、键盘焦点、音乐按钮、RSVP 更新和每个个性化宾客表单。
+生成目录包含 `brief.json`、`asset-manifest.json`、`release-record.json`、静态页面、本地视觉偏好板和演示管理页。素材源目录不会被修改。页面会把 brief 中确认的新人 Profile、由职业线索与主题 motifs 生成的婚礼主题视觉，以及 `interaction.guestContributions` 渲染出来。若颜色尚未确定，先在 `visual-preferences.html` 中按色块与微型构图选择，再将结果写回 `design.visualPreference`；选择保存在当前生成目录专用的浏览器状态中，损坏或不可用时仍可复制 JSON。将生成目录通过任意静态 HTTP 服务器打开，在 390×844 和桌面视口检查布局、相册加载/空/失败状态、键盘焦点、视觉选择、音乐按钮、RSVP 更新和每个个性化宾客表单。
 
 ## 新对话演示
 

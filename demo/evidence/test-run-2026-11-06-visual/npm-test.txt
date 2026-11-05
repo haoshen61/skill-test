@@ -1,0 +1,37 @@
+
+> test
+> node --test tests/*.test.js
+
+✔ runs when the workspace contains only user materials (100.954024ms)
+✔ refuses a destructive output path without deleting source materials (73.293414ms)
+✔ generates an asset manifest and future-first static project (95.486501ms)
+✔ defaults to a future invitation and keeps retrospective mode opt-in (92.475406ms)
+✔ retrospective mode is explicit and does not become the default (96.500339ms)
+✔ empty asset directories generate pending records instead of inventing facts (81.703494ms)
+✔ rejects malformed briefs without modifying source materials (77.943881ms)
+✔ renders confirmed couple and event facts into the invitation (100.238789ms)
+✔ renders personalized couple profiles and wedding theme without internal delivery notes (98.196688ms)
+✔ renders a profession-led theme visual that connects profiles to motifs (99.6117ms)
+✔ generates a visual preference board when color direction is unresolved (99.814526ms)
+✔ marks the theme visual as pending until profile or theme facts exist (96.77629ms)
+✔ scopes visual preference storage and tolerates malformed saved JSON (96.519119ms)
+✔ applies a confirmed visual preference palette to the theme visual (97.996903ms)
+✔ does not treat an unconfirmed visual preference as selected (89.650056ms)
+✔ renders configured guest contribution forms without assuming a song request (92.315366ms)
+✔ isolates guest contribution storage and protects reserved record keys (97.250511ms)
+✔ deep-merges partial briefs while retaining pending defaults (96.584229ms)
+✔ honors disabled music and RSVP interaction flags (95.044844ms)
+✔ keeps background music separate from guest point-song contributions (95.104752ms)
+✔ encodes asset URL segments for browser-safe gallery paths (99.866594ms)
+✔ uses confirmed gallery paths and preserves source manifest labels (99.324769ms)
+✔ keeps local RSVP identity updates and optional singer input explicit (96.39588ms)
+✔ records portable generator limitations in the release record (97.466799ms)
+✔ documents an ordered workflow with confirmation and release gates (1.868396ms)
+ℹ tests 25
+ℹ suites 0
+ℹ pass 25
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2206.196992

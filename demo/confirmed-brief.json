@@ -31,6 +31,18 @@
       "description": "用城市网格承载相遇路线，用植物弧线表达共同生活的温度。",
       "motifs": ["城市路径", "植物弧线", "花瓣节点"]
     },
+    "visualLanguage": {
+      "partnerA": "route",
+      "partnerB": "bloom",
+      "shared": ["城市路径", "植物弧线", "花瓣节点"]
+    },
+    "visualPreference": {
+      "id": "paper-route",
+      "label": "纸张路径",
+      "colors": ["#F4EEE5", "#6F5547", "#D9A9A0", "#9FB8CE"],
+      "selectionMode": "visual",
+      "confirmed": true
+    },
     "basePalette": { "name": "浅米色纸张", "colors": ["#F4EEE5"] },
     "accentPalette": { "colors": ["#6F5547", "#D9A9A0", "#9FB8CE"], "ratio": "咖色结构为主，粉色与蓝色少量强调" },
     "texture": "纸张颗粒、圆形弥散和柔和渐变",
@@ -108,7 +120,7 @@
     "transformations": ["local demo compression/EXIF removal already present in supplied assets"]
   },
   "pending": [
-    "地图路径与花瓣动效需要后续 provider adapter",
+    "如果换用未提供职业线索的 Profile，需要重新确认职业隐喻",
     "times、mapUrl、MBTI 和职业字段目前只记录在 brief",
     "生产级 RSVP 认证、幂等、CSV 导出和云端数据库",
     "音乐自动播放与低音量跨浏览器策略",

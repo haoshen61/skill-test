@@ -25,7 +25,7 @@ node skill/scripts/create-invitation.js --assets assets --out /tmp/wedding-invit
 2. 场地短名、厅室、完整地址和确认状态。
 3. 新人姓名、职业、MBTI 或其他希望展示的身份线索。
 4. 相遇时间、关系转折、故事弧线和想保留的句子。
-5. 主色、重点色比例、质感、构图、字体和动效目标。
+5. 主色、重点色比例、质感、构图、字体和动效目标；如果素材没有明确偏好，先打开生成目录里的 `visual-preferences.html`，按色块和微型构图选择一组视觉方向，再把结果写回 `design.visualPreference`。
 6. 相册、背景音乐、RSVP、以及希望宾客留下的个性化信息（祝福、忌口、交通或可选点歌）和管理页需求。
 7. 素材是否允许本地演示、压缩、去除 EXIF、第三方或 AI 处理。
 8. Git、后端、域名和本次是否授权生产发布。
@@ -61,14 +61,15 @@ Skill 会扫描支持的图片和音频，并跳过隐藏文件、`.env*`、`.gi
 - `release-record.json`：本地生成证据、发布状态、pending 和 rollback 字段。
 - `index.html`、`styles.css`、`app.js`：未来邀请函首屏、新人 Profile、婚礼主题、相册、婚礼信息、音乐按钮和 brief 配置的本地表单；显式 `mode: "recap"` 时才启用回顾入口。
 - `admin.html`、`admin.js`：当前浏览器 localStorage 的只读查看与导出。
+- `visual-preferences.html`：按视觉选择色板与构图的本地偏好板，选择结果可复制回 brief；每个生成目录使用独立的浏览器存储键，损坏或不可用的旧状态会被忽略。
 
-默认视觉合同是“婚礼邀请函”首屏、已确认婚礼信息、新人 Profile、婚礼主题、分页相册、RSVP 和 brief 配置的宾客互动。背景音乐由 `interaction.backgroundMusic` 单独控制；点歌只有在 `interaction.musicRequest` 或 `guestContributions` 中明确配置时才出现。加载、空列表和图片失败状态分开处理；手机端使用单列布局，按钮有可见焦点并支持 reduced-motion。只有 brief 明确设置 `mode: "recap"` 或 `mode: "retrospective"` 时，才展示“婚礼已圆满落幕”和“继续查看电子请柬”。
+默认视觉合同是“婚礼邀请函”首屏、已确认婚礼信息、新人 Profile、职业隐喻与婚礼主题视觉、分页相册、RSVP 和 brief 配置的宾客互动。背景音乐由 `interaction.backgroundMusic` 单独控制；点歌只有在 `interaction.musicRequest` 或 `guestContributions` 中明确配置时才出现。加载、空列表和图片失败状态分开处理；手机端使用单列布局，按钮有可见焦点并支持 reduced-motion。只有 brief 明确设置 `mode: "recap"` 或 `mode: "retrospective"` 时，才展示“婚礼已圆满落幕”和“继续查看电子请柬”。
 
 ## 5 本地 RSVP 与宾客互动
 
 把 RSVP 的身份键定义为姓名和手机号后四位。首次提交会保存一条记录；相同身份再次提交会更新原记录。这个行为只在浏览器 localStorage 内成立，不能代替生产数据库的认证、并发控制和幂等接口。
 
-除 RSVP 外，表单字段由 `interaction.guestContributions` 决定。可以配置署名/祝福、忌口、交通需求、合影意愿或点歌；没有配置点歌时，页面不得自行出现歌曲字段。点歌 shorthand 的歌手留空时记录空字符串，不应静默丢弃字段。
+除 RSVP 外，表单字段由 `interaction.guestContributions` 决定。可以配置署名/祝福、忌口、交通需求、合影意愿或点歌；没有配置点歌时，页面不得自行出现歌曲字段。每个贡献项使用唯一的 `weddingInvitation.` 命名空间键，不能复用 RSVP 或视觉偏好键。点歌 shorthand 的歌手留空时记录空字符串，不应静默丢弃字段。
 
 管理页没有登录和认证，只能演示当前浏览器的数据。不要把它描述成生产后台，也不要把 localStorage 记录上传到云端。
 
@@ -88,6 +89,7 @@ npm test
 - 手动音乐按钮和浏览器阻止播放提示。
 - RSVP 2 位成人后改为 3 位，记录数量仍为 1。
 - 每个 `guestContributions` 表单的必填校验、localStorage 记录和管理页展示；点歌只在明确配置时验收。
+- `visual-preferences.html` 的四张卡片、键盘焦点、选择后的本地记录和可复制 JSON；确认后检查 `brief.json` 是否包含 `design.visualPreference`。
 
 最终验收摘要见 `FINAL_TEST_RECORD.md`；演示证据以 JSON 状态记录和生成目录为主，`demo/evidence/` 中不再保存旧婚礼截图。
 
@@ -98,7 +100,7 @@ npm test
 - 生产 RSVP 认证、云端存储、并发幂等和 CSV 导出。
 - 自动播放、低音量和跨浏览器手势策略。
 - 分享卡片、`/notice/` 页面、CloudBase/Cloudflare 构建与部署。
-- 地图路径/花瓣动效和 `times`、`mapUrl`、身份标签的页面渲染。
+- 未明确颜色时的视觉偏好选择；职业隐喻与 `times`、`mapUrl`、身份标签的生产级页面适配仍待 provider 实现。
 - 生产级 EXIF、压缩和图片尺寸流水线。
 
 以后确需发布时，应在独立对话重新确认环境、密钥、数据库迁移、域名、隐私/版权和明确的生产授权。

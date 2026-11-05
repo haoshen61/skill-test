@@ -61,6 +61,7 @@
 ```text
 index.html  styles.css  app.js
 admin.html  admin.js
+visual-preferences.html
 brief.json  asset-manifest.json  release-record.json
 ```
 
@@ -105,3 +106,26 @@ brief.json  asset-manifest.json  release-record.json
 - 使用 Chrome 无界面模式检查 390×844 与 1440×900：新人 Profile、婚礼主题和祝福表单可见，无横向溢出；页面不含上述内部提示、歌曲或歌手字段。
 - 生产发布、云端 RSVP、认证管理后台、CloudBase/Cloudflare 和音乐版权仍未授权、未执行。
 - 背景音乐使用 `interaction.backgroundMusic` 单独控制；点歌只有在 `interaction.musicRequest` 或 `guestContributions` 中明确配置时出现。
+
+## 2026-11-06 职业隐喻视觉与视觉偏好板
+
+针对“婚礼主题只有关键词、视觉没有结合 Profile”和“没有明确颜色时只能用文字描述”的反馈，Skill 增加了两条可验收能力：
+
+- `index.html` 的主题区根据 Profile 职业线索和 `design.theme.motifs` 渲染路线、网格、节点、枝叶/花瓣的 SVG/CSS 视觉；演示 brief 使用“城市规划师 × 花艺师”，页面可见“城市路径与花瓣”，不再使用与当前职业无关的代码窗口。
+- 生成目录新增 `visual-preferences.html`，提供四张色块与微型构图卡片。选择会写入浏览器 `localStorage`，可复制为 `design.visualPreference` JSON；未选时保持 brief 的 `null`/`pending`，不从文件名猜测颜色。
+
+验证结果：
+
+- `npm --prefix skill test`：25/25 通过。
+- `node --check`：生成器、生成的 `app.js` 和 `admin.js` 均通过。
+- Chrome CDP（Browser 插件不可用，Playwright 包也不可用，因此使用本机 Chrome 的 CDP 作为临时浏览器路径）：`390×844` 与 `1440×900` 的邀请函页面和 `390×844` 的视觉偏好板均无横向溢出；Profile、主题视觉、四张选择卡片可见；选择“苔痕花期”后状态文字与当前生成目录专用的 `weddingInvitation.visualPreference.<scope>` 键同步。
+- 在 `prefers-reduced-motion: reduce` 下，路径和花瓣动画计算样式为 `none`；控制台无警告或异常。
+- 已确认的 `design.visualPreference.colors` 会优先驱动主题视觉；选择 `moss-bloom` 后生成的 CSS 变量为 `#e8e5d9` / `#425246`，视觉选择不再停留在 localStorage。
+- `publish=false` 保持不变；CloudBase、Cloudflare、生产 RSVP、版权和生产图片流水线仍未执行。
+
+## 2026-11-06 审查加固复验
+
+- 视觉偏好板使用生成目录专用的存储键；损坏的 JSON、被浏览器拒绝的读取或写入不会阻断卡片选择和 JSON 复制；已确认 brief 的选择优先于旧的本地状态，未确认的 brief 候选不会被标成已选。
+- 宾客贡献 ID 会避开 `__proto__`、`constructor` 等对象原型键；贡献存储键强制使用 `weddingInvitation.` 命名空间、彼此唯一，并避开 RSVP 记录键和视觉偏好键空间；管理演示使用 null-prototype 数据表。
+- Profile 或主题都未提供时，主题视觉明确显示为待确认预览；提供职业线索后，职业对应的路线、花瓣、轨迹或流动路径会驱动 SVG 几何，避免只把职业作为文字标签。
+- `npm --prefix skill test`：25/25 通过；`git diff --check` 通过；未执行任何生产发布。

@@ -1,0 +1,90 @@
+{
+  "browser": "Chrome CDP (Browser plugin unavailable; Playwright package unavailable)",
+  "mobileInvitation": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollWidth": 390,
+    "profileVisible": true,
+    "themeVisualVisible": true,
+    "title": "婚礼邀请函",
+    "themeText": "城市规划师 × 花艺师 / 城市路径与花瓣",
+    "consoleErrors": [],
+    "themePending": false,
+    "themeModes": [
+      "route",
+      "bloom"
+    ]
+  },
+  "desktopInvitation": {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "scrollWidth": 1440,
+    "profileVisible": true,
+    "themeVisualVisible": true,
+    "title": "婚礼邀请函",
+    "consoleErrors": []
+  },
+  "visualPreferences": {
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "scrollWidth": 390,
+    "cards": 4,
+    "initialSelection": "paper-route",
+    "selected": "moss-bloom",
+    "status": "已选择：苔痕花期。确认 brief 时使用这组颜色和构图。",
+    "localStorageKey": "weddingInvitation.visualPreference.<scope>",
+    "malformedStorage": "ignored without console error",
+    "writeFailure": "selection and copy remain usable",
+    "confirmedBriefPriority": true,
+    "keyboardFocus": "moss-bloom"
+  },
+  "reducedMotion": {
+    "media": true,
+    "routeAnimation": "none",
+    "bloomAnimation": "none",
+    "scrollWidth": 390
+  },
+  "publish": false,
+  "gallery": {
+    "ready": "1 / 7",
+    "next": "2 / 7",
+    "keyboardPrevious": "1 / 7",
+    "failed": "这张照片暂时无法加载",
+    "empty": "暂无已确认照片"
+  },
+  "localInteractions": {
+    "rsvp": {
+      "firstAdultCount": "2",
+      "secondAdultCount": "3",
+      "recordCount": 1,
+      "status": "已更新本机演示数据。"
+    },
+    "blessing": {
+      "recordCount": 1,
+      "status": "已保存到本机演示数据。"
+    },
+    "music": {
+      "buttonFound": true,
+      "result": "浏览器阻止播放"
+    }
+  },
+  "testRun": {
+    "command": "npm --prefix skill test",
+    "passed": 25,
+    "failed": 0
+  },
+  "paletteApplication": {
+    "selectedId": "moss-bloom",
+    "themeBase": "#e8e5d9",
+    "themeInk": "#425246",
+    "releasePendingVisualSelection": false
+  },
+  "consoleErrors": [],
+  "exceptions": []
+}

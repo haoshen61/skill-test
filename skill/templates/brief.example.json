@@ -9,6 +9,8 @@
   "event": { "date": null, "dateConfirmed": false, "format": null, "times": [], "venue": { "shortName": null, "address": null, "mapUrl": null } },
   "design": {
     "theme": { "name": null, "description": null, "motifs": [] },
+    "visualLanguage": { "partnerA": null, "partnerB": null, "shared": [] },
+    "visualPreference": { "id": null, "label": null, "colors": [], "selectionMode": "visual", "confirmed": false },
     "basePalette": { "name": "soft paper", "colors": ["#f4eee5"] },
     "accentPalette": { "colors": ["#6f5547"] },
     "texture": "paper",

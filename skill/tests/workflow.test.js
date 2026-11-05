@@ -31,4 +31,9 @@ test("documents an ordered workflow with confirmation and release gates", () => 
   assert.match(skill, /guestContributions/);
   assert.match(skill, /Profile|profile|新人资料/i);
   assert.match(skill, /theme|主题/i);
+  assert.match(skill, /visual-preferences\.html/);
+  assert.match(skill, /visualPreference/);
+  assert.match(skill, /visualLanguage/);
+  assert.match(skill, /appearance|外观|视觉/i);
+  assert.match(skill, /profession-aware|职业隐喻|职业线索/i);
 });

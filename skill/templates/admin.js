@@ -10,9 +10,8 @@ function readList(key) {
   }
 }
 
-const data = {
-  rsvp: readList("weddingInvitation.rsvp")
-};
+const data = Object.create(null);
+data.rsvp = readList("weddingInvitation.rsvp");
 for (const contribution of guestContributions) data[contribution.id] = readList(contribution.storageKey);
 
 const sections = [["出席登记", data.rsvp], ...guestContributions.map((contribution) => [contribution.title, data[contribution.id]])];
