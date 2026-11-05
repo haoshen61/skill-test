@@ -3,7 +3,7 @@
   "packId": "wedding-invitation-demo-20261105",
   "purpose": "比赛演示与可复用 skill 的输入样例，不是生产运行时资源",
   "generatedAt": "2026-11-05",
-  "sourceRepository": "git@github.com:haoshen61/wedding-invitations.git",
+  "sourceRepository": "standalone demo asset pack",
   "productionBundle": false,
   "privacyNotice": "婚礼照片、封面和音乐按私人资料处理；公开发布前必须重新确认人物隐私、版权和再分发授权。",
   "items": [
