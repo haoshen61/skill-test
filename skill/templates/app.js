@@ -2,6 +2,7 @@ const galleryAssets = __GALLERY_JSON__;
 const audioUrl = __AUDIO_URL__;
 const rsvpEnabled = __RSVP_ENABLED__;
 const musicEnabled = __MUSIC_ENABLED__;
+const recapMode = __RECAP_MODE__;
 const gallery = document.querySelector("#gallery");
 const previous = document.querySelector("#previous");
 const next = document.querySelector("#next");
@@ -57,11 +58,13 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "ArrowLeft") move(-1);
   if (event.key === "ArrowRight") move(1);
 });
-continueButton.addEventListener("click", () => {
-  invitation.hidden = false;
-  invitation.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-  document.querySelector("#invitation-title").focus?.();
-});
+if (recapMode) {
+  continueButton.addEventListener("click", () => {
+    invitation.hidden = false;
+    invitation.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    document.querySelector("#invitation-title").focus?.();
+  });
+}
 
 if (audioUrl && musicEnabled) {
   const audio = document.createElement("audio");
@@ -86,17 +89,22 @@ if (audioUrl && musicEnabled) {
 if (rsvpEnabled) rsvpForm.hidden = false;
 if (musicEnabled) musicForm.hidden = false;
 
-function saveLocal(key, form, status) {
+function saveLocal(key, form, status, matchFields = []) {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const values = Object.fromEntries(new FormData(form).entries());
     const records = JSON.parse(localStorage.getItem(key) || "[]");
-    records.push({ ...values, createdAt: new Date().toISOString() });
+    const now = new Date().toISOString();
+    const existingIndex = matchFields.length ? records.findIndex((record) => matchFields.every((field) => record[field] === values[field])) : -1;
+    const previous = existingIndex >= 0 ? records[existingIndex] : null;
+    const nextRecord = { ...values, createdAt: previous?.createdAt || now, updatedAt: now };
+    if (existingIndex >= 0) records[existingIndex] = nextRecord;
+    else records.push(nextRecord);
     localStorage.setItem(key, JSON.stringify(records));
-    status.textContent = "已保存到本机演示数据。";
+    status.textContent = existingIndex >= 0 ? "已更新本机演示数据。" : "已保存到本机演示数据。";
     form.reset();
   });
 }
 
-if (rsvpEnabled) saveLocal("weddingInvitation.rsvp", rsvpForm, document.querySelector("#rsvp-status"));
+if (rsvpEnabled) saveLocal("weddingInvitation.rsvp", rsvpForm, document.querySelector("#rsvp-status"), ["guestName", "contactSuffix"]);
 if (musicEnabled) saveLocal("weddingInvitation.music", musicForm, document.querySelector("#music-status"));

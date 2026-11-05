@@ -1,0 +1,94 @@
+{
+  "version": "0.1",
+  "couple": {
+    "partnerA": { "name": "沐宸", "mbti": "INTJ", "occupation": "城市规划师" },
+    "partnerB": { "name": "若汐", "mbti": "ESFP", "occupation": "花艺师" },
+    "story": {
+      "relationshipArc": "2022 年秋天相遇，从朋友慢慢成为爱人。",
+      "confirmedCopy": "一个人规划远方，一个人照料当下。"
+    }
+  },
+  "event": {
+    "date": "2027-05-16",
+    "timezone": "Asia/Shanghai",
+    "dateConfirmed": true,
+    "format": "午宴",
+    "times": [
+      { "label": "签到", "time": "11:00" },
+      { "label": "仪式", "time": "11:28" }
+    ],
+    "venue": {
+      "shortName": "杭州云栖里酒店",
+      "room": "云锦厅",
+      "address": "浙江省杭州市西湖区云栖路 88 号",
+      "mapUrl": null,
+      "confirmed": true
+    }
+  },
+  "design": {
+    "basePalette": { "name": "浅米色纸张", "colors": ["#F4EEE5"] },
+    "accentPalette": { "colors": ["#6F5547", "#D9A9A0", "#9FB8CE"], "ratio": "咖色结构为主，粉色与蓝色少量强调" },
+    "texture": "纸张颗粒、圆形弥散和柔和渐变",
+    "composition": "城市网格与植物弧线",
+    "typography": { "chinese": "细宋体", "latin": "Avenir", "decorative": "少量手写体" },
+    "dynamics": ["城市路径逐步绘制", "路径节点附近花瓣展开"],
+    "galleryPaths": [
+      "wedding/illustration-0.jpg",
+      "wedding/photo-1.jpg",
+      "wedding/photo-2.jpg",
+      "wedding/photo-3.jpg",
+      "wedding/photo-4.jpg",
+      "wedding/photo-5.jpg",
+      "wedding/photo-6.jpg"
+    ]
+  },
+  "gallery": {
+    "paths": [
+      "wedding/illustration-0.jpg",
+      "wedding/photo-1.jpg",
+      "wedding/photo-2.jpg",
+      "wedding/photo-3.jpg",
+      "wedding/photo-4.jpg",
+      "wedding/photo-5.jpg",
+      "wedding/photo-6.jpg"
+    ],
+    "manualSelectionConfirmed": true,
+    "excludedRoles": ["color-palette", "visual-reference", "typography-reference", "share-card", "contact-sheet"]
+  },
+  "sections": ["cover", "story", "details", "rsvp", "music", "thanks"],
+  "copy": {
+    "invitationTitle": "婚礼邀请函",
+    "invitationIntro": "我们诚挚邀请您见证这一天",
+    "thanks": "感谢每一份关注、陪伴与祝福",
+    "recapTitle": "婚礼已圆满落幕",
+    "continueLabel": "继续查看电子请柬"
+  },
+  "interaction": {
+    "gallery": true,
+    "music": true,
+    "rsvp": true,
+    "reducedMotion": true,
+    "rsvpContract": {
+      "fields": ["姓名", "手机号后四位", "出席大人人数"],
+      "absenceOption": false,
+      "localIdentityKey": ["guestName", "contactSuffix"],
+      "productionBehavior": "同一身份更新原记录"
+    },
+    "musicRequest": { "singerOptional": true, "storage": "localStorage demo" },
+    "admin": { "mode": "localStorage read-only demo", "authenticated": false }
+  },
+  "authorization": {
+    "assets": "local-demo-approved",
+    "publish": false,
+    "publicRedistribution": false,
+    "transformations": ["local demo compression/EXIF removal already present in supplied assets"]
+  },
+  "pending": [
+    "地图路径与花瓣动效需要后续 provider adapter",
+    "times、mapUrl、MBTI 和职业字段目前只记录在 brief",
+    "生产级 RSVP 认证、幂等、CSV 导出和云端数据库",
+    "音乐自动播放与低音量跨浏览器策略",
+    "分享卡片、/notice/ 页面和 CloudBase/Cloudflare 发布",
+    "EXIF 清理、压缩和尺寸限制的生产流水线"
+  ]
+}

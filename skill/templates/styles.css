@@ -20,6 +20,12 @@ h2 { font-size: clamp(32px, 5vw, 56px); }
 .invitation { margin: 8vh 0; padding: clamp(24px, 5vw, 56px); border: 1px solid #d9c8ba; border-radius: 28px; background: rgba(255, 250, 242, .65); }
 .event-facts { padding-left: 1.2em; line-height: 1.9; }
 .pending-note { margin-top: 24px; padding: 16px; border-left: 3px solid #a78168; background: rgba(255, 255, 255, .35); }
+.guest-form { display: grid; gap: 12px; max-width: 520px; margin-top: 28px; }
+.guest-form h3 { margin: 0; font-size: 22px; font-weight: 400; }
+.guest-form label { display: grid; gap: 6px; font-size: 15px; }
+.guest-form input, .guest-form textarea { width: 100%; padding: 10px 12px; border: 1px solid #d9c8ba; border-radius: 12px; background: #fffaf2; color: inherit; font: inherit; }
+.guest-form textarea { min-height: 96px; resize: vertical; }
+.guest-form button { justify-self: start; border: 1px solid #765848; border-radius: 999px; padding: 10px 16px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
 button:focus-visible { outline: 3px solid #b56b6c; outline-offset: 3px; }
 @media (max-width: 760px) { main { padding: 24px 16px 48px; } .recap { display: block; min-height: 0; } .recap-copy { margin-bottom: 28px; } .gallery { min-height: min(62svh, 560px); } .continue { width: 100%; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }

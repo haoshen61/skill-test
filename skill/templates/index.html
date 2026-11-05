@@ -4,15 +4,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>__TITLE__</title>
+  <link rel="icon" href="data:,">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main>
     <section class="recap" aria-labelledby="recap-title">
       <div class="recap-copy">
-        <p class="eyebrow">Wedding memories</p>
+        <p class="eyebrow">__HERO_EYEBROW__</p>
         <h1 id="recap-title">__TITLE__</h1>
-        <p>__THANKS__</p>
+        <p>__INTRO__</p>
       </div>
       <div class="gallery-shell" aria-label="婚礼照片">
         <div id="gallery" class="gallery" aria-live="polite">
@@ -24,10 +25,10 @@
           <button id="next" type="button" aria-label="下一张" disabled>›</button>
         </div>
       </div>
-      <button id="continue" class="continue" type="button">__CONTINUE_LABEL__</button>
+      <button id="continue" class="continue" type="button" __CONTINUE_HIDDEN__>__CONTINUE_LABEL__</button>
     </section>
 
-    <section id="invitation" class="invitation" hidden aria-labelledby="invitation-title">
+    <section id="invitation" class="invitation" __INVITATION_HIDDEN__ aria-labelledby="invitation-title">
       <p class="eyebrow">Invitation</p>
       <h2 id="invitation-title" tabindex="-1">__COUPLE_NAMES__</h2>
       <p class="story">__STORY__</p>
@@ -56,6 +57,7 @@
         <h3>点歌与祝福</h3>
         <label>留言人<input name="name" required maxlength="80"></label>
         <label>歌曲<input name="song" required maxlength="120"></label>
+        <label>歌手（可选）<input name="singer" maxlength="120"></label>
         <label>祝福<textarea name="message" maxlength="500"></textarea></label>
         <button type="submit">保存本地点歌</button>
         <p id="music-status" role="status"></p>

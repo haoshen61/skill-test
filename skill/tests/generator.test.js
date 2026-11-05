@@ -24,7 +24,7 @@ function run(args) {
   return spawnSync(process.execPath, [cli, ...args], { encoding: "utf8" });
 }
 
-test("generates an asset manifest and recap-first static project", () => {
+test("generates an asset manifest and future-first static project", () => {
   const { assets, out } = fixture();
   const result = run(["--assets", assets, "--out", out]);
   assert.equal(result.status, 0, result.stderr);
@@ -39,16 +39,47 @@ test("generates an asset manifest and recap-first static project", () => {
   assert.equal(fs.existsSync(path.join(out, "admin.js")), true);
 
   const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  const styles = fs.readFileSync(path.join(out, "styles.css"), "utf8");
   const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
   const adminScript = fs.readFileSync(path.join(out, "admin.js"), "utf8");
-  assert.match(html, /婚礼已圆满落幕/);
-  assert.match(html, /继续查看电子请柬/);
+  assert.match(html, /婚礼邀请函/);
+  assert.match(html, /我们诚挚邀请您见证这一天/);
+  assert.match(html, /rel="icon"/);
+  assert.match(styles, /\.guest-form/);
   assert.match(html, /gallery-loading/);
   assert.match(script, /pending|loading/i);
   assert.match(script, /localStorage/);
   assert.match(script, /prefers-reduced-motion/);
   assert.match(adminScript, /textContent/);
   assert.doesNotMatch(adminScript, /records\.innerHTML/);
+});
+
+test("defaults to a future invitation and keeps retrospective mode opt-in", () => {
+  const { assets, out } = fixture();
+  const result = run(["--assets", assets, "--out", out]);
+  assert.equal(result.status, 0, result.stderr);
+
+  const brief = JSON.parse(fs.readFileSync(path.join(out, "brief.json"), "utf8"));
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  assert.equal(brief.mode, "invitation");
+  assert.deepEqual(brief.sections, ["cover", "story", "details", "rsvp", "music", "thanks"]);
+  assert.match(html, /婚礼邀请函/);
+  assert.doesNotMatch(html, /婚礼已圆满落幕/);
+  assert.doesNotMatch(html, /Wedding memories/);
+  assert.match(html, /id="continue"[^>]*hidden[^>]*>继续查看电子请柬/);
+});
+
+test("retrospective mode is explicit and does not become the default", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "retrospective.json");
+  fs.writeFileSync(brief, JSON.stringify({ mode: "recap", workflow: { briefConfirmed: true } }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  assert.match(html, /婚礼已圆满落幕/);
+  assert.match(html, /Wedding memories/);
+  assert.match(html, /继续查看电子请柬/);
 });
 
 test("empty asset directories generate pending records instead of inventing facts", () => {
@@ -128,4 +159,51 @@ test("encodes asset URL segments for browser-safe gallery paths", () => {
   assert.equal(result.status, 0, result.stderr);
   const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
   assert.match(script, /assets\/photos\/engagement%20photo%20%231\.png/);
+});
+
+test("uses confirmed gallery paths and preserves source manifest labels", () => {
+  const { assets, out } = fixture();
+  fs.writeFileSync(path.join(assets, "reference.png"), Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+  fs.writeFileSync(path.join(assets, "manifest.json"), JSON.stringify({ items: [
+    { path: "photos/first.jpg", role: "wedding-photo", privacy: "private-wedding-material", license: "demo-only", notes: "keep private" },
+    { path: "reference.png", role: "visual-reference", privacy: "design-reference", license: "reference only" }
+  ] }));
+  const brief = path.join(path.dirname(out), "gallery.json");
+  fs.writeFileSync(brief, JSON.stringify({ gallery: { paths: ["photos/first.jpg"] } }));
+
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const manifest = JSON.parse(fs.readFileSync(path.join(out, "asset-manifest.json"), "utf8"));
+  const selected = manifest.items.find((item) => item.path === "photos/first.jpg");
+  assert.equal(selected.assetRole, "wedding-photo");
+  assert.equal(selected.privacy, "private-wedding-material");
+  assert.equal(selected.license, "demo-only");
+  const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
+  assert.match(script, /photos\/first\.jpg/);
+  assert.doesNotMatch(script, /reference\.png/);
+});
+
+test("keeps local RSVP identity updates and optional singer input explicit", () => {
+  const { assets, out } = fixture();
+  const brief = path.join(path.dirname(out), "interactions.json");
+  fs.writeFileSync(brief, JSON.stringify({ interaction: { rsvp: true, music: true } }));
+  const result = run(["--assets", assets, "--out", out, "--brief", brief]);
+  assert.equal(result.status, 0, result.stderr);
+  const html = fs.readFileSync(path.join(out, "index.html"), "utf8");
+  const script = fs.readFileSync(path.join(out, "app.js"), "utf8");
+  assert.match(html, /name="singer"/);
+  assert.match(script, /findIndex/);
+  assert.match(script, /guestName/);
+  assert.match(script, /contactSuffix/);
+  assert.match(script, /已更新本机演示数据/);
+});
+
+test("records portable generator limitations in the release record", () => {
+  const { assets, out } = fixture();
+  const result = run(["--assets", assets, "--out", out]);
+  assert.equal(result.status, 0, result.stderr);
+  const release = JSON.parse(fs.readFileSync(path.join(out, "release-record.json"), "utf8"));
+  assert.ok(release.pending.some((item) => /production RSVP/i.test(item)));
+  assert.ok(release.pending.some((item) => /auto-play|自动播放/i.test(item)));
+  assert.ok(release.pending.some((item) => /share card|分享卡片/i.test(item)));
 });

@@ -42,9 +42,27 @@ function mediaType(relative) {
   return null;
 }
 
+function readAssetMetadata(assetRoot) {
+  const manifestPath = path.join(assetRoot, "manifest.json");
+  if (!fs.existsSync(manifestPath)) return { entries: new Map(), warning: null };
+  try {
+    const parsed = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
+    const entries = new Map();
+    for (const item of Array.isArray(parsed.items) ? parsed.items : []) {
+      if (!item || typeof item.path !== "string") continue;
+      entries.set(item.path.split(path.sep).join("/"), item);
+    }
+    return { entries, warning: null };
+  } catch (error) {
+    return { entries: new Map(), warning: `Asset manifest metadata was ignored: ${error.message}` };
+  }
+}
+
 function scanAssets(assetRoot) {
   const items = [];
   const warnings = [];
+  const { entries: metadataByPath, warning: metadataWarning } = readAssetMetadata(assetRoot);
+  if (metadataWarning) warnings.push(metadataWarning);
 
   function visit(directory) {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
@@ -59,15 +77,21 @@ function scanAssets(assetRoot) {
       const role = mediaType(relative);
       if (!role) continue;
       const stat = fs.statSync(filePath);
+      const metadata = metadataByPath.get(relative) || {};
       items.push({
         id: relative.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase() || "asset",
         path: relative,
         role,
-        source: relative,
+        mediaType: role,
+        assetRole: metadata.role || role,
+        source: metadata.source || relative,
         bytes: stat.size,
-        privacy: "pending",
-        license: "unknown",
-        allowedTransformations: []
+        privacy: metadata.privacy || "pending",
+        license: metadata.license || "unknown",
+        allowedTransformations: Array.isArray(metadata.allowedTransformations) ? metadata.allowedTransformations : [],
+        description: metadata.description || null,
+        usedBy: Array.isArray(metadata.usedBy) ? metadata.usedBy : [],
+        notes: metadata.notes || null
       });
     }
   }
@@ -81,11 +105,14 @@ function scanAssets(assetRoot) {
 function defaultBrief() {
   return {
     version: "0.1",
+    mode: "invitation",
     couple: { partnerA: { name: null }, partnerB: { name: null }, story: { relationshipArc: null } },
     event: { date: null, dateConfirmed: false, format: null, times: [], venue: { shortName: null, address: null, mapUrl: null } },
     design: { basePalette: { name: "soft paper", colors: ["#f4eee5"] }, accentPalette: { colors: ["#6f5547"] }, texture: "paper", composition: "mixed", typography: { chinese: "system serif", latin: "system sans" } },
-    sections: ["recap", "cover", "story", "details", "rsvp", "music", "thanks"],
-    copy: { recapTitle: "婚礼已圆满落幕", thanks: "感谢每一份关注、陪伴与祝福", continueLabel: "继续查看电子请柬" },
+    gallery: { paths: null },
+    workflow: { phase: "intake", briefConfirmed: false, assetsReviewed: false, localQa: "pending", releaseAuthorized: false },
+    sections: ["cover", "story", "details", "rsvp", "music", "thanks"],
+    copy: { invitationTitle: "婚礼邀请函", invitationIntro: "我们诚挚邀请您见证这一天", recapTitle: "婚礼已圆满落幕", thanks: "感谢每一份关注、陪伴与祝福", continueLabel: "继续查看电子请柬" },
     interaction: { gallery: true, music: true, rsvp: false, reducedMotion: true },
     authorization: { assets: "pending", publish: false }
   };
@@ -167,16 +194,30 @@ function createProject({ assetRoot, outputRoot, brief }) {
   copySelectedAssets(assetRoot, outputRoot, items);
 
   const templateRoot = path.join(__dirname, "..", "templates");
-  const gallery = items.filter((item) => item.role === "image").map((item) => ({ ...item, url: assetUrl(item.path) }));
+  const imageItems = items.filter((item) => (item.mediaType || item.role) === "image");
+  const configuredGalleryPaths = Array.isArray(brief.gallery?.paths) ? brief.gallery.paths.map((item) => String(item).split(path.sep).join("/")) : null;
+  const galleryItems = configuredGalleryPaths
+    ? imageItems.filter((item) => configuredGalleryPaths.includes(item.path))
+    : imageItems;
+  if (configuredGalleryPaths) {
+    const missingGalleryPaths = configuredGalleryPaths.filter((candidate) => !imageItems.some((item) => item.path === candidate));
+    if (missingGalleryPaths.length) warnings.push(`Gallery selections were not found: ${missingGalleryPaths.join(", ")}`);
+  }
+  const gallery = galleryItems.map((item) => ({ ...item, url: assetUrl(item.path) }));
   const audio = items.find((item) => item.role === "audio");
+  const retrospective = brief.mode === "recap" || brief.mode === "retrospective";
   const display = (value, fallback) => escapeHtml(value === null || value === undefined || value === "" ? fallback : value);
   const enabledFlag = (value) => value === true;
   const partnerNames = [brief.couple?.partnerA?.name, brief.couple?.partnerB?.name].filter(Boolean);
   const venue = brief.event?.venue || {};
   const replacements = {
-    TITLE: escapeHtml(brief.copy?.recapTitle || "婚礼已圆满落幕"),
-    THANKS: escapeHtml(brief.copy?.thanks || "感谢每一份关注、陪伴与祝福"),
+    HERO_EYEBROW: retrospective ? "Wedding memories" : "Wedding invitation",
+    TITLE: escapeHtml(retrospective ? (brief.copy?.recapTitle || "婚礼已圆满落幕") : (brief.copy?.invitationTitle || "婚礼邀请函")),
+    INTRO: escapeHtml(retrospective ? (brief.copy?.thanks || "感谢每一份关注、陪伴与祝福") : (brief.copy?.invitationIntro || "我们诚挚邀请您见证这一天")),
     CONTINUE_LABEL: escapeHtml(brief.copy?.continueLabel || "继续查看电子请柬"),
+    CONTINUE_HIDDEN: retrospective ? "" : "hidden",
+    INVITATION_HIDDEN: retrospective ? "hidden" : "",
+    RECAP_MODE: JSON.stringify(retrospective),
     COUPLE_NAMES: partnerNames.length ? partnerNames.map(escapeHtml).join(" 与 ") : "新人信息待确认",
     STORY: display(brief.couple?.story?.relationshipArc, "故事待确认"),
     EVENT_DATE: display(brief.event?.date, "日期待确认"),
@@ -195,14 +236,26 @@ function createProject({ assetRoot, outputRoot, brief }) {
   }
   fs.writeFileSync(path.join(outputRoot, "asset-manifest.json"), JSON.stringify({ version: "0.1", items, warnings }, null, 2) + "\n");
   fs.writeFileSync(path.join(outputRoot, "brief.json"), JSON.stringify(brief, null, 2) + "\n");
+  const pending = [
+    "approved assets",
+    "confirmed event facts",
+    "production target",
+    "production RSVP idempotency and authenticated storage",
+    "music auto-play and low-volume cross-browser strategy",
+    "share cards, /notice/ page, and cloud backend",
+    "EXIF cleanup, compression, and image size limits"
+  ];
+  if (brief.workflow?.briefConfirmed !== true) pending.unshift("brief confirmation");
+  if (Array.isArray(brief.pending)) pending.push(...brief.pending.map(String));
   fs.writeFileSync(path.join(outputRoot, "release-record.json"), JSON.stringify({
     version: "0.1",
     source: { commit: null, remoteCommit: null, verifiedAt: null },
     authorization: brief.authorization || { assets: "pending", publish: false },
     backend: { provider: null, migrations: [], functionRevision: null, checks: [] },
     frontend: { provider: null, deploymentId: null, url: null, rollbackVersion: null },
+    workflow: { mode: retrospective ? "recap" : "invitation", phase: brief.workflow?.briefConfirmed === true ? "brief-confirmed" : "draft", briefConfirmed: brief.workflow?.briefConfirmed === true, releaseAuthorized: brief.workflow?.releaseAuthorized === true || brief.authorization?.publish === true },
     checks: [{ scenario: "local static generation", result: "generated", evidence: "Run the bundled tests and serve this directory with a static HTTP server." }],
-    pending: warnings.length ? ["approved assets", "confirmed event facts", "production target"] : ["approved assets", "confirmed event facts", "production target"]
+    pending: [...new Set(pending)]
   }, null, 2) + "\n");
   return { files: ["index.html", "styles.css", "app.js", "admin.html", "admin.js", "asset-manifest.json", "brief.json", "release-record.json"], warnings };
 }

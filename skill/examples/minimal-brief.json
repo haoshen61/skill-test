@@ -1,0 +1,9 @@
+{
+  "version": "0.1",
+  "mode": "invitation",
+  "couple": { "partnerA": { "name": "待确认" }, "partnerB": { "name": "待确认" } },
+  "event": { "date": null, "dateConfirmed": false, "venue": { "shortName": null, "address": null } },
+  "copy": { "invitationTitle": "婚礼邀请函", "invitationIntro": "我们诚挚邀请您见证这一天", "recapTitle": "婚礼已圆满落幕", "thanks": "感谢每一份关注、陪伴与祝福", "continueLabel": "继续查看电子请柬" },
+  "workflow": { "phase": "brief-confirmed", "briefConfirmed": true, "assetsReviewed": false, "localQa": "pending", "releaseAuthorized": false },
+  "authorization": { "assets": "pending", "publish": false }
+}
