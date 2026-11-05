@@ -1,0 +1,7 @@
+interface:
+  display_name: "Wedding Invitation Builder"
+  short_description: "Create a mobile wedding invitation from user assets"
+  default_prompt: "Use $wedding-invitation-builder to turn my wedding details and photo folder into a reviewable mobile invitation."
+
+policy:
+  allow_implicit_invocation: true

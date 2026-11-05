@@ -1,0 +1,25 @@
+:root { color-scheme: light; font-family: Georgia, "Songti SC", serif; color: #4f3b32; background: #f4eee5; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 10% 10%, #fffaf2, transparent 42%), #f4eee5; }
+main { width: min(1040px, 100%); margin: 0 auto; padding: clamp(24px, 6vw, 72px); }
+.recap { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(24px, 6vw, 72px); align-items: center; min-height: 80vh; }
+.recap-copy { max-width: 32rem; }
+.eyebrow { letter-spacing: .16em; text-transform: uppercase; font: 12px/1.4 Arial, sans-serif; opacity: .65; }
+h1, h2 { font-weight: 400; line-height: 1.15; }
+h1 { font-size: clamp(40px, 7vw, 78px); margin: 12px 0 22px; }
+h2 { font-size: clamp(32px, 5vw, 56px); }
+.gallery-shell { min-width: 0; }
+.gallery { min-height: clamp(320px, 55vw, 620px); display: grid; place-items: center; overflow: hidden; border-radius: 28px; background: #e9ded1; }
+.gallery img { width: 100%; height: 100%; max-height: 620px; object-fit: contain; display: block; }
+.gallery-loading, .gallery-empty { padding: 32px; color: #7d6657; }
+.gallery-controls { display: flex; align-items: center; justify-content: center; gap: 18px; padding-top: 14px; }
+.gallery-controls button, .continue { border: 1px solid #765848; border-radius: 999px; background: transparent; color: inherit; cursor: pointer; }
+.gallery-controls button { width: 38px; height: 38px; font-size: 24px; }
+.gallery-controls button:disabled { opacity: .35; cursor: default; }
+.continue { margin-top: 24px; padding: 13px 22px; font: inherit; }
+.invitation { margin: 8vh 0; padding: clamp(24px, 5vw, 56px); border: 1px solid #d9c8ba; border-radius: 28px; background: rgba(255, 250, 242, .65); }
+.event-facts { padding-left: 1.2em; line-height: 1.9; }
+.pending-note { margin-top: 24px; padding: 16px; border-left: 3px solid #a78168; background: rgba(255, 255, 255, .35); }
+button:focus-visible { outline: 3px solid #b56b6c; outline-offset: 3px; }
+@media (max-width: 760px) { main { padding: 24px 16px 48px; } .recap { display: block; min-height: 0; } .recap-copy { margin-bottom: 28px; } .gallery { min-height: min(62svh, 560px); } .continue { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }

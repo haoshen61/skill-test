@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>__TITLE__</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <section class="recap" aria-labelledby="recap-title">
+      <div class="recap-copy">
+        <p class="eyebrow">Wedding memories</p>
+        <h1 id="recap-title">__TITLE__</h1>
+        <p>__THANKS__</p>
+      </div>
+      <div class="gallery-shell" aria-label="婚礼照片">
+        <div id="gallery" class="gallery" aria-live="polite">
+          <p class="gallery-loading">照片加载中…</p>
+        </div>
+        <div class="gallery-controls">
+          <button id="previous" type="button" aria-label="上一张" disabled>‹</button>
+          <span id="counter" aria-live="polite">—</span>
+          <button id="next" type="button" aria-label="下一张" disabled>›</button>
+        </div>
+      </div>
+      <button id="continue" class="continue" type="button">__CONTINUE_LABEL__</button>
+    </section>
+
+    <section id="invitation" class="invitation" hidden aria-labelledby="invitation-title">
+      <p class="eyebrow">Invitation</p>
+      <h2 id="invitation-title" tabindex="-1">__COUPLE_NAMES__</h2>
+      <p class="story">__STORY__</p>
+      <ul class="event-facts">
+        <li>日期：__EVENT_DATE__</li>
+        <li>形式：__EVENT_FORMAT__</li>
+        <li>场地：__VENUE__</li>
+        <li>地址：__ADDRESS__</li>
+      </ul>
+      <div class="pending-note" role="status">这是一个可运行的本地入口；RSVP、点歌和生产发布仍需单独确认和配置。</div>
+    </section>
+
+    <section id="interactions" class="invitation" aria-labelledby="interactions-title">
+      <p class="eyebrow">Guest notes</p>
+      <h2 id="interactions-title">宾客留言</h2>
+      <p class="pending-note">本地演示数据只保存在当前浏览器。需要多人访问或新人后台时，请先配置并验证后端适配器。</p>
+      <form id="rsvp-form" class="guest-form" hidden>
+        <h3>出席登记</h3>
+        <label>姓名<input name="guestName" required maxlength="80"></label>
+        <label>手机号后四位<input name="contactSuffix" required inputmode="numeric" pattern="\d{4}" maxlength="4"></label>
+        <label>大人人数<input name="adultCount" required type="number" min="1" max="20" value="1"></label>
+        <button type="submit">保存本地登记</button>
+        <p id="rsvp-status" role="status"></p>
+      </form>
+      <form id="music-form" class="guest-form" hidden>
+        <h3>点歌与祝福</h3>
+        <label>留言人<input name="name" required maxlength="80"></label>
+        <label>歌曲<input name="song" required maxlength="120"></label>
+        <label>祝福<textarea name="message" maxlength="500"></textarea></label>
+        <button type="submit">保存本地点歌</button>
+        <p id="music-status" role="status"></p>
+      </form>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

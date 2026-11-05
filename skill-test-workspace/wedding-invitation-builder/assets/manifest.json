@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "packId": "wedding-invitation-demo-20261105",
+  "purpose": "比赛演示与可复用 skill 的输入样例，不是生产运行时资源",
+  "generatedAt": "2026-11-05",
+  "sourceRepository": "git@github.com:haoshen61/wedding-invitations.git",
+  "productionBundle": false,
+  "privacyNotice": "婚礼照片、封面和音乐按私人资料处理；公开发布前必须重新确认人物隐私、版权和再分发授权。",
+  "items": [
+    {
+      "id": "palette-color-theme",
+      "role": "color-palette",
+      "path": "palette/color-theme.png",
+      "source": "color palette/color theme.png",
+      "description": "主色与局部重点色的色卡，包含浅米、咖色、粉色、蓝色和少量绿色；可见参考色包括 #8C6A56、#C4A381、#6D8EAD。",
+      "usedBy": ["design-brief", "theme-tokens"],
+      "privacy": "design-reference",
+      "license": "user-provided; private repository demo",
+      "notes": "缩放到 1800px 宽，PNG 重新编码，未进入 Cloudflare runtimeFiles。"
+    },
+    {
+      "id": "palette-cover",
+      "role": "color-palette-cover",
+      "path": "palette/palette-cover.jpg",
+      "source": "color palette/cover.jpg",
+      "description": "横向色板/质感参考封面。",
+      "usedBy": ["design-brief", "contact-sheet"],
+      "privacy": "design-reference",
+      "license": "user-provided; private repository demo",
+      "notes": "缩放到 1600px 宽并移除元数据。"
+    },
+    {
+      "id": "style-peace",
+      "role": "visual-reference",
+      "path": "references/reference-peace.jpg",
+      "source": "visual references/Peace in the stillness.jpeg",
+      "description": "安静、留白、柔和弥散的构图参考。",
+      "usedBy": ["preference-intake", "design-brief"],
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "notes": "仅用于内部比赛演示，公开发布前需确认来源许可。"
+    },
+    {
+      "id": "style-editorial-01",
+      "role": "visual-reference",
+      "path": "references/reference-editorial-01.jpg",
+      "source": "visual references/_ (1).jpeg",
+      "description": "编辑感、纵向排版和几何留白参考。",
+      "usedBy": ["preference-intake", "design-brief"],
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "notes": "仅用于内部比赛演示。"
+    },
+    {
+      "id": "style-editorial-02",
+      "role": "visual-reference",
+      "path": "references/reference-editorial-02.jpg",
+      "source": "visual references/_ (2).jpeg",
+      "description": "柔和色块、纸张质感和局部高对比参考。",
+      "usedBy": ["preference-intake", "design-brief"],
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "notes": "仅用于内部比赛演示。"
+    },
+    {
+      "id": "style-portfolio",
+      "role": "visual-reference",
+      "path": "references/reference-portfolio.jpg",
+      "source": "visual references/сайт портфолио 2025 _ designer portfolio _ website design _ inspo.jpeg",
+      "description": "作品集式信息层级、窄栏和图片/文字关系参考。",
+      "usedBy": ["preference-intake", "design-brief"],
+      "privacy": "third-party-style-reference",
+      "license": "reference only; redistribution rights not verified",
+      "notes": "仅用于内部比赛演示。"
+    },
+    {
+      "id": "type-reference-02",
+      "role": "typography-reference",
+      "path": "typography/type-reference-02.jpg",
+      "source": "font/Font style reference2.JPG",
+      "description": "细衬线与宽松留白的排版参考。",
+      "usedBy": ["type-scale", "design-brief"],
+      "privacy": "typography-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "notes": "缩放到 1000px 宽并移除元数据。"
+    },
+    {
+      "id": "type-reference-03",
+      "role": "typography-reference",
+      "path": "typography/type-reference-03.jpg",
+      "source": "font/Font style reference3.JPG",
+      "description": "中文细字重、纵向节奏和装饰性英文参考。",
+      "usedBy": ["type-scale", "design-brief"],
+      "privacy": "typography-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "notes": "缩放到 1000px 宽并移除元数据。"
+    },
+    {
+      "id": "type-reference-04",
+      "role": "typography-reference",
+      "path": "typography/type-reference-04.jpg",
+      "source": "font/Font style reference4.jpeg",
+      "description": "轻盈英文与中文信息并置参考。",
+      "usedBy": ["type-scale", "design-brief"],
+      "privacy": "typography-reference",
+      "license": "user-provided reference; redistribution rights not verified",
+      "notes": "缩放到 1000px 宽并移除元数据。"
+    },
+    {
+      "id": "invitation-cover",
+      "role": "invitation-cover",
+      "path": "cover/invitation-cover.jpg",
+      "source": "output/media/invitation-cover-20260901-2216.jpg",
+      "description": "当前网页使用的纵向邀请函封面。",
+      "usedBy": ["cover", "mobile-preview"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "缩放到 1200px 宽并移除元数据；不等同于微信分享卡片。"
+    },
+    {
+      "id": "share-preview-card",
+      "role": "share-card",
+      "path": "cover/share-preview-card.jpg",
+      "source": "output/media/share-preview-card-cover-20260902.jpg",
+      "description": "当前 Open Graph、Twitter 和 image_src 使用的 800×800 预览图。",
+      "usedBy": ["wechat-share-card", "og-metadata", "contact-sheet"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "版本化卡片副本；替换时同步元数据、allowlist 和测试。"
+    },
+    {
+      "id": "share-card-source",
+      "role": "share-card-source",
+      "path": "cover/card-cover-source.jpg",
+      "source": "output/card cover.jpg",
+      "description": "分享卡片的源图副本，用于解释源图与 800×800 网页衍生图的区别。",
+      "usedBy": ["wechat-share-card", "asset-pipeline"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "缩放到 1000×1000 并移除元数据。"
+    },
+    {
+      "id": "illustration-0",
+      "role": "illustration",
+      "path": "wedding/illustration-0.jpg",
+      "source": "output/album/0-20260902-1128.jpg",
+      "description": "婚礼信息/插画页的首图，默认相册封面。",
+      "usedBy": ["story-page", "mobile-gallery", "fallback-image"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；不裁切。"
+    },
+    {
+      "id": "wedding-photo-1",
+      "role": "wedding-photo",
+      "path": "wedding/photo-1.jpg",
+      "source": "output/album/1-warm-20260902.jpg",
+      "description": "婚礼相册照片 1，暖色优化版。",
+      "usedBy": ["gallery-slide"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+    },
+    {
+      "id": "wedding-photo-2",
+      "role": "wedding-photo",
+      "path": "wedding/photo-2.jpg",
+      "source": "output/album/2-warm-20260902.jpg",
+      "description": "婚礼相册照片 2，暖色优化版。",
+      "usedBy": ["gallery-slide"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+    },
+    {
+      "id": "wedding-photo-3",
+      "role": "wedding-photo",
+      "path": "wedding/photo-3.jpg",
+      "source": "output/album/3-warm-20260902.jpg",
+      "description": "婚礼相册照片 3，暖色优化版。",
+      "usedBy": ["gallery-slide"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+    },
+    {
+      "id": "wedding-photo-4",
+      "role": "wedding-photo",
+      "path": "wedding/photo-4.jpg",
+      "source": "output/album/4-warm-20260902.jpg",
+      "description": "婚礼相册照片 4，暖色优化版。",
+      "usedBy": ["gallery-slide"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+    },
+    {
+      "id": "wedding-photo-5",
+      "role": "wedding-photo",
+      "path": "wedding/photo-5.jpg",
+      "source": "output/album/5-warm-20260902.jpg",
+      "description": "婚礼相册照片 5，暖色优化版。",
+      "usedBy": ["gallery-slide"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+    },
+    {
+      "id": "wedding-photo-6",
+      "role": "wedding-photo",
+      "path": "wedding/photo-6.jpg",
+      "source": "output/album/6-warm-20260902.jpg",
+      "description": "婚礼相册照片 6，暖色优化版。",
+      "usedBy": ["gallery-slide"],
+      "privacy": "private-wedding-material",
+      "license": "user-provided; demo-only; public redistribution not granted",
+      "notes": "按原比例缩放到 700px 宽；重新编码清除元数据。"
+    },
+    {
+      "id": "background-music-0902",
+      "role": "background-music",
+      "path": "music/0902.mp3",
+      "source": "music/0902.mp3",
+      "description": "婚礼邀请函背景音乐演示文件。",
+      "usedBy": ["music-toggle", "autoplay-fallback"],
+      "privacy": "audio-demo",
+      "license": "user-provided; public performance and redistribution rights not verified",
+      "notes": "约 138 秒、128 kbps；原样复制以便演示，不代表生产发布授权。"
+    },
+    {
+      "id": "contact-sheet",
+      "role": "contact-sheet",
+      "path": "contact-sheet.jpg",
+      "source": "derived from this manifest",
+      "description": "素材缩略总览，便于现场讲解；不是页面运行时资源。",
+      "usedBy": ["competition-demo"],
+      "privacy": "mixed-demo-material",
+      "license": "inherits source restrictions",
+      "notes": "不应单独发布或加入 Cloudflare runtimeFiles。"
+    }
+  ]
+}

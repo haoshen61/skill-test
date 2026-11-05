@@ -1,0 +1,9 @@
+{
+  "version": "0.1",
+  "source": { "commit": null, "remoteCommit": null, "verifiedAt": null },
+  "authorization": { "assets": "pending", "publish": false },
+  "backend": { "provider": null, "migrations": [], "functionRevision": null, "checks": [] },
+  "frontend": { "provider": null, "deploymentId": null, "url": null, "rollbackVersion": null },
+  "checks": [],
+  "pending": ["confirmed facts", "approved assets", "production target"]
+}

@@ -1,0 +1,6 @@
+{
+  "couple": { "partnerA": { "name": "待确认" }, "partnerB": { "name": "待确认" } },
+  "event": { "date": null, "dateConfirmed": false, "venue": { "shortName": null, "address": null } },
+  "copy": { "recapTitle": "婚礼已圆满落幕", "thanks": "感谢每一份关注、陪伴与祝福", "continueLabel": "继续查看电子请柬" },
+  "authorization": { "assets": "pending", "publish": false }
+}

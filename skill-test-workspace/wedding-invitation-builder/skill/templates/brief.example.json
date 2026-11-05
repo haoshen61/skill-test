@@ -1,0 +1,10 @@
+{
+  "version": "0.1",
+  "couple": { "partnerA": { "name": null }, "partnerB": { "name": null }, "story": { "relationshipArc": null } },
+  "event": { "date": null, "dateConfirmed": false, "format": null, "times": [], "venue": { "shortName": null, "address": null, "mapUrl": null } },
+  "design": { "basePalette": { "name": "soft paper", "colors": ["#f4eee5"] }, "accentPalette": { "colors": ["#6f5547"] }, "texture": "paper", "composition": "mixed", "typography": { "chinese": "system serif", "latin": "system sans" } },
+  "sections": ["recap", "cover", "story", "details", "rsvp", "music", "thanks"],
+  "copy": { "recapTitle": "婚礼已圆满落幕", "thanks": "感谢每一份关注、陪伴与祝福", "continueLabel": "继续查看电子请柬" },
+  "interaction": { "gallery": true, "music": true, "rsvp": false, "reducedMotion": true },
+  "authorization": { "assets": "pending", "publish": false }
+}
