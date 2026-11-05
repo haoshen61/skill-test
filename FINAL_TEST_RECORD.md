@@ -83,3 +83,9 @@ brief.json  asset-manifest.json  release-record.json
 - 音乐自动播放、低音量和跨浏览器策略。
 
 生产前必须重新确认环境、密钥位置、域名、素材隐私/版权和明确的发布授权。Skill 不会把 Git push、生成目录或登录状态当成生产发布证据。
+
+## 2026-11-06 本轮提交
+
+本轮在独立测试工作区完成了 27 步输入与结果记录，并生成演示 PPT。逐步记录见 `FINAL_TEST_RUN_2026-11-06.md`，演示文件见 `demo/ppt-output/invitation-skill-demo.pptx`，本轮 JSON 和测试输出见 `demo/evidence/test-run-2026-11-06/`。
+
+本轮 `npm --prefix skill test`：15/15 通过。生产发布仍保持未授权，`release-record.json` 中的云端 RSVP、分享卡片、通知页、自动播放和生产图片流水线继续列为 pending。

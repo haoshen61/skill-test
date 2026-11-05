@@ -1,0 +1,74 @@
+[
+  {
+    "name": "mobile",
+    "mode": "invitation",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "title": "婚礼邀请函",
+    "hasRecap": false,
+    "galleryCount": 1,
+    "counter": "1 / 7",
+    "nextCounter": "2 / 7",
+    "invitationHidden": false,
+    "focused": null,
+    "consoleErrors": [],
+    "failedResponses": []
+  },
+  {
+    "name": "desktop",
+    "mode": "invitation",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "title": "婚礼邀请函",
+    "hasRecap": false,
+    "galleryCount": 1,
+    "counter": "1 / 7",
+    "nextCounter": "2 / 7",
+    "invitationHidden": false,
+    "focused": null,
+    "consoleErrors": [],
+    "failedResponses": []
+  },
+  {
+    "name": "local interactions",
+    "firstRsvp": [
+      {
+        "guestName": "林一",
+        "contactSuffix": "2468",
+        "adultCount": "2",
+        "createdAt": "2026-11-05T10:18:33.040Z",
+        "updatedAt": "2026-11-05T10:18:33.040Z"
+      }
+    ],
+    "secondRsvp": [
+      {
+        "guestName": "林一",
+        "contactSuffix": "2468",
+        "adultCount": "3",
+        "createdAt": "2026-11-05T10:18:33.040Z",
+        "updatedAt": "2026-11-05T10:18:33.121Z"
+      }
+    ],
+    "music": [
+      {
+        "name": "林一",
+        "song": "晚风写信",
+        "singer": "",
+        "message": "",
+        "createdAt": "2026-11-05T10:18:33.188Z",
+        "updatedAt": "2026-11-05T10:18:33.188Z"
+      }
+    ],
+    "rsvpStatus": "已更新本机演示数据。",
+    "musicStatus": "已保存到本机演示数据。"
+  },
+  {
+    "name": "admin",
+    "hasRsvpHeading": true,
+    "hasMusicHeading": true
+  }
+]

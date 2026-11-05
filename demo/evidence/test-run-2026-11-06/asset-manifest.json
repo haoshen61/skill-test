@@ -1,0 +1,199 @@
+{
+  "version": "0.1",
+  "items": [
+    {
+      "id": "contact-sheet-jpg",
+      "path": "contact-sheet.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "contact-sheet",
+      "source": "derived from generated demo assets",
+      "bytes": 63167,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "抽象演示素材缩略总览，便于现场讲解；不是页面运行时资源。",
+      "usedBy": [
+        "competition-demo"
+      ],
+      "notes": "不含人物、姓名、日期、地址或二维码；不加入生产 runtimeFiles。"
+    },
+    {
+      "id": "cover-card-cover-source-jpg",
+      "path": "cover/card-cover-source.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "share-card-source",
+      "source": "generated abstract horizontal card source study",
+      "bytes": 46550,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字的横向卡片源图示例，用于解释源图与分享衍生图的区别。",
+      "usedBy": [
+        "wechat-share-card",
+        "asset-pipeline"
+      ],
+      "notes": "不含真实人物或事件信息。"
+    },
+    {
+      "id": "cover-invitation-cover-jpg",
+      "path": "cover/invitation-cover.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "invitation-cover",
+      "source": "generated abstract geometric invitation cover",
+      "bytes": 39191,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字、无人物的纵向米色弥散封面示例。",
+      "usedBy": [
+        "cover",
+        "mobile-preview"
+      ],
+      "notes": "可在本地演示中裁切或调色；不含任何真实婚礼事实。"
+    },
+    {
+      "id": "cover-share-preview-card-jpg",
+      "path": "cover/share-preview-card.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "share-card",
+      "source": "generated abstract square share-card study",
+      "bytes": 36448,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "无文字的方形分享卡片示例，用于说明分享图与封面图是不同资源。",
+      "usedBy": [
+        "wechat-share-card",
+        "og-metadata",
+        "contact-sheet"
+      ],
+      "notes": "仅作本地演示，实际微信卡片仍需在目标项目中配置和验证。"
+    },
+    {
+      "id": "gallery-scene-0-jpg",
+      "path": "gallery/scene-0.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 0",
+      "bytes": 29281,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 0，作为默认首图示例。",
+      "usedBy": [
+        "story-page",
+        "mobile-gallery",
+        "fallback-image"
+      ],
+      "notes": "无人物、文字、日期、地址或二维码；保持原比例展示。"
+    },
+    {
+      "id": "gallery-scene-1-jpg",
+      "path": "gallery/scene-1.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 1",
+      "bytes": 29791,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 1。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-2-jpg",
+      "path": "gallery/scene-2.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 2",
+      "bytes": 29427,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 2。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-3-jpg",
+      "path": "gallery/scene-3.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 3",
+      "bytes": 27274,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 3。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-4-jpg",
+      "path": "gallery/scene-4.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 4",
+      "bytes": 30877,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 4。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-5-jpg",
+      "path": "gallery/scene-5.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 5",
+      "bytes": 29011,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 5。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    },
+    {
+      "id": "gallery-scene-6-jpg",
+      "path": "gallery/scene-6.jpg",
+      "role": "image",
+      "mediaType": "image",
+      "assetRole": "abstract-gallery-image",
+      "source": "generated abstract geometric gallery study 6",
+      "bytes": 27848,
+      "privacy": "generated-demo-asset",
+      "license": "generated for this repository; no external source",
+      "allowedTransformations": [],
+      "description": "纵向抽象相册图 6。",
+      "usedBy": [
+        "gallery-slide"
+      ],
+      "notes": "无人物或个人信息。"
+    }
+  ],
+  "warnings": []
+}
